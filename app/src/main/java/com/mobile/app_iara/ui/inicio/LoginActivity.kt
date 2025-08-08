@@ -23,12 +23,12 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val btnIniciar = findViewById<ImageButton>(R.id.btnVoltar)
+        val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
         val edtSenha = findViewById<TextInputEditText>(R.id.senhaInput)
         val btnToggle = findViewById<ImageButton>(R.id.btnToggleSenha)
         var senhaVisivel = false
 
-        btnIniciar.setOnClickListener {
+        btnVoltar.setOnClickListener {
             val intent = Intent(this, InitiationActivity::class.java)
             startActivity(intent)
         }
