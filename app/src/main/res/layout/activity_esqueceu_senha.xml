@@ -53,21 +53,26 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
-            android:hint="Email"
+            android:layout_height="52dp"
+            app:hintEnabled="false"
+            android:gravity="center_vertical|start"
             android:inputType="textEmailAddress"
+            app:boxBackgroundMode="none"
             android:background="@drawable/input_arredondado">
 
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEsqueceuSenha"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/rfdewibold"
-                android:inputType="text|textEmailAddress" />
+                android:layout_height="30dp"
+                android:background="@null"
+                android:fontFamily="@font/rfdewilight"
+                android:inputType="text|textEmailAddress"
+                android:hint="Email"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
-
     </LinearLayout>
 
     <ImageView
@@ -79,6 +84,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logoiaraazul" />
+        app:srcCompat="@drawable/iaraazul" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

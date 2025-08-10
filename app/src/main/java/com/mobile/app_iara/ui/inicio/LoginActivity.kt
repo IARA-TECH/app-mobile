@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        val tvEsqueceuSenha = findViewById<TextView>(R.id.textView5)
         val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
         val edtSenha = findViewById<TextInputEditText>(R.id.senhaInput)
         val btnToggle = findViewById<ImageButton>(R.id.btnToggleSenha)
@@ -47,5 +49,9 @@ class LoginActivity : AppCompatActivity() {
             edtSenha.setSelection(edtSenha.text?.length ?: 0)
         }
 
+        tvEsqueceuSenha.setOnClickListener {
+            val intent = Intent(this, EsqueceuSenhaActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
