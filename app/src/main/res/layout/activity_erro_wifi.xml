@@ -24,14 +24,14 @@
 
     <ImageView
         android:id="@+id/imgErroWifi"
-        android:layout_width="230dp"
-        android:layout_height="200dp"
+        android:layout_width="273dp"
+        android:layout_height="251dp"
         android:layout_marginTop="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/imgerrowifi" />
+        app:srcCompat="@drawable/sereiawifi" />
 
     <TextView
         android:id="@+id/textView12"
