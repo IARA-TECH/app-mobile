@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.erros.ErroInternoActivity">
+
+    <Button
+        android:id="@+id/btErroInterno"
+        android:layout_width="333dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="#2B3078"
+        android:fontFamily="@font/rfdewibold"
+        android:text="Tente novamente"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriErroInterno" />
+
+    <ImageView
+        android:id="@+id/imgErroInterno"
+        android:layout_width="273dp"
+        android:layout_height="251dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sereia" />
+
+    <TextView
+        android:id="@+id/tituloErroInterno"
+        android:layout_width="285dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/rfdewibold"
+        android:text="Ops, parece que tivemos algum problema"
+        android:textAlignment="center"
+        android:textColor="#272626"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgErroInterno" />
+
+    <TextView
+        android:id="@+id/descriErroInterno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/rfdewibold"
+        android:text="Tente novamente mais tarde."
+        android:textSize="16sp"
+        android:textColor="#525353"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloErroInterno" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
