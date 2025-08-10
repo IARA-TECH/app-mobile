@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.splash
+package com.mobile.app_iara.ui.inicio
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.inicio.InitiationActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -25,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            delay(4000)
+            delay(5000)
 
             val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
             val isLoggedIn = sharedPrefs.getBoolean("is_logged_in", false)
