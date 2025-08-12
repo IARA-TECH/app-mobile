@@ -1,10 +1,11 @@
-package com.mobile.app_iara
+package com.mobile.app_iara.ui.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mobile.app_iara.R
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [navigation_perfil.newInstance] factory method to
+ * Use the [Profile.newInstance] factory method to
  * create an instance of this fragment.
  */
-class navigation_perfil : Fragment() {
+class Profile : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -34,7 +35,7 @@ class navigation_perfil : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_navigation_perfil, container, false)
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     companion object {
@@ -44,12 +45,12 @@ class navigation_perfil : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment navigation_perfil.
+         * @return A new instance of fragment Profile.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            navigation_perfil().apply {
+            Profile().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
