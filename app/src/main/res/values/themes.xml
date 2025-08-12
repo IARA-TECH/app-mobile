@@ -8,4 +8,11 @@
         <item name="android:colorControlHighlight">@android:color/transparent</item>
         <item name="colorControlActivated">#87A5D8</item>
     </style>
+
+    <style name="circular" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="color">@color/white</item>
+    </style>
+
 </resources>
