@@ -2,11 +2,16 @@ package com.mobile.app_iara.ui.inicio
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.R
 import kotlinx.coroutines.delay
@@ -23,8 +28,23 @@ class SplashActivity : AppCompatActivity() {
             insets
         }
 
+        val splashGif = findViewById<ImageView>(R.id.splashGif)
+
+        // Configurações otimizadas para GIFs
+        val requestOptions = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .skipMemoryCache(false)
+            .dontTransform()
+
+        Glide.with(this)
+            .asGif() // Especifica que é um GIF
+            .load(R.drawable.iara_splash)
+            .apply(requestOptions)
+            .transition(DrawableTransitionOptions.withCrossFade(200)) // Transição suave
+            .into(splashGif)
+
         lifecycleScope.launch {
-            delay(5000)
+            delay(6200)
 
             val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
             val isLoggedIn = sharedPrefs.getBoolean("is_logged_in", false)
@@ -38,4 +58,5 @@ class SplashActivity : AppCompatActivity() {
             finish()
         }
     }
+
 }
