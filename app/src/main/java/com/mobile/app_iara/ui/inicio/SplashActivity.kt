@@ -30,21 +30,20 @@ class SplashActivity : AppCompatActivity() {
 
         val splashGif = findViewById<ImageView>(R.id.splashGif)
 
-        // Configurações otimizadas para GIFs
         val requestOptions = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.DATA)
             .skipMemoryCache(false)
             .dontTransform()
 
         Glide.with(this)
-            .asGif() // Especifica que é um GIF
+            .asGif()
             .load(R.drawable.iara_splash)
             .apply(requestOptions)
-            .transition(DrawableTransitionOptions.withCrossFade(200)) // Transição suave
+            .transition(DrawableTransitionOptions.withCrossFade(200))
             .into(splashGif)
 
         lifecycleScope.launch {
-            delay(6200)
+            delay(6250)
 
             val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
             val isLoggedIn = sharedPrefs.getBoolean("is_logged_in", false)
