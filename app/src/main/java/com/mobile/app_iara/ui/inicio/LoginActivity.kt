@@ -2,9 +2,13 @@ package com.mobile.app_iara.ui.inicio
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.text.InputType
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -37,10 +41,10 @@ class LoginActivity : AppCompatActivity() {
             senhaVisivel = !senhaVisivel
 
             if (senhaVisivel) {
-                edtSenha.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                edtSenha.transformationMethod = HideReturnsTransformationMethod.getInstance()
                 btnToggle.setImageResource(R.drawable.olhoaberto)
             } else {
-                edtSenha.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                edtSenha.transformationMethod = PasswordTransformationMethod.getInstance()
                 btnToggle.setImageResource(R.drawable.olhofechado)
             }
 

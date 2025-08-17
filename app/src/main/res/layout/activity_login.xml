@@ -12,11 +12,10 @@
 
     <ImageButton
         android:id="@+id/btnVoltar"
-        android:layout_width="48dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="73dp"
+        android:layout_height="66dp"
         android:background="@null"
+        android:contentDescription="Botão para voltar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/setavoltar" />
@@ -30,26 +29,8 @@
         android:text="Bem-vindo ao"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:background="@android:color/transparent"
-        android:foreground="@null"
-        android:id="@+id/checkBox2"
-        android:layout_width="180dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/rfdewilight"
-        android:text="Manter conectado"
-        android:textColorLink="#87A5D8"
-        android:textSize="13sp"
-        android:buttonTint="@color/checkbox_personalizado"
-        app:layout_constraintEnd_toStartOf="@+id/textView5"
-        app:layout_constraintHorizontal_bias="0.562"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputSenha" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -61,7 +42,6 @@
         app:boxBackgroundMode="none"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7">
 
@@ -79,59 +59,6 @@
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="52dp"
-        android:clickable="true"
-        android:fontFamily="@font/rfdewilight"
-        android:gravity="center"
-        android:text="Esqueceu sua senha?"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputSenha" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="151dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="18dp"
-        android:text="Ainda não tem uma conta?"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.353"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginInicio2" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:fontFamily="@font/rfdewibold"
-        android:text="login"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:layout_marginTop="18dp"
-        android:fontFamily="@font/rfdewibold"
-        android:text="Cadastre-se"
-        android:textColor="#2B3077"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginInicio2" />
-
     <Button
         android:id="@+id/btnLoginInicio2"
         android:layout_width="338dp"
@@ -146,7 +73,6 @@
         android:textSize="17sp"
         app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputSenha" />
 
@@ -160,7 +86,6 @@
         app:boxBackgroundMode="none"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7">
 
@@ -185,7 +110,6 @@
         android:layout_height="42dp"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:srcCompat="@drawable/iaraazul" />
@@ -196,6 +120,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="290dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Botão para esconder senha"
         android:foreground="@null"
         app:layout_constraintBottom_toBottomOf="@+id/inputSenha"
         app:layout_constraintEnd_toEndOf="parent"
@@ -212,7 +137,6 @@
         android:text="Senha"
         app:layout_constraintBottom_toTopOf="@+id/inputSenha"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -223,11 +147,10 @@
         android:layout_height="64dp"
         android:layout_marginTop="56dp"
         android:fontFamily="@font/rfdewiregular"
-        android:text="Faça            para continuar"
+        android:text="Faça login para continuar"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -239,7 +162,6 @@
         android:text="E-mail ou CPF"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -276,6 +198,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:backgroundTint="@color/branco_background"
+        android:contentDescription="Botão para logar com Microsoft"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageButton4"
@@ -289,6 +212,7 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="44dp"
         android:backgroundTint="@color/branco_background"
+        android:contentDescription="Botão para logar com Google"
         app:layout_constraintEnd_toStartOf="@+id/imageButton4"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -301,11 +225,83 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:backgroundTint="@color/branco_background"
+        android:contentDescription="Botão para logar com Linkedin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider"
         app:srcCompat="@drawable/logolinkedin" />
+
+    <LinearLayout
+        android:layout_width="338dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btnLoginInicio2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputSenha">
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="158dp"
+            android:layout_height="42dp"
+            android:background="@android:color/transparent"
+            android:buttonTint="@color/selecao_personalizada"
+            android:fontFamily="@font/rfdewilight"
+            android:foreground="@null"
+            android:text="Manter conectado"
+            android:textColorLink="#87A5D8"
+            android:textSize="13sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="35dp"
+            android:layout_height="match_parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:clickable="true"
+            android:fontFamily="@font/rfdewilight"
+            android:gravity="center"
+            android:text="Esqueceu sua senha?"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLoginInicio2">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginRight="6dp"
+            android:text="Ainda não tem uma conta?"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:fontFamily="@font/rfdewibold"
+            android:text="Cadastre-se"
+            android:textColor="#2B3077"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
