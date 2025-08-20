@@ -75,7 +75,7 @@ class OnboardingActivity : AppCompatActivity() {
                     btnCancelar.text = "Cancelar"
                 }
             } else {
-                val intent = Intent(this, MainActivity::class.java) // troca pelo nome da sua Activity principal
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
