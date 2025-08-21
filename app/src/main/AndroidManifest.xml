@@ -13,12 +13,6 @@
         android:theme="@style/Theme.Appiara"
         tools:targetApi="31">
         <activity
-            android:name=".ui.erros.ErroInternoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.erros.ErroWifiActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.inicio.InitiationActivity"
             android:exported="false" />
         <activity
