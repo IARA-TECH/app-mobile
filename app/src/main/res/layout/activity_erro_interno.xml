@@ -31,7 +31,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sereia" />
+        app:srcCompat="@drawable/iara_erro_interno" />
 
     <TextView
         android:id="@+id/tituloErroInterno"

@@ -19,16 +19,19 @@
             android:name=".ui.inicio.EsqueceuSenhaActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.erros.ErroInternoActivity"
+            android:name=".ui.registroabaco.OnboardingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.erros.ErroWifiActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.inicio.InitiationActivity"
+            android:name=".ui.erros.ErroInternoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.inicio.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.inicio.InitiationActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

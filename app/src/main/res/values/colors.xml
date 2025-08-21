@@ -2,5 +2,6 @@
 <resources>
     <color name="branco_background">#F7F7F7</color>
     <color name="texto_padrao">#272626</color>
-    <color name="checkbox_personalizado">#87A5D8</color>">
+    <color name="selecao_personalizada">#87A5D8</color>">
+    <color name="azul_primario">#313682</color>">
 </resources>
