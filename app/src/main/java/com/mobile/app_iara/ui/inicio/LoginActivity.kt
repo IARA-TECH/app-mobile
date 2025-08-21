@@ -2,6 +2,7 @@ package com.mobile.app_iara.ui.inicio
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.text.Html
 import android.text.InputType
 import android.text.method.HideReturnsTransformationMethod
