@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Appiara"
         tools:targetApi="31">
         <activity
+            android:name=".ui.inicio.EmailEnviadoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.inicio.EsqueceuSenhaActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.registroabaco.OnboardingActivity"
             android:exported="false" />
         <activity

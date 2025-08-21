@@ -2,6 +2,7 @@ package com.mobile.app_iara.ui.inicio
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.text.Html
 import android.text.InputType
 import android.text.method.HideReturnsTransformationMethod
@@ -27,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        val tvEsqueceuSenha = findViewById<TextView>(R.id.textView5)
         val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
         val edtSenha = findViewById<TextInputEditText>(R.id.senhaInput)
         val btnToggle = findViewById<ImageButton>(R.id.btnToggleSenha)
@@ -51,5 +53,9 @@ class LoginActivity : AppCompatActivity() {
             edtSenha.setSelection(edtSenha.text?.length ?: 0)
         }
 
+        tvEsqueceuSenha.setOnClickListener {
+            val intent = Intent(this, EsqueceuSenhaActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
