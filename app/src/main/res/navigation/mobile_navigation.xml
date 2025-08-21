@@ -28,4 +28,10 @@
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/configuracaoFragment"
+        android:name="com.mobile.app_iara.ui.profile.configuracao.ConfiguracaoFragment"
+        android:label="fragment_configuracao"
+        tools:layout="@layout/fragment_configuracao" />
 </navigation>
