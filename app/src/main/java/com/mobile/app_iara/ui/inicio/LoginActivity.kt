@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
+import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.R
 
 class LoginActivity : AppCompatActivity() {
@@ -32,11 +33,17 @@ class LoginActivity : AppCompatActivity() {
         val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
         val edtSenha = findViewById<TextInputEditText>(R.id.senhaInput)
         val btnToggle = findViewById<ImageButton>(R.id.btnToggleSenha)
+        val btnAvancarLogin = findViewById<Button>(R.id.btnAvancar)
         var senhaVisivel = false
 
         btnVoltar.setOnClickListener {
             val intent = Intent(this, InitiationActivity::class.java)
             startActivity(intent)
+        }
+
+        btnAvancarLogin.setOnClickListener {
+            val intentHome = Intent(this, MainActivity::class.java)
+            startActivity(intentHome)
         }
 
         btnToggle.setOnClickListener {

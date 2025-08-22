@@ -22,19 +22,19 @@
             android:name=".ui.registroabaco.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.erros.ErroWifiActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.erros.ErroInternoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.inicio.LoginActivity"
+            android:name=".ui.erros.ErroWifiActivity"
             android:exported="false" />
         <activity
             android:name=".ui.inicio.InitiationActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.inicio.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ui.inicio.SplashActivity"
