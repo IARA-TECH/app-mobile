@@ -2,23 +2,26 @@ package com.mobile.app_iara.ui.inicio
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
-import android.text.Html
-import android.text.InputType
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
-import com.mobile.app_iara.MainActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
+import com.mobile.app_iara.MainActivity
 
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,12 +32,18 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        auth = FirebaseAuth.getInstance()
+
         val tvEsqueceuSenha = findViewById<TextView>(R.id.textView5)
         val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
         val edtSenha = findViewById<TextInputEditText>(R.id.senhaInput)
         val btnToggle = findViewById<ImageButton>(R.id.btnToggleSenha)
         val btnAvancarLogin = findViewById<Button>(R.id.btnAvancar)
+        val emailEditText = findViewById<TextInputEditText>(R.id.editTextEmailOuCpf)
+        val checkLogado = findViewById<CheckBox>(R.id.checkBox2)
         var senhaVisivel = false
+
+        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
         btnVoltar.setOnClickListener {
             val intent = Intent(this, InitiationActivity::class.java)
@@ -42,8 +51,30 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnAvancarLogin.setOnClickListener {
-            val intentHome = Intent(this, MainActivity::class.java)
-            startActivity(intentHome)
+            val email = emailEditText.text.toString().trim()
+            val senha = edtSenha.text.toString().trim()
+
+            if (email.isEmpty() || senha.isEmpty()) {
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            auth.signInWithEmailAndPassword(email, senha)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        if (checkLogado.isChecked) {
+                            sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
+                        } else {
+                            sharedPrefs.edit().putBoolean("is_logged_in", false).apply()
+                        }
+
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
         }
 
         btnToggle.setOnClickListener {
@@ -65,4 +96,19 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val manterLogado = sharedPrefs.getBoolean("is_logged_in", false)
+        val userLogin = auth.currentUser
+
+        if (userLogin != null && manterLogado) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
 }

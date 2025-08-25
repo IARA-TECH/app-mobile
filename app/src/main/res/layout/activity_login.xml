@@ -51,7 +51,7 @@
             android:layout_height="30dp"
             android:background="@null"
             android:fontFamily="@font/rfdewilight"
-            android:hint="Insira seu e-mail ou CPF"
+            android:hint="Insira seu e-mail"
             android:inputType="text"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"

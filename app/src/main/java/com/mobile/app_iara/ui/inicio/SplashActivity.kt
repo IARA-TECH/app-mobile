@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.R
 import kotlinx.coroutines.delay
@@ -47,8 +48,9 @@ class SplashActivity : AppCompatActivity() {
 
             val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
             val isLoggedIn = sharedPrefs.getBoolean("is_logged_in", false)
+            val user = FirebaseAuth.getInstance().currentUser
 
-            if (isLoggedIn) {
+            if (user != null && isLoggedIn) {
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             } else {
                 startActivity(Intent(this@SplashActivity, InitiationActivity::class.java))
