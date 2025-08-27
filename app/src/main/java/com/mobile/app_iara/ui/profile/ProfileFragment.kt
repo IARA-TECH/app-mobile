@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.ui.inicio.LoginActivity
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.profile.termsandprivacy.TermsActivity
 
 class ProfileFragment : Fragment() {
 
@@ -30,6 +32,19 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
             requireActivity().finish()
         }
+
+        val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
+
+        btnTermos.setOnClickListener {
+            val intent = Intent(requireContext(), TermsActivity::class.java)
+            startActivity(intent)
+        }
+
+        val btnVoltar = view.findViewById<ImageButton>(R.id.btnVoltar2)
+        btnVoltar.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
 
         return view
     }

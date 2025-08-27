@@ -17,9 +17,11 @@
         app:srcCompat="@drawable/setavoltar" />
 
     <LinearLayout
-        android:layout_width="380dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_round"
         android:gravity="center"
         android:orientation="vertical"
@@ -29,6 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnConfig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -87,6 +90,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnFabrica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -143,6 +147,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnFaq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -199,6 +204,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnChatbot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -254,6 +260,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnTermsandconditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
