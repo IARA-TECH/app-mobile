@@ -51,7 +51,7 @@
             android:layout_height="30dp"
             android:background="@null"
             android:fontFamily="@font/rfdewilight"
-            android:hint="Insira seu e-mail ou CPF"
+            android:hint="Insira seu e-mail"
             android:inputType="text"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
@@ -60,7 +60,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnLoginInicio2"
+        android:id="@+id/btnAvancar"
         android:layout_width="338dp"
         android:layout_height="66dp"
         android:layout_marginTop="60dp"
@@ -176,7 +176,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginInicio2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAvancar" />
 
     <TextView
         android:id="@+id/textView11"
@@ -190,7 +190,7 @@
         android:textColor="#72525353"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginInicio2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAvancar" />
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -239,7 +239,7 @@
         android:layout_marginBottom="1dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/btnLoginInicio2"
+        app:layout_constraintBottom_toTopOf="@+id/btnAvancar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputSenha">
@@ -283,7 +283,7 @@
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginInicio2">
+        app:layout_constraintTop_toBottomOf="@+id/btnAvancar">
 
         <TextView
             android:id="@+id/textView9"
