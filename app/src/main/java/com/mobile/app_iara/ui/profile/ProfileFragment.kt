@@ -51,8 +51,6 @@ class ProfileFragment : Fragment() {
         btnVoltar.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-
-
         return view
     }
 }

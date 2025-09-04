@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.erros.ErroWifiActivity
+import com.mobile.app_iara.utils.NetworkUtils
+
 
 class EsqueceuSenhaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +33,15 @@ class EsqueceuSenhaActivity : AppCompatActivity() {
         }
 
         btnVerificarEmail.setOnClickListener {
+            if (!NetworkUtils.isInternetAvailable(this)) {
+                val intent = Intent(this, ErroWifiActivity::class.java)
+                startActivity(intent)
+                finish()
+                return@setOnClickListener
+            }
+
             val intent = Intent(this, EmailEnviadoActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 }

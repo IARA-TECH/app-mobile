@@ -15,8 +15,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.mobile.app_iara.R
 import com.mobile.app_iara.MainActivity
+import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.erros.ErroWifiActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -48,6 +50,41 @@ class LoginActivity : AppCompatActivity() {
         btnVoltar.setOnClickListener {
             val intent = Intent(this, InitiationActivity::class.java)
             startActivity(intent)
+            finish()
+        }
+
+        btnAvancarLogin.setOnClickListener {
+            val email = emailEditText.text.toString().trim()
+            val senha = edtSenha.text.toString().trim()
+
+            if (email.isEmpty() || senha.isEmpty()) {
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!NetworkUtils.isInternetAvailable(this)) {
+                val intent = Intent(this, ErroWifiActivity::class.java)
+                startActivity(intent)
+                finish()
+                return@setOnClickListener
+            }
+
+            auth.signInWithEmailAndPassword(email, senha)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        if (checkLogado.isChecked) {
+                            sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
+                        } else {
+                            sharedPrefs.edit().putBoolean("is_logged_in", false).apply()
+                        }
+
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
         }
 
         btnAvancarLogin.setOnClickListener {
@@ -105,10 +142,16 @@ class LoginActivity : AppCompatActivity() {
         val userLogin = auth.currentUser
 
         if (userLogin != null && manterLogado) {
+            if (!NetworkUtils.isInternetAvailable(this)) {
+                val intent = Intent(this, ErroWifiActivity::class.java)
+                startActivity(intent)
+                finish()
+                return
+            }
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
     }
-
 }
