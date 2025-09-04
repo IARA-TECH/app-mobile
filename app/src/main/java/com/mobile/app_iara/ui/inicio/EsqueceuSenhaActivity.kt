@@ -12,6 +12,7 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.erros.ErroWifiActivity
 import com.mobile.app_iara.utils.NetworkUtils
 
+
 class EsqueceuSenhaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -62,7 +62,6 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 🔍 Verifica conexão antes de autenticar
             if (!NetworkUtils.isInternetAvailable(this)) {
                 val intent = Intent(this, ErroWifiActivity::class.java)
                 startActivity(intent)
@@ -70,7 +69,33 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Se tem internet → tenta login no Firebase
+            auth.signInWithEmailAndPassword(email, senha)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        if (checkLogado.isChecked) {
+                            sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
+                        } else {
+                            sharedPrefs.edit().putBoolean("is_logged_in", false).apply()
+                        }
+
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+        }
+
+        btnAvancarLogin.setOnClickListener {
+            val email = emailEditText.text.toString().trim()
+            val senha = edtSenha.text.toString().trim()
+
+            if (email.isEmpty() || senha.isEmpty()) {
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -116,7 +141,6 @@ class LoginActivity : AppCompatActivity() {
         val manterLogado = sharedPrefs.getBoolean("is_logged_in", false)
         val userLogin = auth.currentUser
 
-        // 🔍 Também checa conexão antes de auto-login
         if (userLogin != null && manterLogado) {
             if (!NetworkUtils.isInternetAvailable(this)) {
                 val intent = Intent(this, ErroWifiActivity::class.java)
