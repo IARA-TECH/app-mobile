@@ -51,10 +51,8 @@ class SplashActivity : AppCompatActivity() {
             val user = FirebaseAuth.getInstance().currentUser
 
             if (user != null && isLoggedIn) {
-                // Usuário logado → MainActivity
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             } else {
-                // Usuário não logado → InitiationActivity
                 startActivity(Intent(this@SplashActivity, InitiationActivity::class.java))
             }
 

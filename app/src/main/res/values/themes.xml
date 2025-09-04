@@ -8,6 +8,11 @@
         <item name="colorControlActivated">@color/selecao_personalizada</item>
         <item name="android:statusBarColor">@color/texto_padrao</item>
         <item name="android:windowLightStatusBar">false</item>
+    </style>
 
+    <style name="circular" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="color">@color/branco_background</item>
     </style>
 </resources>
