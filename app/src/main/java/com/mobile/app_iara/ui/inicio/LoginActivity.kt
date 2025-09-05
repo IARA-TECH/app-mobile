@@ -86,9 +86,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnGoogle.setOnClickListener {
-            val signInIntent = googleSignInClient.signInIntent
-            googleSignInLauncher.launch(signInIntent)
+            googleSignInClient.signOut().addOnCompleteListener {
+                val signInIntent = googleSignInClient.signInIntent
+                googleSignInLauncher.launch(signInIntent)
+            }
         }
+
 
         btnAvancarLogin.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -176,14 +179,14 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Login OK
+                    val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                    sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
+
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-                } else {
-                    Log.w("LoginGoogle", "signInWithCredential:failure", task.exception)
-                    Toast.makeText(this, "Falha na autenticação com Google", Toast.LENGTH_SHORT).show()
                 }
+
             }
     }
 
