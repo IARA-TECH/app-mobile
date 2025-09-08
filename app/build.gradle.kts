@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     kapt("com.github.bumptech.glide:compiler:4.16.0")
+    implementation ("com.google.android.material:material:1.11.0")
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
