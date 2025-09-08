@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.inicio.InitiationActivity
-import com.mobile.app_iara.ui.profile.termsandprivacy.Termo
-import com.mobile.app_iara.ui.profile.termsandprivacy.TermosAdapter
 
 class FaqActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +39,6 @@ class FaqActivity : AppCompatActivity() {
             Popular("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
             Popular("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
             Popular("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit...")
-
             )
 
         val adapterPopulares = PopularAdapter(listaPopulares)

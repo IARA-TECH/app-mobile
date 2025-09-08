@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         if (tipoUser == "comum") {
             bottomNav.menu.findItem(R.id.navigation_gestao)?.isVisible = false
-            bottomNav.menu.findItem(R.id.navigation_dashboard)?.isVisible = false
         } else {
             for (i in 0 until bottomNav.menu.size()) {
                 bottomNav.menu.getItem(i).isVisible = true
