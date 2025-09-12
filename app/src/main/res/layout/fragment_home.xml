@@ -7,7 +7,7 @@
     tools:context=".ui.home.HomeFragment">
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/included"
         layout="@layout/toolbar_primaria"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -23,11 +23,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:text="Olá, Fernando Silva!"
-        android:textColor="@android:color/black"
+        android:textColor="@color/texto_padrao"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/include" />
+        app:layout_constraintTop_toBottomOf="@id/included" />
 
     <!-- Subtítulo -->
     <TextView
@@ -65,13 +65,13 @@
             <ImageView
                 android:id="@+id/bgPaisagem"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="191dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/turno_noturno"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/turno_matutino" />
 
             <!-- Título -->
             <TextView
@@ -134,17 +134,33 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Container dos 4 cards -->
+
+    <!-- Container indicadores -->
+
+    <TextView
+        android:id="@+id/txtSubtitulo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Ações rápidas"
+        android:textColor="@color/texto_padrao"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardTurno" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerCards"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="17dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardTurno">
+        app:layout_constraintTop_toBottomOf="@+id/txtSubtitulo2">
 
         <!-- Card 1 -->
         <com.google.android.material.card.MaterialCardView
@@ -174,7 +190,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Título"
+                    android:text="Frotas"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -259,7 +275,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Título"
+                    android:text="Histórico"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -296,30 +312,34 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_fogo" />
+                    android:src="@drawable/bubble_star" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Título"
+                    android:text="Chatbot"
                     android:textSize="14sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Atualização: 18 Julho, 2025"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Card Planilhas -->
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/btnScan"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginBottom="117dp"-->
+<!--        app:backgroundTint="@color/azul_primario"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_scan"-->
+<!--        app:tint="@android:color/white" />-->
 
-    <!-- Card Planilhas -->
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
