@@ -25,7 +25,6 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        // Referências de UI
         val imageProfile = view.findViewById<ShapeableImageView>(R.id.imageView3)
         val userName = view.findViewById<TextView>(R.id.textView13) // Nome
         val userCargo = view.findViewById<TextView>(R.id.textView16) // Cargo / Email
@@ -41,7 +40,6 @@ class ProfileFragment : Fragment() {
 
             userCargo.text = user.email ?: "Cargo não definido"
 
-            // Foto do Google
             val photoUrl = user.photoUrl
             if (photoUrl != null) {
                 Glide.with(this)
@@ -62,19 +60,16 @@ class ProfileFragment : Fragment() {
             requireActivity().finish()
         }
 
-        // Botão FAQ
         btnFaq.setOnClickListener {
             val intent = Intent(requireContext(), FaqActivity::class.java)
             startActivity(intent)
         }
 
-        // Botão Termos
         btnTermos.setOnClickListener {
             val intent = Intent(requireContext(), TermsActivity::class.java)
             startActivity(intent)
         }
 
-        // Botão voltar
         btnVoltar.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
