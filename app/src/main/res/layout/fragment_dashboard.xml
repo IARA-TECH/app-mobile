@@ -27,25 +27,62 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/imageView7"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/iconfalhatecnica" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/iconfalhatecnica" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/rfdewisemibold"
+                        android:text="Condenas de falhas técnicas" />
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="70dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/arrow_up_circle" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView22"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView28"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/rfdewisemibold"
-                    android:text="Condenas de falhas técnicas" />
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Total: n"
+                    android:textColor="#8D8D8D"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView32"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Clique para visualizar detalhes técnicos"
+                    android:textColor="#8D8D8D"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -63,26 +100,63 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/imageView11"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
-                    android:src="@drawable/iconcondenasgranja" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageView11"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/iconcondenasgranja"
+                        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/rfdewisemibold"
+                        android:text="Condenas pela granja" />
+
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="70dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/setinhaparabaixoverde" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView29"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/rfdewisemibold"
-                    android:text="Condenas pela granja" />
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Total: n"
+                    android:textColor="#8D8D8D"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView33"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Clique para acompanhar as principais causas"
+                    android:textColor="#8D8D8D"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -100,26 +174,55 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/imageView12"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
-                    android:src="@drawable/iconcomparativoturnos" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageView12"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/iconcomparativoturnos"
+                        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/rfdewisemibold"
+                        android:text="Comparativo entre turnos" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView24"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView30"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/rfdewisemibold"
-                    android:text="Comparativo entre turnos" />
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Turno atual: n"
+                    android:textColor="#8D8D8D"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView34"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Clique e veja qual turno teve melhor desempenho"
+                    android:textColor="#8D8D8D"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -137,26 +240,55 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/imageView13"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
-                    android:src="@drawable/iconcomparativodashboard" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageView13"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/iconcomparativodashboard"
+                        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/rfdewisemibold"
+                        android:text="Comparativo dos dashboards" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView25"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView31"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/rfdewisemibold"
-                    android:text="Comparativo dos dashboards" />
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Dashboard atual: n"
+                    android:textColor="#8D8D8D"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView35"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="Clique para acessar o comparativo completo"
+                    android:textColor="#8D8D8D"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -215,8 +347,9 @@
         <Button
             android:id="@+id/button"
             android:layout_width="81dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/azul_primario"
+            android:layout_height="35dp"
+            android:background="@drawable/btn_dias_active"
+            android:backgroundTint="@null"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="7 dias"
@@ -231,9 +364,10 @@
 
         <Button
             android:id="@+id/button2"
+            android:backgroundTint="@null"
             android:layout_width="81dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#00FFFFFF"
+            android:layout_height="35dp"
+            android:background="@drawable/btn_dias_inactive"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="15 dias"
@@ -241,7 +375,6 @@
             android:textColor="@color/azul_primario"
             android:textSize="13sp"
             app:cornerRadius="20dp"
-            app:strokeColor="@color/azul_primario"
             app:strokeWidth="1dp" />
 
         <Space
@@ -252,16 +385,16 @@
         <Button
             android:id="@+id/button3"
             android:layout_width="81dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#00FFFFFF"
+            android:layout_height="35dp"
+            android:background="@drawable/btn_dias_inactive"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="30 dias"
+            android:backgroundTint="@null"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/azul_primario"
             android:textSize="13sp"
             app:cornerRadius="20dp"
-            app:strokeColor="@color/azul_primario"
             app:strokeWidth="1dp" />
 
         <Space

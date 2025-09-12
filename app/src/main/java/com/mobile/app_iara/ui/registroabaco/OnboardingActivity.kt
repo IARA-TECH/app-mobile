@@ -8,9 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.home.HomeFragment
-import com.mobile.app_iara.ui.inicio.LoginActivity
-import kotlinx.coroutines.MainScope
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -50,7 +47,7 @@ class OnboardingActivity : AppCompatActivity() {
 
         titulo = findViewById(R.id.textView6)
         subtitulo = findViewById(R.id.textView13)
-        imagem = findViewById(R.id.imageView4)
+        imagem = findViewById(R.id.btnTrocarFoto)
         btnProximo = findViewById(R.id.btnProximoOnboarding)
         btnCancelar = findViewById(R.id.btnCancelarOnboarding)
 
