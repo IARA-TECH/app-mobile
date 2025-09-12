@@ -64,7 +64,7 @@
             <!-- Fundo da paisagem -->
             <ImageView
                 android:id="@+id/bgPaisagem"
-                android:layout_width="383dp"
+                android:layout_width="0dp"
                 android:layout_height="191dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
