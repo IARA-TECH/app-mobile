@@ -1,4 +1,6 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,23 +8,31 @@
     android:background="#000000"
     tools:context=".ui.camera.CameraOverlay">
 
-    <!-- Preview da câmera em tela cheia -->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_secundaria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:scaleType="fitCenter"
-        android:keepScreenOn="true" />
-
-    <!-- Sombra no rodapé para destaque dos botões -->
-    <View
-        android:id="@+id/bottomGradient"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/gradient_bottom"
+        android:keepScreenOn="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Barra de botões com ConstraintLayout -->
+    <View
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/photo_bottom"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
@@ -30,22 +40,20 @@
         android:padding="24dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Botão Flash -->
         <ImageButton
             android:id="@+id/btnFlash"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginBottom="27dp"
-            android:layout_marginRight="20dp"
             android:background="@drawable/round_button"
-            android:src="@drawable/ic_flash"
-            android:scaleType="centerInside"
             android:contentDescription="Flash"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_flash_off"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnCapture"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Botão Captura (maior e centralizado) -->
         <ImageButton
             android:id="@+id/btnCapture"
             android:layout_width="75dp"
@@ -53,7 +61,7 @@
             android:layout_marginHorizontal="32dp"
             android:layout_marginBottom="27dp"
             android:background="@drawable/capture_button"
-            android:src="@drawable/ic_scan"
+            android:src="@drawable/ic_scan_big"
             android:scaleType="centerInside"
             android:contentDescription="Capturar foto"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,19 +69,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- Botão Arquivo -->
         <ImageButton
             android:id="@+id/btnAddFile"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginStart="25dp"
             android:layout_marginBottom="27dp"
-            android:layout_marginLeft="20dp"
             android:background="@drawable/round_button"
-            android:src="@drawable/ic_scan"
-            android:scaleType="centerInside"
             android:contentDescription="Adicionar arquivo"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_media_image"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnCapture"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

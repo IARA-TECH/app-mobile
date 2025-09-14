@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -16,10 +15,10 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import android.Manifest
+import android.content.Intent
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.home.HomeFragment
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -33,6 +32,12 @@ class CameraOverlay : AppCompatActivity() {
     private lateinit var captureButton: ImageButton
     private lateinit var flashButton: ImageButton
     private lateinit var addFileButton: ImageButton
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            redirectToNextScreen(it)
+        }
+    }
 
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
@@ -52,10 +57,26 @@ class CameraOverlay : AppCompatActivity() {
         captureButton = findViewById(R.id.btnCapture)
         flashButton = findViewById(R.id.btnFlash)
         addFileButton = findViewById(R.id.btnAddFile)
+        val backButton = findViewById<ImageButton>(R.id.btnVoltar)
+
+
+        if (hasFlashlight()) {
+            flashButton.isEnabled = true
+            flashButton.setOnClickListener { toggleFlash() }
+        } else {
+            flashButton.isEnabled = false
+            flashButton.setOnClickListener(null)
+        }
+
+        backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+
+        updateFlashButtonUI()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        // Solicitar permissão
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_GRANTED
         ) {
@@ -66,7 +87,9 @@ class CameraOverlay : AppCompatActivity() {
 
         captureButton.setOnClickListener { takePhoto() }
         flashButton.setOnClickListener { toggleFlash() }
-        addFileButton.setOnClickListener { openFilePicker() }
+        addFileButton.setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
     }
 
     private fun startCamera() {
@@ -90,19 +113,6 @@ class CameraOverlay : AppCompatActivity() {
                 val camera = cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture
                 )
-
-                // Flash control
-                flashButton.setOnClickListener {
-                    flashEnabled = !flashEnabled
-                    imageCapture?.flashMode =
-                        if (flashEnabled) ImageCapture.FLASH_MODE_ON else ImageCapture.FLASH_MODE_OFF
-                    Toast.makeText(
-                        this,
-                        if (flashEnabled) "Flash ligado" else "Flash desligado",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
             } catch (exc: Exception) {
                 Log.e("CameraOverlay", "Erro ao iniciar a câmera", exc)
             }
@@ -141,11 +151,27 @@ class CameraOverlay : AppCompatActivity() {
         flashEnabled = !flashEnabled
         imageCapture?.flashMode =
             if (flashEnabled) ImageCapture.FLASH_MODE_ON else ImageCapture.FLASH_MODE_OFF
+
+        updateFlashButtonUI()
     }
 
-    private fun openFilePicker() {
-        Toast.makeText(this, "Abrir seletor de arquivos...", Toast.LENGTH_SHORT).show()
-        // Aqui você pode implementar um FilePicker ou SAF (Storage Access Framework)
+    private fun updateFlashButtonUI() {
+        if (flashEnabled) {
+            flashButton.setImageResource(R.drawable.ic_flash_on)
+        } else {
+            flashButton.setImageResource(R.drawable.ic_flash_off)
+        }
+    }
+
+    private fun redirectToNextScreen(imageUri: Uri) {
+        val intent = Intent(this, HomeFragment::class.java).apply {
+            putExtra("IMAGEM_URI", imageUri.toString())
+        }
+        startActivity(intent)
+    }
+
+    private fun hasFlashlight(): Boolean {
+        return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
     }
 
     override fun onDestroy() {
