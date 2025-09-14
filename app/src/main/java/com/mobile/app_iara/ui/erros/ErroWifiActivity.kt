@@ -1,26 +1,36 @@
-package com.mobile.app_iara.ui.erros;
+package com.mobile.app_iara.ui.erros
 
-import android.os.Bundle;
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.inicio.LoginActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+class ErroWifiActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_erro_wifi)
 
-import com.mobile.app_iara.R;
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
-public class ErroWifiActivity extends AppCompatActivity {
+        val tryAgainButton: Button = findViewById(R.id.btErroWifi)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_erro_wifi);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        tryAgainButton.setOnClickListener {
+            if (NetworkUtils.isInternetAvailable(this)) {
+                // Volta pro Login, que depende do Firebase
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        }
     }
 }
