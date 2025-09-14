@@ -1,12 +1,16 @@
 package com.mobile.app_iara.ui.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
+import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.ui.inicio.LoginActivity
@@ -15,6 +19,19 @@ import com.mobile.app_iara.ui.profile.faq.FaqActivity
 import com.mobile.app_iara.ui.profile.termsandprivacy.TermsActivity
 
 class ProfileFragment : Fragment() {
+
+    private lateinit var fotoPerfil: ImageView
+    private lateinit var btnTrocarFoto: ImageButton
+
+    private val pickImage = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            Glide.with(this)
+                .load(it)
+                .into(fotoPerfil)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,5 +69,16 @@ class ProfileFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fotoPerfil = view.findViewById(R.id.fotoPerfil)
+        btnTrocarFoto = view.findViewById(R.id.btnTrocarFoto)
+
+        btnTrocarFoto.setOnClickListener {
+            pickImage.launch("image/*")
+        }
     }
 }
