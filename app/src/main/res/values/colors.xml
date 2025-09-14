@@ -5,4 +5,5 @@
     <color name="selecao_personalizada">#87A5D8</color>
     <color name="azul_primario">#313682</color>
     <color name="transparente">#00000000</color>
+    <color name="texto_claro">#686868</color>
 </resources>
