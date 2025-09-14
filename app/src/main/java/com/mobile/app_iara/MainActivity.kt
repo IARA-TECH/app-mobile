@@ -1,5 +1,6 @@
 package com.mobile.app_iara
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -8,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.app_iara.databinding.ActivityMainBinding
+import com.mobile.app_iara.ui.camera.CameraOverlay
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +39,12 @@ class MainActivity : AppCompatActivity() {
             for (i in 0 until bottomNav.menu.size()) {
                 bottomNav.menu.getItem(i).isVisible = true
             }
+        }
+
+        val fabCenter = binding.fabCenter
+        fabCenter.setOnClickListener {
+            val intent = Intent(this, CameraOverlay::class.java)
+            startActivity(intent)
         }
 
         bottomNav.setupWithNavController(navController)
