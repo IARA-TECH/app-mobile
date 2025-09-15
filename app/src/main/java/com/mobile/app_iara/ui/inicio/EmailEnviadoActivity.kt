@@ -3,6 +3,7 @@ package com.mobile.app_iara.ui.inicio
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,10 +22,19 @@ class EmailEnviadoActivity : AppCompatActivity() {
         }
 
         val btVoltarLoginEsqSenha = findViewById<Button>(R.id.btVoltarLoginEsqSenha)
+        val tvEmail = findViewById<TextView>(R.id.textView3)
+        val tvHelp = findViewById<TextView>(R.id.textView8)
+
+        val userEmail = intent.getStringExtra("USER_EMAIL")
+
+        if (userEmail != null) {
+            tvEmail.text = userEmail
+        }
 
         btVoltarLoginEsqSenha.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }
