@@ -1,10 +1,10 @@
-package com.mobile.app_iara.ui.notifications
+package com.mobile.app_iara.ui.gestao
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class GestaoViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"
