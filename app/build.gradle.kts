@@ -70,7 +70,8 @@ dependencies {
     implementation ("androidx.camera:camera-view:1.3.3")
     implementation ("androidx.camera:camera-extensions:1.3.3")
 
-
+    // ML Kit Object Detection (on-device)
+    implementation ("com.google.mlkit:object-detection:17.0.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.camera
 
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
@@ -18,17 +20,16 @@ import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Intent
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.home.HomeFragment
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
 class CameraOverlay : AppCompatActivity() {
 
     private lateinit var previewView: PreviewView
+    private lateinit var graphicOverlay: GraphicOverlay
     private lateinit var captureButton: ImageButton
     private lateinit var flashButton: ImageButton
     private lateinit var addFileButton: ImageButton
@@ -54,11 +55,11 @@ class CameraOverlay : AppCompatActivity() {
         setContentView(R.layout.activity_camera_overlay)
 
         previewView = findViewById(R.id.previewView)
+        graphicOverlay = findViewById(R.id.graphicOverlay)
         captureButton = findViewById(R.id.btnCapture)
         flashButton = findViewById(R.id.btnFlash)
         addFileButton = findViewById(R.id.btnAddFile)
         val backButton = findViewById<ImageButton>(R.id.btnVoltar)
-
 
         if (hasFlashlight()) {
             flashButton.isEnabled = true
@@ -71,7 +72,6 @@ class CameraOverlay : AppCompatActivity() {
         backButton.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-
 
         updateFlashButtonUI()
 
@@ -106,12 +106,19 @@ class CameraOverlay : AppCompatActivity() {
                 .setFlashMode(ImageCapture.FLASH_MODE_OFF)
                 .build()
 
+            val imageAnalyzer = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .build()
+                .also {
+                    it.setAnalyzer(cameraExecutor, AbacusAnalyzer(graphicOverlay))
+                }
+
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
                 cameraProvider.unbindAll()
-                val camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview, imageCapture, imageAnalyzer
                 )
             } catch (exc: Exception) {
                 Log.e("CameraOverlay", "Erro ao iniciar a câmera", exc)
@@ -163,11 +170,14 @@ class CameraOverlay : AppCompatActivity() {
         }
     }
 
+    /**
+     * Em vez de tentar abrir um Fragment direto via Intent (o que causaria erro),
+     * retornamos o URI como resultado para a activity que abriu esta câmera.
+     */
     private fun redirectToNextScreen(imageUri: Uri) {
-        val intent = Intent(this, HomeFragment::class.java).apply {
-            putExtra("IMAGEM_URI", imageUri.toString())
-        }
-        startActivity(intent)
+        val data = Intent().apply { putExtra("IMAGEM_URI", imageUri.toString()) }
+        setResult(Activity.RESULT_OK, data)
+        finish()
     }
 
     private fun hasFlashlight(): Boolean {
