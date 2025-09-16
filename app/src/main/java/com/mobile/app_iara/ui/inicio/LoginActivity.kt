@@ -4,17 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.utils.NetworkUtils
 import com.mobile.app_iara.R
@@ -23,6 +30,7 @@ import com.mobile.app_iara.ui.erros.ErroWifiActivity
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,30 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        //Config do login como Google
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // Launcher para receber o resultado do Google Sign-In
+        val googleSignInLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                Log.d("LoginGoogle", "firebaseAuthWithGoogle:" + account.id)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Log.w("LoginGoogle", "Google sign in failed", e)
+                Toast.makeText(this, "Erro no login com Google", Toast.LENGTH_SHORT).show()
+            }
+        }
+        
+        val btnGoogle = findViewById<ImageButton>(R.id.btnGoogle)
         val tvEsqueceuSenha = findViewById<TextView>(R.id.textView5)
         val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
         val edtSenha = findViewById<TextInputEditText>(R.id.senhaInput)
@@ -52,6 +84,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        btnGoogle.setOnClickListener {
+            googleSignInClient.signOut().addOnCompleteListener {
+                val signInIntent = googleSignInClient.signInIntent
+                googleSignInLauncher.launch(signInIntent)
+            }
+        }
+
 
         btnAvancarLogin.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -133,6 +173,23 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                    sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
+
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+            }
+    }
+
 
     override fun onStart() {
         super.onStart()
