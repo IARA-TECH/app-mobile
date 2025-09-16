@@ -9,15 +9,20 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
-import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
+import com.google.mlkit.vision.objects.custom.CustomObjectDetectorOptions
+import com.google.mlkit.common.model.LocalModel
 
 class AbacusAnalyzer(
     private val graphicOverlay: GraphicOverlay
 ) : ImageAnalysis.Analyzer {
 
-    private val options = ObjectDetectorOptions.Builder()
-        .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
-        .enableMultipleObjects()
+    // 🔹 Carrega o modelo local (o que você exportou do Teachable Machine)
+    private val localModel = LocalModel.Builder()
+        .setAssetFilePath("model.tflite")
+        .build()
+
+    private val options = CustomObjectDetectorOptions.Builder(localModel)
+        .setDetectorMode(CustomObjectDetectorOptions.STREAM_MODE)
         .enableClassification()
         .build()
 

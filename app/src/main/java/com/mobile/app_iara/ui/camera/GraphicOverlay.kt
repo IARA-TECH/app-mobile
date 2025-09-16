@@ -26,7 +26,7 @@ class GraphicOverlay(context: Context, attrs: AttributeSet) : View(context, attr
 
     fun setResults(results: List<DetectedObject>, imageWidth: Int, imageHeight: Int) {
         val filtered = results.filter { obj ->
-            val hasLabel = obj.labels.any { it.confidence > 0.6f }
+            val hasLabel = obj.labels.any { it.confidence > 0.75f }
             val bigEnough = obj.boundingBox.width() * obj.boundingBox.height() > 40000
             hasLabel && bigEnough
         }
