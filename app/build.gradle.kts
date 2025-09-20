@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.image.labeling.custom.common)
+    // REMOVA: implementation(libs.litert.support.api)  // Esta linha causa conflito
     kapt("com.github.bumptech.glide:compiler:4.16.0")
     implementation ("com.google.android.material:material:1.11.0")
 
@@ -70,8 +72,10 @@ dependencies {
     implementation ("androidx.camera:camera-view:1.3.3")
     implementation ("androidx.camera:camera-extensions:1.3.3")
 
-    // ML Kit Object Detection (on-device)
-    implementation ("com.google.mlkit:object-detection-custom:16.3.3")
+    // TensorFlow Lite
+    implementation ("org.tensorflow:tensorflow-lite:2.14.0")
+    implementation ("org.tensorflow:tensorflow-lite-support:0.4.4")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
 
     testImplementation(libs.junit)

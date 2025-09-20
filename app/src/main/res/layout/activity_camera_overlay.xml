@@ -17,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- activity_camera_overlay.xml (trecho) -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -31,13 +30,23 @@
             android:scaleType="fitCenter"
             android:keepScreenOn="true" />
 
-        <com.mobile.app_iara.ui.camera.GraphicOverlay
-            android:id="@+id/graphicOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/tvDetectionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/detection_label_background"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="Ábaco não detectado"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            android:elevation="4dp" />
 
     </FrameLayout>
-
 
     <View
         android:id="@+id/bottom"
