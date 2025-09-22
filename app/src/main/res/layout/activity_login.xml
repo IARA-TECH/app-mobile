@@ -266,9 +266,10 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/PrimeiroAcesso"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
+            android:clickable="true"
             android:fontFamily="@font/rfdewibold"
             android:text="Primeiro Acesso"
             android:textColor="#2B3077"
