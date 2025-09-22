@@ -297,14 +297,6 @@
             android:stateListAnimator="@null"
             app:srcCompat="@drawable/logogoogle" />
 
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/branco_background"
-            android:contentDescription="Botão para logar com Microsoft"
-            app:srcCompat="@drawable/logomicrosoft" />
-
     </LinearLayout>
 
 
