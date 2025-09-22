@@ -43,7 +43,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        val imageProfile = view.findViewById<ShapeableImageView>(R.id.imageView3)
+        val imageProfile = view.findViewById<ShapeableImageView>(R.id.fotoPerfil)
         val userName = view.findViewById<TextView>(R.id.textView13) // Nome
         val userCargo = view.findViewById<TextView>(R.id.textView16) // Cargo / Email
         val btnSair = view.findViewById<MaterialCardView>(R.id.btnSair)
