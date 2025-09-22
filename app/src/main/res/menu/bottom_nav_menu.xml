@@ -13,11 +13,6 @@
         android:title="@string/title_dashboard" />
 
     <item
-        android:id="@+id/navigation_placeholder"
-        android:title=""
-        android:icon="@android:color/transparent" />
-
-    <item
         android:id="@+id/navigation_gestao"
         android:icon="@drawable/gestao"
         android:title="Gestão" />
