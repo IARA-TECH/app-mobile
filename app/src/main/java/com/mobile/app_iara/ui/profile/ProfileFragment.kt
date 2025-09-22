@@ -1,12 +1,17 @@
 package com.mobile.app_iara.ui.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
@@ -19,16 +24,28 @@ import com.mobile.app_iara.ui.profile.termsandprivacy.TermsActivity
 
 class ProfileFragment : Fragment() {
 
+    private lateinit var fotoPerfil: ImageView
+    private lateinit var btnTrocarFoto: ImageButton
+
+    private val pickImage = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            Glide.with(this)
+                .load(it)
+                .into(fotoPerfil)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        val imageProfile = view.findViewById<ShapeableImageView>(R.id.imageView3)
+        val imageProfile = view.findViewById<ShapeableImageView>(R.id.fotoPerfil)
         val userName = view.findViewById<TextView>(R.id.textView13) // Nome
         val userCargo = view.findViewById<TextView>(R.id.textView16) // Cargo / Email
-
         val btnSair = view.findViewById<MaterialCardView>(R.id.btnSair)
         val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
         val btnFaq = view.findViewById<MaterialCardView>(R.id.btnFaq)
@@ -37,7 +54,6 @@ class ProfileFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             userName.text = user.displayName ?: "Usuário"
-
             userCargo.text = user.email ?: "Cargo não definido"
 
             val photoUrl = user.photoUrl
@@ -50,14 +66,7 @@ class ProfileFragment : Fragment() {
         }
 
         btnSair.setOnClickListener {
-            val prefs = requireActivity().getSharedPreferences("user_prefs", 0)
-            prefs.edit().putBoolean("is_logged_in", false).apply()
-
-            FirebaseAuth.getInstance().signOut()
-
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
+            confirmarSaida()
         }
 
         btnFaq.setOnClickListener {
@@ -76,4 +85,50 @@ class ProfileFragment : Fragment() {
 
         return view
     }
+
+    private fun confirmarSaida() {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.dialog_confirmar_saida, null)
+        builder.setView(view)
+
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        val btnSair = view.findViewById<Button>(R.id.btnSairDialog)
+        val btnCancelar = view.findViewById<Button>(R.id.btnCancelarDialog)
+
+        btnSair.setOnClickListener {
+            val prefs = requireActivity().getSharedPreferences("user_prefs", 0)
+            prefs.edit().putBoolean("is_logged_in", false).apply()
+
+            FirebaseAuth.getInstance().signOut()
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+
+            dialog.dismiss()
+        }
+
+        btnCancelar.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fotoPerfil = view.findViewById(R.id.fotoPerfil)
+        btnTrocarFoto = view.findViewById(R.id.btnTrocarFoto)
+
+        btnTrocarFoto.setOnClickListener {
+            pickImage.launch("image/*")
+        }
+    }
+
 }
