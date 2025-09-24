@@ -44,7 +44,6 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        //Config do login como Google
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -52,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        // Launcher para receber o resultado do Google Sign-In
         val googleSignInLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -76,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
         val emailEditText = findViewById<TextInputEditText>(R.id.editTextEmailOuCpf)
         val checkLogado = findViewById<CheckBox>(R.id.checkBox2)
         var senhaVisivel = false
+        val primeiroAcesso = findViewById<TextView>(R.id.PrimeiroAcesso)
 
         val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
@@ -90,6 +89,12 @@ class LoginActivity : AppCompatActivity() {
                 val signInIntent = googleSignInClient.signInIntent
                 googleSignInLauncher.launch(signInIntent)
             }
+        }
+
+        primeiroAcesso.setOnClickListener {
+            val intent = Intent(this, EsqueceuSenhaActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
 

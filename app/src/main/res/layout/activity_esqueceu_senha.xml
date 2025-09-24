@@ -25,6 +25,7 @@
         android:backgroundTint="#2B3078"
         android:fontFamily="@font/rfdewibold"
         android:text="Verificar"
+        android:textAllCaps="false"
         android:textColor="#FFFFFF"
         app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"

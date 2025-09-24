@@ -262,15 +262,16 @@
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginRight="6dp"
-            android:text="Ainda não tem uma conta?"
+            android:text="Acessando pela primeira vez?"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/PrimeiroAcesso"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
+            android:clickable="true"
             android:fontFamily="@font/rfdewibold"
-            android:text="Cadastre-se"
+            android:text="Primeiro Acesso"
             android:textColor="#2B3077"
             android:textSize="12sp" />
     </LinearLayout>
@@ -295,14 +296,6 @@
             android:contentDescription="Botão para logar com Google"
             android:stateListAnimator="@null"
             app:srcCompat="@drawable/logogoogle" />
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/branco_background"
-            android:contentDescription="Botão para logar com Microsoft"
-            app:srcCompat="@drawable/logomicrosoft" />
 
     </LinearLayout>
 
