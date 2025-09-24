@@ -41,12 +41,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val fabCenter = binding.fabCenter
-        fabCenter.setOnClickListener {
-            val intent = Intent(this, CameraOverlay::class.java)
-            startActivity(intent)
-        }
-
         bottomNav.setupWithNavController(navController)
     }
 }
