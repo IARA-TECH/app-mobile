@@ -40,6 +40,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.FileOutputStream
@@ -59,6 +61,8 @@ class CameraOverlay : AppCompatActivity() {
     }
 
     private var imageCapture: ImageCapture? = null
+    private var imageAnalysis: ImageAnalysis? = null
+    private var cameraProvider: ProcessCameraProvider? = null
     private lateinit var cameraExecutor: ExecutorService
     private var flashEnabled = false
 
@@ -67,9 +71,12 @@ class CameraOverlay : AppCompatActivity() {
     private var lastProcessTime = 0L
     private val processInterval = 300L
 
+    private val isDestroyed = AtomicBoolean(false)
+    private val isProcessing = AtomicBoolean(false)
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) startCamera()
+            if (isGranted && !isDestroyed.get()) startCamera()
             else Toast.makeText(this, "Permissão da câmera negada", Toast.LENGTH_SHORT).show()
         }
 
@@ -101,7 +108,11 @@ class CameraOverlay : AppCompatActivity() {
         updateFlashButtonUI()
         updateDetectionLabel(false, 0f)
 
-        cameraExecutor = Executors.newSingleThreadExecutor()
+        cameraExecutor = Executors.newSingleThreadExecutor { r ->
+            Thread(r, "CameraExecutor").apply {
+                isDaemon = true
+            }
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_GRANTED
@@ -139,34 +150,38 @@ class CameraOverlay : AppCompatActivity() {
     }
 
     private fun startCamera() {
+        if (isDestroyed.get()) return
+
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            try {
+                if (isDestroyed.get()) return@addListener
 
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(previewView.surfaceProvider)
-            }
+                cameraProvider = cameraProviderFuture.get()
 
-            imageCapture = ImageCapture.Builder()
-                .setFlashMode(ImageCapture.FLASH_MODE_OFF)
-                .build()
-
-            val imageAnalyzer = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build()
-                .also {
-                    it.setAnalyzer(cameraExecutor, ImageAnalysis.Analyzer { image ->
-                        classifyImage(image)
-                    })
+                val preview = Preview.Builder().build().also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
                 }
 
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+                imageCapture = ImageCapture.Builder()
+                    .setFlashMode(ImageCapture.FLASH_MODE_OFF)
+                    .build()
 
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture, imageAnalyzer
+                imageAnalysis = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .build()
+                    .also { analysis ->
+                        analysis.setAnalyzer(cameraExecutor) { image ->
+                            safeClassifyImage(image)
+                        }
+                    }
+
+                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+                cameraProvider?.unbindAll()
+                cameraProvider?.bindToLifecycle(
+                    this, cameraSelector, preview, imageCapture, imageAnalysis
                 )
             } catch (exc: Exception) {
                 Log.e("CameraOverlay", "Erro ao iniciar a câmera", exc)
@@ -175,12 +190,24 @@ class CameraOverlay : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun classifyImage(image: ImageProxy) {
-        if (tfliteInterpreter == null) {
+    private fun safeClassifyImage(image: ImageProxy) {
+        if (isDestroyed.get() ||
+            tfliteInterpreter == null ||
+            !isProcessing.compareAndSet(false, true)) {
             image.close()
             return
         }
 
+        try {
+            classifyImage(image)
+        } catch (e: Exception) {
+            Log.e("CameraOverlay", "Erro na classificação segura: ${e.message}", e)
+        } finally {
+            isProcessing.set(false)
+        }
+    }
+
+    private fun classifyImage(image: ImageProxy) {
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastProcessTime < processInterval) {
             image.close()
@@ -189,97 +216,133 @@ class CameraOverlay : AppCompatActivity() {
         lastProcessTime = currentTime
 
         try {
+            if (isDestroyed.get() || tfliteInterpreter == null) {
+                return
+            }
+
             Log.d("TFLite", "Processando imagem - Formato: ${image.format}, Tamanho: ${image.width}x${image.height}")
 
             val bitmap = imageProxyToBitmap(image)
+            if (bitmap == null) {
+                Log.w("TFLite", "Falha ao converter ImageProxy para Bitmap")
+                return
+            }
+
             val resizedBitmap = Bitmap.createScaledBitmap(bitmap, inputSize, inputSize, false)
             val inputBuffer = preprocessImage(resizedBitmap)
+
+            if (isDestroyed.get() || tfliteInterpreter == null) {
+                return
+            }
 
             val output = Array(1) { FloatArray(2) }
             tfliteInterpreter?.run(inputBuffer, output)
 
             val probs = softmax(output[0])
-
             val abacusConfidence = probs[0] * 100
 
             Log.d("TFLite", "Classificação - Ábaco: ${String.format("%.1f", abacusConfidence)}%")
 
             val isAbacusDetected = abacusConfidence > 60
-            runOnUiThread {
-                updateDetectionLabel(isAbacusDetected, abacusConfidence)
+
+            if (!isDestroyed.get()) {
+                runOnUiThread {
+                    if (!isDestroyed.get()) {
+                        updateDetectionLabel(isAbacusDetected, abacusConfidence)
+                    }
+                }
             }
         } catch (e: Exception) {
-            Log.e("TFLite", "Erro na classificação: ${e.message}")
-            e.printStackTrace()
+            Log.e("TFLite", "Erro na classificação: ${e.message}", e)
         } finally {
-            image.close()
+            try {
+                image.close()
+            } catch (e: Exception) {
+                Log.w("TFLite", "Erro ao fechar imagem: ${e.message}")
+            }
         }
     }
 
     private fun updateDetectionLabel(isDetected: Boolean, confidence: Float) {
-        if (isDetected) {
-            tvDetectionLabel.text = "Ábaco detectado"
-            tvDetectionLabel.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_green_dark))
-        } else {
-            tvDetectionLabel.text = "Ábaco não detectado"
-            tvDetectionLabel.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
-        }
+        if (isDestroyed.get()) return
 
-        val drawable = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 20f * resources.displayMetrics.density
-            setColor(
-                if (isDetected)
-                    ContextCompat.getColor(this@CameraOverlay, android.R.color.holo_green_dark)
-                else
-                    ContextCompat.getColor(this@CameraOverlay, android.R.color.holo_red_dark)
-            )
-        }
-        tvDetectionLabel.background = drawable
-    }
+        try {
+            if (isDetected) {
+                tvDetectionLabel.text = "Ábaco detectado"
+                tvDetectionLabel.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_green_dark))
+            } else {
+                tvDetectionLabel.text = "Ábaco não detectado"
+                tvDetectionLabel.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
+            }
 
-    private fun imageProxyToBitmap(image: ImageProxy): Bitmap {
-        return when (image.format) {
-            ImageFormat.YUV_420_888 -> {
-                yuvToRgbBitmap(image)
+            val drawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 20f * resources.displayMetrics.density
+                setColor(
+                    if (isDetected)
+                        ContextCompat.getColor(this@CameraOverlay, android.R.color.holo_green_dark)
+                    else
+                        ContextCompat.getColor(this@CameraOverlay, android.R.color.holo_red_dark)
+                )
             }
-            ImageFormat.JPEG -> {
-                val buffer = image.planes[0].buffer
-                val bytes = ByteArray(buffer.remaining())
-                buffer.get(bytes)
-                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-            }
-            else -> {
-                val buffer = image.planes[0].buffer
-                val bytes = ByteArray(buffer.remaining())
-                buffer.get(bytes)
-                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    ?: createEmptyBitmap()
-            }
+            tvDetectionLabel.background = drawable
+        } catch (e: Exception) {
+            Log.e("CameraOverlay", "Erro ao atualizar label: ${e.message}")
         }
     }
 
-    private fun yuvToRgbBitmap(image: ImageProxy): Bitmap {
-        val planes = image.planes
-        val yBuffer = planes[0].buffer
-        val uBuffer = planes[1].buffer
-        val vBuffer = planes[2].buffer
+    private fun imageProxyToBitmap(image: ImageProxy): Bitmap? {
+        return try {
+            when (image.format) {
+                ImageFormat.YUV_420_888 -> {
+                    yuvToRgbBitmap(image)
+                }
+                ImageFormat.JPEG -> {
+                    val buffer = image.planes[0].buffer
+                    val bytes = ByteArray(buffer.remaining())
+                    buffer.get(bytes)
+                    BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                }
+                else -> {
+                    val buffer = image.planes[0].buffer
+                    val bytes = ByteArray(buffer.remaining())
+                    buffer.get(bytes)
+                    BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                        ?: createEmptyBitmap()
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("CameraOverlay", "Erro na conversão de imagem: ${e.message}")
+            createEmptyBitmap()
+        }
+    }
 
-        val ySize = yBuffer.remaining()
-        val uSize = uBuffer.remaining()
-        val vSize = vBuffer.remaining()
+    private fun yuvToRgbBitmap(image: ImageProxy): Bitmap? {
+        return try {
+            val planes = image.planes
+            val yBuffer = planes[0].buffer
+            val uBuffer = planes[1].buffer
+            val vBuffer = planes[2].buffer
 
-        val nv21 = ByteArray(ySize + uSize + vSize)
+            val ySize = yBuffer.remaining()
+            val uSize = uBuffer.remaining()
+            val vSize = vBuffer.remaining()
 
-        yBuffer.get(nv21, 0, ySize)
-        vBuffer.get(nv21, ySize, vSize)
-        uBuffer.get(nv21, ySize + vSize, uSize)
+            val nv21 = ByteArray(ySize + uSize + vSize)
 
-        val yuvImage = YuvImage(nv21, ImageFormat.NV21, image.width, image.height, null)
-        val out = ByteArrayOutputStream()
-        yuvImage.compressToJpeg(Rect(0, 0, image.width, image.height), 100, out)
-        val imageBytes = out.toByteArray()
-        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            yBuffer.get(nv21, 0, ySize)
+            vBuffer.get(nv21, ySize, vSize)
+            uBuffer.get(nv21, ySize + vSize, uSize)
+
+            val yuvImage = YuvImage(nv21, ImageFormat.NV21, image.width, image.height, null)
+            val out = ByteArrayOutputStream()
+            yuvImage.compressToJpeg(Rect(0, 0, image.width, image.height), 100, out)
+            val imageBytes = out.toByteArray()
+            BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        } catch (e: Exception) {
+            Log.e("CameraOverlay", "Erro na conversão YUV: ${e.message}")
+            createEmptyBitmap()
+        }
     }
 
     private fun createEmptyBitmap(): Bitmap {
@@ -391,8 +454,46 @@ class CameraOverlay : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-        tfliteInterpreter?.close()
-        cameraExecutor.shutdown()
+        isDestroyed.set(true)
+
+        try {
+            imageAnalysis?.clearAnalyzer()
+
+            cameraProvider?.unbindAll()
+
+            if (!cameraExecutor.isShutdown) {
+                cameraExecutor.shutdown()
+                try {
+                    if (!cameraExecutor.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
+                        cameraExecutor.shutdownNow()
+                    }
+                } catch (e: InterruptedException) {
+                    cameraExecutor.shutdownNow()
+                    Thread.currentThread().interrupt()
+                }
+            }
+
+            tfliteInterpreter?.close()
+            tfliteInterpreter = null
+
+        } catch (e: Exception) {
+            Log.e("CameraOverlay", "Erro no onDestroy: ${e.message}", e)
+        } finally {
+            super.onDestroy()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        imageAnalysis?.clearAnalyzer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isDestroyed.get() && imageAnalysis != null && tfliteInterpreter != null) {
+            imageAnalysis?.setAnalyzer(cameraExecutor) { image ->
+                safeClassifyImage(image)
+            }
+        }
     }
 }
