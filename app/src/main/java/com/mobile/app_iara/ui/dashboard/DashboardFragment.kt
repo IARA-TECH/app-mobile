@@ -51,14 +51,14 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setActiveStyle(button: Button) {
-        button.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_dias_active)
-        button.setTextColor(ContextCompat.getColor(requireContext(), R.color.branco_background))
+        button.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_days_active)
+        button.setTextColor(ContextCompat.getColor(requireContext(), R.color.backgroundWhite))
         button.backgroundTintList = null
     }
 
     private fun resetStyle(button: Button) {
-        button.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_dias_inactive)
-        button.setTextColor(ContextCompat.getColor(requireContext(), R.color.azul_primario))
+        button.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_day_inactive)
+        button.setTextColor(ContextCompat.getColor(requireContext(), R.color.primaryBlue))
         button.backgroundTintList = null
     }
 

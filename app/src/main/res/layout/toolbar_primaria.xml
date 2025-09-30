@@ -11,7 +11,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="9dp"
         android:background="#D8D8D8"
-        android:src="@drawable/profilecircle"
+        android:src="@drawable/ic_profile_circle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circular" />
@@ -22,9 +22,9 @@
         android:layout_height="37dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/circle_white"
+        android:background="@drawable/bg_circle_white"
         android:padding="5dp"
-        android:src="@drawable/notify"
+        android:src="@drawable/ic_bell"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

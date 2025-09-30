@@ -26,7 +26,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="@drawable/aviso"
+                android:background="@drawable/ic_warning"
                 android:backgroundTint="#1A237E"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"

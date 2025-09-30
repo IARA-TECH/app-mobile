@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.inicio.LoginActivity"
+    tools:context=".ui.start.LoginActivity"
     tools:layout_editor_absoluteX="13dp"
     tools:layout_editor_absoluteY="0dp">
 
@@ -18,7 +18,7 @@
         android:contentDescription="Botão para voltar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/setavoltar" />
+        app:srcCompat="@drawable/ic_arrow_back" />
 
     <TextView
         android:id="@+id/textView4"
@@ -39,7 +39,7 @@
         android:layout_marginStart="38dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="38dp"
-        android:background="@drawable/input_arredondado"
+        android:background="@drawable/shape_round_input"
         android:gravity="center_vertical|start"
         app:boxBackgroundMode="none"
         app:hintEnabled="false"
@@ -87,7 +87,7 @@
         android:layout_marginStart="38dp"
         android:layout_marginTop="144dp"
         android:layout_marginEnd="38dp"
-        android:background="@drawable/input_arredondado"
+        android:background="@drawable/shape_round_input"
         android:gravity="center_vertical|start"
         app:boxBackgroundMode="none"
         app:hintEnabled="false"
@@ -118,7 +118,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:srcCompat="@drawable/iara" />
+        app:srcCompat="@drawable/logo_iara" />
 
     <ImageButton
         android:id="@+id/btnToggleSenha"
@@ -131,7 +131,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/inputSenha"
         app:layout_constraintEnd_toEndOf="@+id/inputSenha"
         app:layout_constraintTop_toTopOf="@+id/inputSenha"
-        app:srcCompat="@drawable/olhoaberto" />
+        app:srcCompat="@drawable/ic_open_eye" />
 
     <TextView
         android:id="@+id/inputSenhaTitulo"
@@ -191,8 +191,8 @@
         android:layout_width="105dp"
         android:layout_height="16dp"
         android:layout_marginTop="79dp"
-        android:background="@color/branco_background"
-        android:backgroundTint="@color/branco_background"
+        android:background="@color/backgroundWhite"
+        android:backgroundTint="@color/backgroundWhite"
         android:text="Ou entre com"
         android:textAlignment="center"
         android:textColor="#72525353"
@@ -219,7 +219,7 @@
             android:layout_width="158dp"
             android:layout_height="42dp"
             android:background="@android:color/transparent"
-            android:buttonTint="@color/selecao_personalizada"
+            android:buttonTint="@color/customSelection"
             android:fontFamily="@font/rfdewilight"
             android:foreground="@null"
             android:text="Manter conectado"
@@ -292,10 +292,10 @@
             android:id="@+id/btnGoogle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/branco_background"
+            android:backgroundTint="@color/backgroundWhite"
             android:contentDescription="Botão para logar com Google"
             android:stateListAnimator="@null"
-            app:srcCompat="@drawable/logogoogle" />
+            app:srcCompat="@drawable/btn_google" />
 
     </LinearLayout>
 

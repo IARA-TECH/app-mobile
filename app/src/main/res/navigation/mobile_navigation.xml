@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_gestao"
-        android:name="com.mobile.app_iara.ui.gestao.GestaoFragment"
+        android:name="com.mobile.app_iara.ui.management.ManagementFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_gestao" />
     <fragment

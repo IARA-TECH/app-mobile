@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.mobile.app_iara.databinding.FragmentHomeBinding
 import com.mobile.app_iara.utils.NetworkUtils
-import com.mobile.app_iara.ui.erros.ErroWifiActivity
+import com.mobile.app_iara.ui.error.WifiErrorActivity
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
-            val intent = Intent(requireContext(), ErroWifiActivity::class.java)
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
             activity?.finish()
             return View(requireContext())
@@ -34,11 +34,6 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
 
         return root
     }
