@@ -17,6 +17,7 @@ firebaseAuth = "24.0.1"
 credentials = "1.5.0"
 credentialsPlayServicesAuth = "1.5.0"
 googleid = "1.1.1"
+firebaseAuthKtx = "24.0.1"
 imageLabelingCustomCommon = "17.0.0"
 litertSupportApi = "1.4.0"
 
@@ -37,6 +38,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 image-labeling-custom-common = { group = "com.google.mlkit", name = "image-labeling-custom-common", version.ref = "imageLabelingCustomCommon" }
 litert-support-api = { group = "com.google.ai.edge.litert", name = "litert-support-api", version.ref = "litertSupportApi" }
 

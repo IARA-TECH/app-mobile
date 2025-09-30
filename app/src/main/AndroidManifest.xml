@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +26,15 @@
             android:name=".ui.camera.CameraOverlay"
             android:exported="false" />
         <activity
+            android:name=".ui.profile.faq.FaqActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.termsandprivacy.PrivacyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.termsandprivacy.TermsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.inicio.EmailEnviadoActivity"
             android:exported="false" />
         <activity
@@ -37,13 +48,13 @@
             android:exported="false" />
         <activity
             android:name=".ui.erros.ErroWifiActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.inicio.InitiationActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.inicio.LoginActivity"
             android:exported="false" />

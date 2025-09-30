@@ -2,37 +2,48 @@ package com.mobile.app_iara.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.auth.FirebaseAuth
-import com.mobile.app_iara.R
+import com.mobile.app_iara.databinding.FragmentHomeBinding
+import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.ui.erros.ErroWifiActivity
 import com.mobile.app_iara.ui.camera.CameraOverlay
-import com.mobile.app_iara.ui.inicio.LoginActivity
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import androidx.fragment.app.Fragment
 
 class HomeFragment : Fragment() {
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        // Infla o layout primeiro
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val root = binding.root
 
-        val btnScan = view.findViewById<FloatingActionButton>(R.id.btnScan)
+        // Verifica conexão de internet
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), ErroWifiActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return root
+        }
 
-        btnScan.setOnClickListener {
+        // Botão de Scan
+        binding.btnScan.setOnClickListener {
             val intent = Intent(requireContext(), CameraOverlay::class.java)
             startActivity(intent)
         }
 
-        return view
+        return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
