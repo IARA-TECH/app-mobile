@@ -42,7 +42,7 @@
                         android:id="@+id/imageView7"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/iconfalhatecnica" />
+                        android:src="@drawable/ic_broken_processor" />
 
                     <TextView
                         android:id="@+id/textView22"
@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="70dp"
                         android:layout_weight="1"
-                        android:src="@drawable/arrow_up_circle" />
+                        android:src="@drawable/ic_arrow_up_circle" />
                 </LinearLayout>
 
                 <TextView
@@ -115,7 +115,7 @@
                         android:id="@+id/imageView11"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/iconcondenasgranja"
+                        android:src="@drawable/ic_broken_egg"
                         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
 
                     <TextView
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="70dp"
                         android:layout_weight="1"
-                        android:src="@drawable/setinhaparabaixoverde" />
+                        android:src="@drawable/ic_expand_down" />
                 </LinearLayout>
 
                 <TextView
@@ -189,7 +189,7 @@
                         android:id="@+id/imageView12"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/iconcomparativoturnos"
+                        android:src="@drawable/ic_dashboard_2"
                         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
 
                     <TextView
@@ -255,7 +255,7 @@
                         android:id="@+id/imageView13"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/iconcomparativodashboard"
+                        android:src="@drawable/ic_dashboard"
                         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
 
                     <TextView
@@ -315,7 +315,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:text="Acompanhe todas as últimas atualizações e relatórios"
-        android:textColor="@color/texto_claro"
+        android:textColor="@color/lightText"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -339,7 +339,7 @@
             android:id="@+id/button"
             android:layout_width="81dp"
             android:layout_height="35dp"
-            android:background="@drawable/btn_dias_active"
+            android:background="@drawable/btn_days_active"
             android:backgroundTint="@null"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
@@ -358,12 +358,12 @@
             android:backgroundTint="@null"
             android:layout_width="81dp"
             android:layout_height="35dp"
-            android:background="@drawable/btn_dias_inactive"
+            android:background="@drawable/btn_day_inactive"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="15 dias"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/azul_primario"
+            android:textColor="@color/primaryBlue"
             android:textSize="13sp"
             app:cornerRadius="20dp"
             app:strokeWidth="1dp" />
@@ -377,13 +377,13 @@
             android:id="@+id/button3"
             android:layout_width="81dp"
             android:layout_height="35dp"
-            android:background="@drawable/btn_dias_inactive"
+            android:background="@drawable/btn_day_inactive"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="30 dias"
             android:backgroundTint="@null"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/azul_primario"
+            android:textColor="@color/primaryBlue"
             android:textSize="13sp"
             app:cornerRadius="20dp"
             app:strokeWidth="1dp" />
@@ -399,7 +399,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#00FFFFFF"
-            android:src="@drawable/calendarioiara" />
+            android:src="@drawable/ic_calendar" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

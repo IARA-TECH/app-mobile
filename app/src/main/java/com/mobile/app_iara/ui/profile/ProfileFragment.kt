@@ -18,7 +18,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.inicio.LoginActivity
+import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.ui.profile.faq.FaqActivity
 import com.mobile.app_iara.ui.profile.termsandprivacy.TermsActivity
 
@@ -60,7 +60,7 @@ class ProfileFragment : Fragment() {
             if (photoUrl != null) {
                 Glide.with(this)
                     .load(photoUrl)
-                    .placeholder(R.drawable.user)
+                    .placeholder(R.drawable.ic_user)
                     .into(imageProfile)
             }
         }
@@ -89,7 +89,7 @@ class ProfileFragment : Fragment() {
     private fun confirmarSaida() {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = layoutInflater
-        val view = inflater.inflate(R.layout.dialog_confirmar_saida, null)
+        val view = inflater.inflate(R.layout.dialog_exit_confirmation, null)
         builder.setView(view)
 
         val dialog = builder.create()
