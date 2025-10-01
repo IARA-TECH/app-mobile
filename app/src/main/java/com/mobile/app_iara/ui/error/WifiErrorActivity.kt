@@ -27,8 +27,6 @@ class WifiErrorActivity : AppCompatActivity() {
 
         tryAgainButton.setOnClickListener {
             if (NetworkUtils.isInternetAvailable(this)) {
-                // Volta pro Login, que depende do Firebase
-                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }
