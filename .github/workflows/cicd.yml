@@ -38,7 +38,7 @@ jobs:
         run: ./gradlew lint --info
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease -x processDebugGoogleServices --info
+        run: ./gradlew assembleRelease -x processDebugGoogleServices -x processReleaseGoogleServices --info
 
       - name: Upload APK como artefato
         uses: actions/upload-artifact@v4
