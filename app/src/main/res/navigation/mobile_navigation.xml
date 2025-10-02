@@ -16,15 +16,25 @@
         android:name="com.mobile.app_iara.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <action
+        android:id="@+id/action_dashboard_to_technicalFailures"
+        app:destination="@id/technicalFailuresFragment" />
 
     <fragment
         android:id="@+id/navigation_gestao"
         android:name="com.mobile.app_iara.ui.management.ManagementFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_gestao" />
+
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/technicalFailuresFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.technicalfailures.TechnicalFailuresFragment"
+        android:label="fragment_technical_failures"
+        tools:layout="@layout/fragment_technical_failures" />
 </navigation>

@@ -28,6 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView21">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_technical_failures"
             android:layout_width="match_parent"
             android:layout_height="126dp"
             app:cardCornerRadius="20dp"
