@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -34,6 +35,10 @@ class DashboardComparisonFragment : Fragment() {
         setupGroupedBarChart()
         setupRankingList()
         setupQuantitySummary()
+
+        binding.included.imgBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupGroupedBarChart() {

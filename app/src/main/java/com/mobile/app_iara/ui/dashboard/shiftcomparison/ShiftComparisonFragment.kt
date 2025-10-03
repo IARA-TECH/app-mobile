@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -31,6 +32,10 @@ class ShiftComparisonFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupQuantityList()
         setupMultiLineChart()
+
+        binding.included.imgBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupQuantityList() {

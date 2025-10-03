@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -30,6 +31,10 @@ class FarmCondemnationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRankingList()
         setupHorizontalBarChart()
+
+        binding.included.imgBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupRankingList() {
