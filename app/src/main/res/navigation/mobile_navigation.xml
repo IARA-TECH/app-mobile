@@ -19,6 +19,9 @@
     <action
         android:id="@+id/action_dashboard_to_technicalFailures"
         app:destination="@id/technicalFailuresFragment" />
+    <action
+        android:id="@+id/action_dashboard_to_shiftComparison"
+        app:destination="@id/shifComparisonFragment" />
 
     <fragment
         android:id="@+id/navigation_gestao"
@@ -37,4 +40,11 @@
         android:name="com.mobile.app_iara.ui.dashboard.technicalfailures.TechnicalFailuresFragment"
         android:label="fragment_technical_failures"
         tools:layout="@layout/fragment_technical_failures" />
+
+    <fragment
+        android:id="@+id/shifComparisonFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.ShiftComparisonFragment"
+        android:label="fragment_shift_comparison"
+        tools:layout="@layout/fragment_shift_comparison" />
+
 </navigation>

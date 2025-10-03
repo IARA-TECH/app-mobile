@@ -64,7 +64,7 @@ class TechnicalFailuresFragment : Fragment() {
         }
 
 // NOVO: Lista de meses para o Eixo X
-        val months = arrayOf("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul")
+        val months = arrayOf("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez")
 
         binding.lineChart.apply {
             data = LineData(dataSet)

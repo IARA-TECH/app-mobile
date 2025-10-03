@@ -37,6 +37,10 @@ class DashboardFragment : Fragment() {
             // Use o ID da action que você criou no seu arquivo mobile_navigation.xml
             findNavController().navigate(R.id.action_dashboard_to_technicalFailures)
         }
+
+        binding.cardShiftComparison.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboard_to_shiftComparison)
+        }
     }
 
     override fun onDestroyView() {
