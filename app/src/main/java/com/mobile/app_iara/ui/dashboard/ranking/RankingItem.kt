@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.dashboard
+package com.mobile.app_iara.ui.dashboard.ranking
 
 data class RankingItem(
     val position: Int,

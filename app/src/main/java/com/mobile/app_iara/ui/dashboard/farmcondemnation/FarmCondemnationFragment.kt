@@ -13,8 +13,8 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentFarmCondemnationBinding
-import com.mobile.app_iara.ui.dashboard.RankingAdapter
-import com.mobile.app_iara.ui.dashboard.RankingItem
+import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
+import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
 
 class FarmCondemnationFragment : Fragment() {
 

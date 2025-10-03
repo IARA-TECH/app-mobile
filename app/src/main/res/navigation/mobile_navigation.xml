@@ -25,6 +25,9 @@
     <action
         android:id="@+id/action_dashboard_to_farmCondemnation"
         app:destination="@id/farmCondemnationFragment" />
+    <action
+        android:id="@+id/action_dashboard_to_dashboardComparison"
+        app:destination="@id/dashboardComparisonFragment" />
 
     <fragment
         android:id="@+id/navigation_gestao"
@@ -46,7 +49,7 @@
 
     <fragment
         android:id="@+id/shifComparisonFragment"
-        android:name="com.mobile.app_iara.ui.dashboard.ShiftComparisonFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.shiftcomparison.ShiftComparisonFragment"
         android:label="fragment_shift_comparison"
         tools:layout="@layout/fragment_shift_comparison" />
 
@@ -55,5 +58,12 @@
         android:name="com.mobile.app_iara.ui.dashboard.farmcondemnation.FarmCondemnationFragment"
         android:label="Condenas pela Granja"
         tools:layout="@layout/fragment_farm_condemnation" />
+
+    <fragment
+        android:id="@+id/dashboardComparisonFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.dashboardcomparison.DashboardComparisonFragment"
+        android:label="Comparativo Dashboards"
+        tools:layout="@layout/fragment_dashboard_comparison" />
+
 
 </navigation>

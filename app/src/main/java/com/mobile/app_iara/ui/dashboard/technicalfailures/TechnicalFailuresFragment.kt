@@ -14,8 +14,8 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentTechnicalFailuresBinding
-import com.mobile.app_iara.ui.dashboard.RankingAdapter
-import com.mobile.app_iara.ui.dashboard.RankingItem
+import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
+import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
 
 class TechnicalFailuresFragment : Fragment() {
 

@@ -44,6 +44,9 @@ class DashboardFragment : Fragment() {
         binding.cardShiftComparison.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_shiftComparison)
         }
+        binding.cardDashboardComparison.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboard_to_dashboardComparison)
+        }
     }
 
     override fun onDestroyView() {
