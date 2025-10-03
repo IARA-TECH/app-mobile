@@ -102,7 +102,6 @@
             android:layout_height="20dp" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_shift_comparison"
             android:layout_width="match_parent"
             android:layout_height="126dp"
             app:cardCornerRadius="20dp"
@@ -177,6 +176,7 @@
             android:layout_height="20dp" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_shift_comparison"
             android:layout_width="match_parent"
             android:layout_height="126dp"
             app:cardCornerRadius="20dp"

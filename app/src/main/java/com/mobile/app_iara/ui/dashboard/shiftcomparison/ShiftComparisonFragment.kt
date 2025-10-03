@@ -34,11 +34,8 @@ class ShiftComparisonFragment : Fragment() {
     }
 
     private fun setupQuantityList() {
-        // Noturno
         setupQuantityItem(binding.itemNoturno, "Turno noturno", 45, R.color.night)
-        // Vespertino
         setupQuantityItem(binding.itemVespertino, "Turno vespertino", 23, R.color.afternoon)
-        // Matutino
         setupQuantityItem(binding.itemMatutino, "Turno matutino", 12, R.color.morning)
     }
 
@@ -65,35 +62,29 @@ class ShiftComparisonFragment : Fragment() {
             add(Entry(4f, 25f)); add(Entry(5f, 15f)); add(Entry(6f, 20f)); add(Entry(7f, 30f))
         }
 
-        // CRIAR UM LineDataSet PARA CADA LINHA
         val dataSetMatutino = createDataSet(entriesMatutino, "Matutino", R.color.morning)
         val dataSetVespertino = createDataSet(entriesVespertino, "Vespertino", R.color.afternoon)
         val dataSetNoturno = createDataSet(entriesNoturno, "Noturno", R.color.night)
 
-        // CONFIGURAÇÕES GERAIS DO GRÁFICO
         binding.lineChartShifts.apply {
             data = LineData(dataSetMatutino, dataSetVespertino, dataSetNoturno)
             description.isEnabled = false
             axisRight.isEnabled = false
-
-            // ADICIONADO: Desativa TODAS as interações de toque (clique, zoom, arrastar)
             setTouchEnabled(false)
+            extraBottomOffset = 20f
 
-            // Eixo X
             xAxis.apply {
                 position = XAxis.XAxisPosition.BOTTOM
                 setDrawGridLines(false)
                 textColor = Color.GRAY
                 valueFormatter = XAxisValueFormatter(labels)
-                labelCount = labels.size
+                granularity = 1f
             }
-            // Eixo Y
             axisLeft.apply {
                 setDrawGridLines(false)
                 textColor = Color.GRAY
                 axisMinimum = 0f
             }
-            // Legenda
             legend.apply {
                 isEnabled = true
                 verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
@@ -103,7 +94,7 @@ class ShiftComparisonFragment : Fragment() {
                 form = Legend.LegendForm.CIRCLE
             }
 
-            invalidate() // Atualiza o gráfico
+            invalidate()
         }
     }
 
@@ -114,7 +105,6 @@ class ShiftComparisonFragment : Fragment() {
             setDrawCircles(false)
             setDrawValues(false)
             mode = LineDataSet.Mode.CUBIC_BEZIER
-            // ADICIONADO: Garante que a linha de destaque que aparece no clique seja invisível
             highLightColor = Color.TRANSPARENT
         }
     }
@@ -124,7 +114,6 @@ class ShiftComparisonFragment : Fragment() {
         _binding = null
     }
 
-    // Você pode reutilizar a classe XAxisValueFormatter da tela anterior
     class XAxisValueFormatter(private val labels: List<String>) : ValueFormatter() {
         override fun getAxisLabel(value: Float, axis: com.github.mikephil.charting.components.AxisBase?): String {
             val index = value.toInt()

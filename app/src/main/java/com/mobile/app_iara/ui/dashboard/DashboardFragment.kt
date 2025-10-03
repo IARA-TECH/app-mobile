@@ -34,7 +34,6 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.cardTechnicalFailures.setOnClickListener {
-            // Use o ID da action que você criou no seu arquivo mobile_navigation.xml
             findNavController().navigate(R.id.action_dashboard_to_technicalFailures)
         }
 
