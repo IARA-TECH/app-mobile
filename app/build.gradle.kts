@@ -41,14 +41,12 @@ android {
 }
 
 dependencies {
-    // Dependências Core e de UI
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.activity)
     implementation("com.google.android.material:material:1.12.0") // Mantida apenas a versão mais nova
 
-    // Lifecycle e Navigation
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -72,7 +70,6 @@ dependencies {
     // Dependência para o Gráfico (MPAndroidChart)
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-    // Dependências de Teste
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
