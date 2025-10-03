@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_gestao"
+        android:id="@+id/navigation_management"
         android:name="com.mobile.app_iara.ui.management.ManagementFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_gestao" />
+        android:label="@string/title_management"
+        tools:layout="@layout/fragment_management" />
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
