@@ -37,6 +37,10 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(R.id.action_dashboard_to_technicalFailures)
         }
 
+        binding.cardFarmCondemnation.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboard_to_farmCondemnation)
+        }
+
         binding.cardShiftComparison.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_shiftComparison)
         }

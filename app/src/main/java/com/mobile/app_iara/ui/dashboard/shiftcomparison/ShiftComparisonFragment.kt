@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.dashboard
+package com.mobile.app_iara.ui.dashboard.shiftcomparison
 
 import android.graphics.Color
 import android.os.Bundle

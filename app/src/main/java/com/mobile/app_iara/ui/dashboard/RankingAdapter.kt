@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.dashboard.technicalfailures
+package com.mobile.app_iara.ui.dashboard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

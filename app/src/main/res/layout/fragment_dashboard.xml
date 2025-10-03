@@ -102,6 +102,7 @@
             android:layout_height="20dp" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardFarmCondemnation"
             android:layout_width="match_parent"
             android:layout_height="126dp"
             app:cardCornerRadius="20dp"
