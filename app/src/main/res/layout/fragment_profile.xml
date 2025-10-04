@@ -14,12 +14,14 @@
         android:contentDescription="Botão para voltar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/setavoltar" />
+        app:srcCompat="@drawable/ic_arrow_back" />
 
     <LinearLayout
-        android:layout_width="380dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_round"
         android:gravity="center"
         android:orientation="vertical"
@@ -29,6 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnConfig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -56,7 +59,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/config" />
+                    android:src="@drawable/ic_gear" />
 
                 <!-- Texto -->
                 <TextView
@@ -73,7 +76,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/setaentrar" />
+                    android:src="@drawable/ic_arrow_enter" />
 
             </LinearLayout>
 
@@ -87,6 +90,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnFabrica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -114,7 +118,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/caixa" />
+                    android:src="@drawable/ic_box_grey" />
 
                 <!-- Texto -->
                 <TextView
@@ -130,7 +134,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/setaentrar" />
+                    android:src="@drawable/ic_arrow_enter" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -143,6 +147,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnFaq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -170,7 +175,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/aviso" />
+                    android:src="@drawable/ic_warning" />
 
                 <!-- Texto -->
                 <TextView
@@ -186,7 +191,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/setaentrar" />
+                    android:src="@drawable/ic_arrow_enter" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -199,6 +204,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnChatbot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -225,7 +231,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/chatbot" />
+                    android:src="@drawable/ic_chatbot_2" />
 
                 <!-- Texto -->
                 <TextView
@@ -241,7 +247,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/setaentrar" />
+                    android:src="@drawable/ic_arrow_enter" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -254,6 +260,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnTermsandconditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -281,7 +288,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/termos" />
+                    android:src="@drawable/ic_terms" />
 
                 <!-- Texto -->
                 <TextView
@@ -297,7 +304,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/setaentrar" />
+                    android:src="@drawable/ic_arrow_enter" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -310,6 +317,7 @@
             android:backgroundTint="#909090" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnSair"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
@@ -337,7 +345,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/sair" />
+                    android:src="@drawable/ic_logout" />
 
                 <!-- Texto -->
                 <TextView
@@ -353,7 +361,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/setaentrar" />
+                    android:src="@drawable/ic_arrow_enter" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -384,9 +392,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/fotoPerfil"
             android:layout_width="159dp"
             android:layout_height="159dp"
+            android:backgroundTint="@color/transparent"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -396,14 +406,15 @@
             app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
             tools:src="@tools:sample/avatars" />
 
-        <ImageView
-            android:id="@+id/imageView4"
+        <ImageButton
+            android:id="@+id/btnTrocarFoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/editar"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/btn_edit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.868"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

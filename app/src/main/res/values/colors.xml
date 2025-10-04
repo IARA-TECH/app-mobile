@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="branco_background">#F7F7F7</color>
-    <color name="texto_padrao">#272626</color>
-    <color name="selecao_personalizada">#87A5D8</color>">
+    <color name="backgroundWhite">#F7F7F7</color>
+    <color name="defaultText">#272626</color>
+    <color name="primaryBlue">#313682</color> <color name="successGreen">#4AC01F</color>
+    <color name="alertRed">#F20D0D</color>
+    <color name="customSelection">#87A5D8</color>
+    <color name="transparent">#00000000</color>
+    <color name="lightText">#686868</color>
+    <color name="gradientStartBlue">#5C6BC0</color>
+    <color name="gradientEndBlue">#313682</color>
+
+    <color name="afternoon">#5C98E5</color>
+    <color name="morning">#EDB057</color>
+    <color name="night">#535BCF</color>
 </resources>

@@ -2,11 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.Appiara" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="android:windowBackground">@color/branco_background</item>"
-        <item name="android:textColor">@color/texto_padrao</item>
+        <item name="android:windowBackground">@color/backgroundWhite</item>"
+        <item name="android:textColor">@color/defaultText</item>
         <item name="android:fontFamily">@font/rfdewiregular</item>
         <item name="android:colorControlHighlight">@android:color/transparent</item>
-        <item name="colorControlActivated">@color/selecao_personalizada</item>
-        <item name="android:textColorHighlight">@color/selecao_personalizada</item>
+        <item name="colorControlActivated">@color/customSelection</item>
     </style>
 </resources>

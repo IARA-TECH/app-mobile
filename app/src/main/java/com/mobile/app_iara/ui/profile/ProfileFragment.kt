@@ -1,32 +1,39 @@
 package com.mobile.app_iara.ui.profile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.start.LoginActivity
+import com.mobile.app_iara.ui.profile.faq.FaqActivity
+import com.mobile.app_iara.ui.profile.termsandprivacy.TermsActivity
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var fotoPerfil: ImageView
+    private lateinit var btnTrocarFoto: ImageButton
+
+    private val pickImage = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            Glide.with(this)
+                .load(it)
+                .into(fotoPerfil)
         }
     }
 
@@ -34,27 +41,94 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        val imageProfile = view.findViewById<ShapeableImageView>(R.id.fotoPerfil)
+        val userName = view.findViewById<TextView>(R.id.textView13) // Nome
+        val userCargo = view.findViewById<TextView>(R.id.textView16) // Cargo / Email
+        val btnSair = view.findViewById<MaterialCardView>(R.id.btnSair)
+        val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
+        val btnFaq = view.findViewById<MaterialCardView>(R.id.btnFaq)
+        val btnVoltar = view.findViewById<ImageButton>(R.id.btnVoltar2)
+
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            userName.text = user.displayName ?: "Usuário"
+            userCargo.text = user.email ?: "Cargo não definido"
+
+            val photoUrl = user.photoUrl
+            if (photoUrl != null) {
+                Glide.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.ic_user)
+                    .into(imageProfile)
+            }
+        }
+
+        btnSair.setOnClickListener {
+            confirmarSaida()
+        }
+
+        btnFaq.setOnClickListener {
+            val intent = Intent(requireContext(), FaqActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnTermos.setOnClickListener {
+            val intent = Intent(requireContext(), TermsActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnVoltar.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Profile.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun confirmarSaida() {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.dialog_exit_confirmation, null)
+        builder.setView(view)
+
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        val btnSair = view.findViewById<Button>(R.id.btnSairDialog)
+        val btnCancelar = view.findViewById<Button>(R.id.btnCancelarDialog)
+
+        btnSair.setOnClickListener {
+            val prefs = requireActivity().getSharedPreferences("user_prefs", 0)
+            prefs.edit().putBoolean("is_logged_in", false).apply()
+
+            FirebaseAuth.getInstance().signOut()
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+
+            dialog.dismiss()
+        }
+
+        btnCancelar.setOnClickListener {
+            dialog.dismiss()
+        }
     }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fotoPerfil = view.findViewById(R.id.fotoPerfil)
+        btnTrocarFoto = view.findViewById(R.id.btnTrocarFoto)
+
+        btnTrocarFoto.setOnClickListener {
+            pickImage.launch("image/*")
+        }
+    }
+
 }

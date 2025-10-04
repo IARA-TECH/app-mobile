@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Fundo do círculo (cinza claro) -->
+    <item android:id="@android:id/background">
+        <shape
+            android:shape="ring"
+            android:useLevel="false"
+            android:innerRadiusRatio="3"
+            android:thicknessRatio="12"
+            android:angle="0">
+            <solid android:color="#66FFFFFF"/> <!-- branco translúcido -->
+        </shape>
+    </item>
+
+    <!-- Progresso (branco cheio) -->
+    <item android:id="@android:id/progress">
+        <shape
+            android:shape="ring"
+            android:useLevel="true"
+            android:innerRadiusRatio="3"
+            android:thicknessRatio="12"
+            android:angle="0">
+            <solid android:color="#FFFFFFFF"/> <!-- branco sólido -->
+        </shape>
+    </item>
+</layer-list>

@@ -1,12 +1,12 @@
 package com.mobile.app_iara
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.app_iara.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,15 +20,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
-
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_gestao
-            )
+            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_gestao, R.id.navigation_perfil)
         )
-        navView.setupWithNavController(navController)
+
+        val bottomNav: BottomNavigationView = binding.navView
+
+        val tipoUser = "comum"
+
+        if (tipoUser == "comum") {
+            bottomNav.menu.findItem(R.id.navigation_gestao)?.isVisible = false
+        } else {
+            for (i in 0 until bottomNav.menu.size()) {
+                bottomNav.menu.getItem(i).isVisible = true
+            }
+        }
+
+        bottomNav.setupWithNavController(navController)
     }
 }

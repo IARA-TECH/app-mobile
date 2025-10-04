@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.inicio.LoginActivity"
+    tools:context=".ui.start.LoginActivity"
     tools:layout_editor_absoluteX="13dp"
     tools:layout_editor_absoluteY="0dp">
 
@@ -18,7 +18,7 @@
         android:contentDescription="Botão para voltar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/setavoltar" />
+        app:srcCompat="@drawable/ic_arrow_back" />
 
     <TextView
         android:id="@+id/textView4"
@@ -34,10 +34,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
-        android:layout_width="338dp"
+        android:layout_width="0dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="48dp"
-        android:background="@drawable/input_arredondado"
+        android:layout_marginEnd="38dp"
+        android:background="@drawable/shape_round_input"
         android:gravity="center_vertical|start"
         app:boxBackgroundMode="none"
         app:hintEnabled="false"
@@ -51,7 +53,7 @@
             android:layout_height="30dp"
             android:background="@null"
             android:fontFamily="@font/rfdewilight"
-            android:hint="Insira seu e-mail ou CPF"
+            android:hint="Insira seu e-mail"
             android:inputType="text"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
@@ -61,9 +63,11 @@
 
     <Button
         android:id="@+id/btnAvancar"
-        android:layout_width="338dp"
+        android:layout_width="0dp"
         android:layout_height="66dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="60dp"
+        android:layout_marginEnd="38dp"
         android:backgroundTint="#2B3078"
         android:fontFamily="@font/rfdewibold"
         android:stateListAnimator="@null"
@@ -78,10 +82,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputSenha"
-        android:layout_width="338dp"
+        android:layout_width="0dp"
         android:layout_height="52dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="144dp"
-        android:background="@drawable/input_arredondado"
+        android:layout_marginEnd="38dp"
+        android:background="@drawable/shape_round_input"
         android:gravity="center_vertical|start"
         app:boxBackgroundMode="none"
         app:hintEnabled="false"
@@ -112,27 +118,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:srcCompat="@drawable/iaraazul" />
+        app:srcCompat="@drawable/logo_iara" />
 
     <ImageButton
         android:id="@+id/btnToggleSenha"
         android:layout_width="40dp"
         android:layout_height="30dp"
-        android:layout_marginStart="290dp"
+        android:layout_marginEnd="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Botão para esconder senha"
         android:foreground="@null"
         app:layout_constraintBottom_toBottomOf="@+id/inputSenha"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/inputSenha"
+        app:layout_constraintEnd_toEndOf="@+id/inputSenha"
         app:layout_constraintTop_toTopOf="@+id/inputSenha"
-        app:srcCompat="@drawable/olhoaberto" />
+        app:srcCompat="@drawable/ic_open_eye" />
 
     <TextView
         android:id="@+id/inputSenhaTitulo"
-        android:layout_width="338dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
         android:layout_marginBottom="2dp"
         android:text="Senha"
         app:layout_constraintBottom_toTopOf="@+id/inputSenha"
@@ -156,8 +162,10 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="338dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
         android:layout_marginBottom="2dp"
         android:text="E-mail ou CPF"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
@@ -183,8 +191,8 @@
         android:layout_width="105dp"
         android:layout_height="16dp"
         android:layout_marginTop="79dp"
-        android:background="@color/branco_background"
-        android:backgroundTint="@color/branco_background"
+        android:background="@color/backgroundWhite"
+        android:backgroundTint="@color/backgroundWhite"
         android:text="Ou entre com"
         android:textAlignment="center"
         android:textColor="#72525353"
@@ -192,50 +200,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAvancar" />
 
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:backgroundTint="@color/branco_background"
-        android:contentDescription="Botão para logar com Microsoft"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageButton4"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:srcCompat="@drawable/logomicrosoft" />
-
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="44dp"
-        android:backgroundTint="@color/branco_background"
-        android:contentDescription="Botão para logar com Google"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:srcCompat="@drawable/logogoogle" />
-
-    <ImageButton
-        android:id="@+id/imageButton4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:backgroundTint="@color/branco_background"
-        android:contentDescription="Botão para logar com Linkedin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:srcCompat="@drawable/logolinkedin" />
-
     <LinearLayout
-        android:layout_width="338dp"
+        android:layout_width="0dp"
         android:layout_height="58dp"
+        android:layout_marginStart="38dp"
         android:layout_marginTop="1dp"
+        android:layout_marginEnd="38dp"
         android:layout_marginBottom="1dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -249,10 +219,11 @@
             android:layout_width="158dp"
             android:layout_height="42dp"
             android:background="@android:color/transparent"
-            android:buttonTint="@color/selecao_personalizada"
+            android:buttonTint="@color/customSelection"
             android:fontFamily="@font/rfdewilight"
             android:foreground="@null"
             android:text="Manter conectado"
+            android:textAlignment="viewStart"
             android:textColorLink="#87A5D8"
             android:textSize="13sp" />
 
@@ -270,6 +241,7 @@
             android:fontFamily="@font/rfdewilight"
             android:gravity="center"
             android:text="Esqueceu sua senha?"
+            android:textAlignment="textEnd"
             android:textSize="13sp" />
     </LinearLayout>
 
@@ -290,17 +262,41 @@
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginRight="6dp"
-            android:text="Ainda não tem uma conta?"
+            android:text="Acessando pela primeira vez?"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/PrimeiroAcesso"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
+            android:clickable="true"
             android:fontFamily="@font/rfdewibold"
-            android:text="Cadastre-se"
+            android:text="Primeiro Acesso"
             android:textColor="#2B3077"
             android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center|center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11">
+
+        <ImageButton
+            android:id="@+id/btnGoogle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/backgroundWhite"
+            android:contentDescription="Botão para logar com Google"
+            android:stateListAnimator="@null"
+            app:srcCompat="@drawable/btn_google" />
+
     </LinearLayout>
 
 

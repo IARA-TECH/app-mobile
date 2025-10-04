@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#131A60"
-    tools:context=".ui.inicio.SplashActivity">
+    tools:context=".ui.start.SplashActivity">
 
     <ImageView
         android:id="@+id/splashGif"
