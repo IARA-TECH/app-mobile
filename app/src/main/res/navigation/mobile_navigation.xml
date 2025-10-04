@@ -36,7 +36,13 @@
         android:id="@+id/navigation_management"
         android:name="com.mobile.app_iara.ui.management.ManagementFragment"
         android:label="fragment_management"
-        tools:layout="@layout/fragment_management" />
+        tools:layout="@layout/fragment_management">
+
+        <action
+            android:id="@+id/action_managementFragment_to_registerCollaboratorFragment"
+            app:destination="@id/registerCollaboratorFragment" />
+
+    </fragment>
   
     <fragment
         android:id="@+id/navigation_perfil"
@@ -73,5 +79,11 @@
         android:name="com.mobile.app_iara.ui.dashboard.dashboardcomparison.DashboardComparisonFragment"
         android:label="Comparativo Dashboards"
         tools:layout="@layout/fragment_dashboard_comparison" />
+
+    <fragment
+        android:id="@+id/registerCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.RegisterCollaboratorFragment"
+        android:label="fragment_register_collaborator"
+        tools:layout="@layout/fragment_register_collaborator" />
 
 </navigation>

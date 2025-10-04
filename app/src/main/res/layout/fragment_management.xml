@@ -70,7 +70,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButton3"
+                    android:id="@+id/imageButtonAddCollaborator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
@@ -98,7 +98,6 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
                         android:hint="Procure"
                         android:inputType="text"
                         android:maxLines="1"
