@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.databinding.FragmentChatBinding
-import com.mobile.app_iara.ui.chatbot.ChatAdapter
-import com.mobile.app_iara.ui.chatbot.ChatMessage
-import com.mobile.app_iara.ui.chatbot.Sender
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ChatFragment : Fragment() {
 
-    // Padrão recomendado para View Binding em Fragments para evitar memory leaks.
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
 
@@ -24,25 +23,23 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Infla o layout para este fragment
         _binding = FragmentChatBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Toda a lógica que manipula as views vai aqui.
         setupRecyclerView()
         loadInitialMessages()
-
         binding.btnSend.setOnClickListener {
             sendMessage()
+        }
+        binding.included.imgBack.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
     private fun setupRecyclerView() {
-        // Usamos requireContext() para obter o contexto do fragment
         chatAdapter = ChatAdapter(messageList)
         binding.rvChatMessages.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -60,20 +57,21 @@ class ChatFragment : Fragment() {
     private fun sendMessage() {
         val text = binding.etMessage.text.toString()
         if (text.isNotBlank()) {
-            val userMessage = ChatMessage(text, "10:00", Sender.USER)
+            val currentTime = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern("HH:mm")
+            val formattedTime = currentTime.format(formatter)
+            val userMessage = ChatMessage(text, formattedTime, Sender.USER)
+
             messageList.add(userMessage)
             binding.etMessage.text.clear()
 
             chatAdapter.notifyItemInserted(messageList.size - 1)
             binding.rvChatMessages.scrollToPosition(messageList.size - 1)
-
-            // Lógica para chamar a API e receber a resposta do bot...
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Limpa a referência do binding quando a view do fragment é destruída.
         _binding = null
     }
 }
