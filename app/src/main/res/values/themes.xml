@@ -1,12 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.Appiara" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/backgroundWhite</item>"
         <item name="android:textColor">@color/defaultText</item>
         <item name="android:fontFamily">@font/rfdewiregular</item>
         <item name="android:colorControlHighlight">@android:color/transparent</item>
         <item name="colorControlActivated">@color/customSelection</item>
-        <item name="android:statusBarColor">@color/defaultText</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
