@@ -14,7 +14,7 @@
         android:contentDescription="Botão para voltar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/setavoltar" />
+        app:srcCompat="@drawable/ic_arrow_back" />
 
     <LinearLayout
         android:id="@+id/header"
@@ -33,7 +33,7 @@
             android:layout_height="24dp"
             android:contentDescription="Configuração"
             android:fontFamily="@font/rfdewibold"
-            android:src="@drawable/caixa" />
+            android:src="@drawable/ic_box_grey" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -164,9 +164,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEnderecoLabel" />
-
-    <!-- Data de nascimento -->
-
-    <!-- Botão Confirmar -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

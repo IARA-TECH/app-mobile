@@ -13,11 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
+import com.mobile.app_iara.databinding.FragmentDashboardBinding
 import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.ui.profile.faq.FaqActivity
 import com.mobile.app_iara.ui.profile.termsandprivacy.TermsActivity
@@ -44,12 +46,15 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         val imageProfile = view.findViewById<ShapeableImageView>(R.id.fotoPerfil)
-        val userName = view.findViewById<TextView>(R.id.textView13) // Nome
-        val userCargo = view.findViewById<TextView>(R.id.textView16) // Cargo / Email
+        val userName = view.findViewById<TextView>(R.id.textView13)
+        val userCargo = view.findViewById<TextView>(R.id.textView16)
         val btnSair = view.findViewById<MaterialCardView>(R.id.btnSair)
         val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
         val btnFaq = view.findViewById<MaterialCardView>(R.id.btnFaq)
         val btnVoltar = view.findViewById<ImageButton>(R.id.btnVoltar2)
+        val btnConfig = view.findViewById<MaterialCardView>(R.id.btnConfig)
+        val btnFabrica = view.findViewById<MaterialCardView>(R.id.btnFabrica)
+
 
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
@@ -63,6 +68,14 @@ class ProfileFragment : Fragment() {
                     .placeholder(R.drawable.ic_user)
                     .into(imageProfile)
             }
+        }
+
+        btnConfig.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_configuracao)
+        }
+
+        btnFabrica.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_fabrica)
         }
 
         btnSair.setOnClickListener {
@@ -82,6 +95,7 @@ class ProfileFragment : Fragment() {
         btnVoltar.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+
 
         return view
     }

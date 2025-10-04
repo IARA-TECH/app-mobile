@@ -14,7 +14,7 @@
         android:contentDescription="Botão para voltar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/setavoltar" />
+        app:srcCompat="@drawable/ic_arrow_back" />
 
     <LinearLayout
         android:id="@+id/header"
@@ -31,7 +31,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/config"
+            android:src="@drawable/ic_gear"
             android:fontFamily="@font/rfdewibold"
             android:contentDescription="Configuração" />
 

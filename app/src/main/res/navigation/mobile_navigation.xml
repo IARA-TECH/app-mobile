@@ -40,12 +40,24 @@
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <action
+        android:id="@+id/action_profile_to_fabrica"
+        app:destination="@id/configuracaoFragment" />
+    <action
+        android:id="@+id/action_profile_to_configuracao"
+        app:destination="@id/fabricaFragment" />
 
     <fragment
         android:id="@+id/configuracaoFragment"
         android:name="com.mobile.app_iara.ui.profile.configuracao.ConfiguracaoFragment"
         android:label="fragment_configuracao"
         tools:layout="@layout/fragment_configuracao" />
+
+    <fragment
+        android:id="@+id/fabricaFragment"
+        android:name="com.mobile.app_iara.ui.profile.fabrica.FabricaFragment"
+        android:label="fragment_fabrica"
+        tools:layout="@layout/fragment_fabrica" />
 
     <fragment
         android:id="@+id/technicalFailuresFragment"
