@@ -10,6 +10,9 @@
         android:name="com.mobile.app_iara.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
+    <action
+        android:id="@+id/action_homeFragment_to_chatFragment"
+        app:destination="@id/chatFragment" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -42,6 +45,12 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.mobile.app_iara.ui.chatbot.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+  
+    <fragment
         android:id="@+id/technicalFailuresFragment"
         android:name="com.mobile.app_iara.ui.dashboard.technicalfailures.TechnicalFailuresFragment"
         android:label="fragment_technical_failures"
@@ -64,6 +73,5 @@
         android:name="com.mobile.app_iara.ui.dashboard.dashboardcomparison.DashboardComparisonFragment"
         android:label="Comparativo Dashboards"
         tools:layout="@layout/fragment_dashboard_comparison" />
-
 
 </navigation>
