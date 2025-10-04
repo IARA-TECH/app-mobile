@@ -10,6 +10,9 @@
         android:name="com.mobile.app_iara.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
+    <action
+        android:id="@+id/action_home_to_abacusList"
+        app:destination="@id/abacusListFragment" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -65,5 +68,10 @@
         android:label="Comparativo Dashboards"
         tools:layout="@layout/fragment_dashboard_comparison" />
 
+    <fragment
+        android:id="@+id/abacusListFragment"
+        android:name="com.mobile.app_iara.ui.abacus.AbacusListFragment"
+        android:label="Ábacos"
+        tools:layout="@layout/fragment_abacus_list" />
 
 </navigation>

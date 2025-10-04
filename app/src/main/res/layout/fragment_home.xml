@@ -163,7 +163,7 @@
 
         <!-- Card 1 -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card1"
+            android:id="@+id/cardAbacus"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_marginEnd="8dp"
@@ -213,7 +213,7 @@
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/card1"
+            app:layout_constraintStart_toEndOf="@id/cardAbacus"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -225,13 +225,13 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_box" />
+                    android:src="@drawable/ic_clock" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Frotas"
+                    android:text="Histórico"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -257,7 +257,7 @@
             app:layout_constraintEnd_toStartOf="@+id/card4"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card1">
+            app:layout_constraintTop_toBottomOf="@id/cardAbacus">
 
             <LinearLayout
                 android:layout_width="match_parent"
