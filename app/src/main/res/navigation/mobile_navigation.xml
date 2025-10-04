@@ -82,5 +82,14 @@
         android:name="com.mobile.app_iara.ui.abacus.AbacusListFragment"
         android:label="Ábacos"
         tools:layout="@layout/fragment_abacus_list" />
+    <action
+        android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
+        app:destination="@id/registerAbacusFragment" />
+
+    <fragment
+        android:id="@+id/registerAbacusFragment"
+        android:name="com.mobile.app_iara.ui.abacus.register.RegisterAbacusFragment"
+        android:label="Cadastrar Ábaco"
+        tools:layout="@layout/fragment_register_abacus" />
 
 </navigation>

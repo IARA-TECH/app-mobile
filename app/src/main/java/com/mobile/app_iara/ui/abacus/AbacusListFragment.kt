@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentAbacusListBinding // Altere para seu pacote
 
 class AbacusListFragment : Fragment() {
@@ -32,6 +33,10 @@ class AbacusListFragment : Fragment() {
 
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        binding.ivAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_abacusListFragment_to_registerAbacusFragment)
         }
     }
 
