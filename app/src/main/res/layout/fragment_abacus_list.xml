@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.abacus.AbacusListFragment">
+
+    <include
+        android:id="@+id/included"
+        layout="@layout/secondary_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvScreenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Ábacos"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/included" />
+
+    <TextView
+        android:id="@+id/tvScreenSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Visualize todos os ábacos cadastrados"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toStartOf="@+id/ivAdd"
+        app:layout_constraintStart_toStartOf="@id/tvScreenTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvScreenTitle" />
+
+    <ImageView
+        android:id="@+id/ivAdd"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="Adicionar ábaco"
+        android:src="@drawable/ic_add_circle"
+        app:layout_constraintBottom_toBottomOf="@id/tvScreenSubtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvScreenTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAbacusList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvScreenSubtitle"
+        tools:listitem="@layout/item_abacus_card" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

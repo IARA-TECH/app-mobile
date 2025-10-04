@@ -11,6 +11,9 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
     <action
+        android:id="@+id/action_home_to_abacusList"
+        app:destination="@id/abacusListFragment" />
+    <action
         android:id="@+id/action_homeFragment_to_chatFragment"
         app:destination="@id/chatFragment" />
 
@@ -49,7 +52,7 @@
         android:name="com.mobile.app_iara.ui.chatbot.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
-  
+
     <fragment
         android:id="@+id/technicalFailuresFragment"
         android:name="com.mobile.app_iara.ui.dashboard.technicalfailures.TechnicalFailuresFragment"
@@ -73,5 +76,20 @@
         android:name="com.mobile.app_iara.ui.dashboard.dashboardcomparison.DashboardComparisonFragment"
         android:label="Comparativo Dashboards"
         tools:layout="@layout/fragment_dashboard_comparison" />
+
+    <fragment
+        android:id="@+id/abacusListFragment"
+        android:name="com.mobile.app_iara.ui.abacus.AbacusListFragment"
+        android:label="Ábacos"
+        tools:layout="@layout/fragment_abacus_list" />
+    <action
+        android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
+        app:destination="@id/registerAbacusFragment" />
+
+    <fragment
+        android:id="@+id/registerAbacusFragment"
+        android:name="com.mobile.app_iara.ui.abacus.register.RegisterAbacusFragment"
+        android:label="Cadastrar Ábaco"
+        tools:layout="@layout/fragment_register_abacus" />
 
 </navigation>
