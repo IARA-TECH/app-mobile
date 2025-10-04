@@ -10,6 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.mobile.app_iara.databinding.FragmentHomeBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.home.history.HistoryActivity
+import androidx.navigation.fragment.findNavController
+import com.mobile.app_iara.R
+import com.mobile.app_iara.databinding.FragmentHomeBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.utils.NetworkUtils
 
 class HomeFragment : Fragment() {
@@ -21,13 +25,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if (!NetworkUtils.isInternetAvailable(requireContext())) {
-            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
-            startActivity(intent)
-            activity?.finish()
-            return View(requireContext())
-        }
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,16 +32,27 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        
         binding.card2.setOnClickListener {
             val intent = Intent(requireContext(), HistoryActivity::class.java)
             startActivity(intent)
         }
 
+        binding.cardChat.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }
