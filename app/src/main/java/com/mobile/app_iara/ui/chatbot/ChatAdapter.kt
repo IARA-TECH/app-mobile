@@ -35,7 +35,6 @@ class ChatAdapter(private val messages: List<ChatMessage>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        // Verifica o remetente da mensagem na posição atual
         return if (messages[position].sender == Sender.USER) {
             VIEW_TYPE_USER
         } else {
