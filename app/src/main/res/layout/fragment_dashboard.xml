@@ -6,19 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment">
 
+    <include
+        android:id="@+id/included"
+        layout="@layout/primary_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+        app:layout_constraintTop_toBottomOf="@+id/textView21">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_technical_failures"
             android:layout_width="match_parent"
             android:layout_height="126dp"
             app:cardCornerRadius="20dp"
@@ -92,6 +102,7 @@
             android:layout_height="20dp" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardFarmCondemnation"
             android:layout_width="match_parent"
             android:layout_height="126dp"
             app:cardCornerRadius="20dp"
@@ -166,6 +177,7 @@
             android:layout_height="20dp" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_shift_comparison"
             android:layout_width="match_parent"
             android:layout_height="126dp"
             app:cardCornerRadius="20dp"
@@ -232,6 +244,7 @@
             android:layout_height="20dp" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardDashboardComparison"
             android:layout_width="match_parent"
             android:layout_height="126dp"
             app:cardCornerRadius="20dp"
@@ -301,7 +314,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="88dp"
         android:fontFamily="@font/rfdewibold"
-        android:text="Olá, usuário!"
+        android:text="Dashboards"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -310,96 +323,16 @@
 
     <TextView
         android:id="@+id/textView21"
-        android:layout_width="245dp"
-        android:layout_height="wrap_content"
+        android:layout_width="369dp"
+        android:layout_height="21dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="Acompanhe todas as últimas atualizações e relatórios"
+        android:text="Acompanhe as últimas atualizações"
         android:textColor="@color/lightText"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView21">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="81dp"
-            android:layout_height="35dp"
-            android:background="@drawable/btn_days_active"
-            android:backgroundTint="@null"
-            android:fontFamily="@font/rfdewibold"
-            android:stateListAnimator="@null"
-            android:text="7 dias"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="13sp"
-            app:cornerRadius="20dp" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/button2"
-            android:backgroundTint="@null"
-            android:layout_width="81dp"
-            android:layout_height="35dp"
-            android:background="@drawable/btn_day_inactive"
-            android:fontFamily="@font/rfdewibold"
-            android:stateListAnimator="@null"
-            android:text="15 dias"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/primaryBlue"
-            android:textSize="13sp"
-            app:cornerRadius="20dp"
-            app:strokeWidth="1dp" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="81dp"
-            android:layout_height="35dp"
-            android:background="@drawable/btn_day_inactive"
-            android:fontFamily="@font/rfdewibold"
-            android:stateListAnimator="@null"
-            android:text="30 dias"
-            android:backgroundTint="@null"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/primaryBlue"
-            android:textSize="13sp"
-            app:cornerRadius="20dp"
-            app:strokeWidth="1dp" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="10" />
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#00FFFFFF"
-            android:src="@drawable/ic_calendar" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
