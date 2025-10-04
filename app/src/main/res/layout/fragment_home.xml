@@ -209,6 +209,7 @@
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
+            android:clickable="true"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -225,13 +226,13 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_box" />
+                    android:src="@drawable/ic_clock" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Frotas"
+                    android:text="Histórico"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 

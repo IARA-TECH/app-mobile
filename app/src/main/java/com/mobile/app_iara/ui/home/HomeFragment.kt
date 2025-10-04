@@ -2,17 +2,15 @@ package com.mobile.app_iara.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mobile.app_iara.databinding.FragmentHomeBinding
-import com.mobile.app_iara.utils.NetworkUtils
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.mobile.app_iara.ui.home.history.HistoryActivity // 1. IMPORTE A ACTIVITY
+import com.mobile.app_iara.utils.NetworkUtils
 
 class HomeFragment : Fragment() {
 
@@ -30,22 +28,23 @@ class HomeFragment : Fragment() {
             return View(requireContext())
         }
 
-        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+        return binding.root
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.card2.setOnClickListener {
+            val intent = Intent(requireContext(), HistoryActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }
