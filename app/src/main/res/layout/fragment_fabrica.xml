@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="Lorem ipsum dolor asas skash de el mano e este va"
+        android:text="Veja as informações de sua fábrica"
         android:textColor="#5D5D5E"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
