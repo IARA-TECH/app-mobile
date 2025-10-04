@@ -13,7 +13,7 @@
         android:title="@string/title_dashboard" />
 
     <item
-        android:id="@+id/navigation_gestao"
+        android:id="@+id/navigation_management"
         android:icon="@drawable/ic_team"
         android:title="Gestão" />
     <item
