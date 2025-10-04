@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.mobile.app_iara.databinding.FragmentHomeBinding
 import com.mobile.app_iara.utils.NetworkUtils
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheets
+import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheetsActivity
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -34,6 +36,12 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+
+        binding.card3.setOnClickListener {
+            val intent = Intent(requireContext(), SpreadSheetsActivity::class.java)
+            startActivity(intent)
+        }
 
         return root
     }
