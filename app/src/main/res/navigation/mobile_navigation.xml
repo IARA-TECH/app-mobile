@@ -10,6 +10,9 @@
         android:name="com.mobile.app_iara.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
+    <action
+        android:id="@+id/action_homeFragment_to_chatFragment"
+        app:destination="@id/chatFragment" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -22,9 +25,16 @@
         android:name="com.mobile.app_iara.ui.management.ManagementFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_gestao" />
+
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.mobile.app_iara.ui.chatbot.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>
