@@ -108,6 +108,8 @@ class RegisterAbacusFragment : Fragment() {
             .setCancelable(false)
             .create()
 
+        dialog.window?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
+
         dialogBinding.btnAddSubColumn.setOnClickListener {
             val color = dialogBinding.etSubColumnColor.text.toString().trim()
             val valueStr = dialogBinding.etSubColumnValue.text.toString().trim()
