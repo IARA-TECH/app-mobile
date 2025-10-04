@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mobile.app_iara.databinding.FragmentHomeBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.ui.home.history.HistoryActivity // 1. IMPORTE A ACTIVITY
+import com.mobile.app_iara.ui.home.history.HistoryActivity
 import com.mobile.app_iara.utils.NetworkUtils
 
 class HomeFragment : Fragment() {
