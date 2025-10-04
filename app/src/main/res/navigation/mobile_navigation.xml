@@ -16,15 +16,54 @@
         android:name="com.mobile.app_iara.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <action
+        android:id="@+id/action_dashboard_to_technicalFailures"
+        app:destination="@id/technicalFailuresFragment" />
+    <action
+        android:id="@+id/action_dashboard_to_shiftComparison"
+        app:destination="@id/shifComparisonFragment" />
+    <action
+        android:id="@+id/action_dashboard_to_farmCondemnation"
+        app:destination="@id/farmCondemnationFragment" />
+    <action
+        android:id="@+id/action_dashboard_to_dashboardComparison"
+        app:destination="@id/dashboardComparisonFragment" />
 
     <fragment
-        android:id="@+id/navigation_gestao"
+        android:id="@+id/navigation_management"
         android:name="com.mobile.app_iara.ui.management.ManagementFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_gestao" />
+        android:label="fragment_management"
+        tools:layout="@layout/fragment_management" />
+  
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/technicalFailuresFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.technicalfailures.TechnicalFailuresFragment"
+        android:label="fragment_technical_failures"
+        tools:layout="@layout/fragment_technical_failures" />
+
+    <fragment
+        android:id="@+id/shifComparisonFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.shiftcomparison.ShiftComparisonFragment"
+        android:label="fragment_shift_comparison"
+        tools:layout="@layout/fragment_shift_comparison" />
+
+    <fragment
+        android:id="@+id/farmCondemnationFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.farmcondemnation.FarmCondemnationFragment"
+        android:label="Condenas pela Granja"
+        tools:layout="@layout/fragment_farm_condemnation" />
+
+    <fragment
+        android:id="@+id/dashboardComparisonFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.dashboardcomparison.DashboardComparisonFragment"
+        android:label="Comparativo Dashboards"
+        tools:layout="@layout/fragment_dashboard_comparison" />
+
+
 </navigation>
