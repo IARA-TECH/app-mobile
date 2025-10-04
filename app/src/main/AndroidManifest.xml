@@ -18,6 +18,9 @@
         <activity
             android:name=".ui.home.spreadsheets.SpreadSheetsActivity"
             android:exported="false" />
+      <activity
+            android:name=".ui.home.history.HistoryActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.abacus.confirmation.AbacusConfirmationActivity"
             android:exported="false" />
