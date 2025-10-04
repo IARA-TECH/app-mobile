@@ -28,7 +28,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/included" />
 
-    <!-- Subtítulo -->
     <TextView
         android:id="@+id/txtSubtitulo"
         android:layout_width="wrap_content"
@@ -42,7 +41,6 @@
         app:layout_constraintTop_toBottomOf="@id/txtSaudacao"/>
 
 
-    <!-- Card grande -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardTurno"
         android:layout_width="0dp"
@@ -60,7 +58,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- Fundo da paisagem -->
             <ImageView
                 android:id="@+id/bgPaisagem"
                 android:layout_width="0dp"
@@ -72,7 +69,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/bg_morning_shift" />
 
-            <!-- Título -->
             <TextView
                 android:id="@+id/txtTurno"
                 android:layout_width="wrap_content"
@@ -86,7 +82,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Subtítulo (horário) -->
             <TextView
                 android:id="@+id/txtHorario"
                 android:layout_width="wrap_content"
@@ -99,7 +94,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtTurno" />
 
-            <!-- Círculo de progresso -->
             <ProgressBar
                 android:id="@+id/progressCircular"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -115,7 +109,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Texto dentro do círculo -->
             <TextView
                 android:id="@+id/txtTempoRestante"
                 android:layout_width="wrap_content"
@@ -132,9 +125,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-
-    <!-- Container indicadores -->
 
     <TextView
         android:id="@+id/txtSubtitulo2"
@@ -161,7 +151,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSubtitulo2">
 
-        <!-- Card 1 -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardAbacus"
             android:layout_width="0dp"
@@ -203,7 +192,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card 2 -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card2"
             android:layout_width="0dp"
@@ -245,7 +233,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card 3 -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card3"
             android:layout_width="0dp"
@@ -254,7 +241,7 @@
             android:layout_marginEnd="8dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
-            app:layout_constraintEnd_toStartOf="@+id/card4"
+            app:layout_constraintEnd_toStartOf="@+id/cardChat"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardAbacus">
@@ -288,9 +275,8 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card 4 -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card4"
+            android:id="@+id/cardChat"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
