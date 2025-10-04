@@ -8,7 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.mobile.app_iara.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.mobile.app_iara.databinding.FragmentHomeBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.home.history.HistoryActivity
+import androidx.navigation.fragment.findNavController
+import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheets
+import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheetsActivity
+
 import com.mobile.app_iara.utils.NetworkUtils
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 
@@ -33,6 +41,18 @@ class HomeFragment : Fragment() {
             startActivity(intent)
             activity?.finish()
             return
+        }
+        
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        binding.card3.setOnClickListener {
+            val intent = Intent(requireContext(), SpreadSheetsActivity::class.java)
+            startActivity(intent)
+        }
+        
+        binding.card2.setOnClickListener {
+            val intent = Intent(requireContext(), HistoryActivity::class.java)
+            startActivity(intent)
         }
 
         binding.cardAbacus.setOnClickListener {
