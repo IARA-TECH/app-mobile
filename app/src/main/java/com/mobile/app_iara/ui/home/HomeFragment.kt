@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mobile.app_iara.databinding.FragmentHomeBinding
-import com.mobile.app_iara.utils.NetworkUtils
-import com.mobile.app_iara.ui.erros.ErroWifiActivity
-import com.mobile.app_iara.ui.camera.CameraOverlay
 import androidx.fragment.app.Fragment
+import com.mobile.app_iara.databinding.FragmentHomeBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.home.history.HistoryActivity
+import androidx.navigation.fragment.findNavController
+import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.camera.CameraOverlay
+import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheetsActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
 class HomeFragment : Fragment() {
 
@@ -17,29 +21,41 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Infla o layout primeiro
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root = binding.root
+        return binding.root
+    }
 
-        // Verifica conexão de internet
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
-            val intent = Intent(requireContext(), ErroWifiActivity::class.java)
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
             activity?.finish()
-            return root
+            return
         }
 
-        // Botão de Scan
+        binding.card3.setOnClickListener {
+            val intent = Intent(requireContext(), SpreadSheetsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.card2.setOnClickListener {
+            val intent = Intent(requireContext(), HistoryActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.btnScan.setOnClickListener {
             val intent = Intent(requireContext(), CameraOverlay::class.java)
             startActivity(intent)
         }
 
-        return root
+        binding.cardChat.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
+        }
     }
 
     override fun onDestroyView() {

@@ -43,28 +43,28 @@ class PrivacyActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val lista = listOf(
-            Termo("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
-            Termo("2. LoremIpsum", "Mais texto aqui..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo..."),
-            Termo("3. LoremIpsum", "Outro parágrafo...")
+            Terms("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
+            Terms("2. LoremIpsum", "Mais texto aqui..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo..."),
+            Terms("3. LoremIpsum", "Outro parágrafo...")
 
         )
 
 
-        val adapter = PrivacidadeAdapter(lista)
+        val adapter = PrivacyAdapter(lista)
         recyclerView.adapter = adapter
     }
 }

@@ -57,7 +57,7 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/iara" />
+            app:srcCompat="@drawable/logo_iara" />
 
         <ImageButton
             android:id="@+id/btnVoltar4"
@@ -67,7 +67,7 @@
             android:contentDescription="Botão para voltar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/setavoltar" />
+            app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
             android:id="@+id/titulofaq"

@@ -10,9 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.inicio.InitiationActivity
-import com.mobile.app_iara.ui.profile.termsandprivacy.Termo
-import com.mobile.app_iara.ui.profile.termsandprivacy.TermosAdapter
+import com.mobile.app_iara.ui.start.InitiationActivity
 
 class FaqActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,22 +36,22 @@ class FaqActivity : AppCompatActivity() {
         recyclerViewDuvidas.layoutManager = LinearLayoutManager(this)
 
         val listaPopulares = listOf(
-            Popular("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
-            Popular("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
-            Popular("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit...")
+            FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
+            FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
+            FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit...")
 
             )
 
-        val adapterPopulares = PopularAdapter(listaPopulares)
+        val adapterPopulares = FaqPopularQuestionAdapter(listaPopulares)
         recyclerViewPopulares.adapter = adapterPopulares
 
         val listaDuvidas = listOf(
-            Duvida("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
-            Duvida("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
-            Duvida("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
+            FaqQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
+            FaqQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
+            FaqQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
         )
 
-        val adapterDuvidas = DuvidasAdapter(listaDuvidas)
+        val adapterDuvidas = FaqQuestionAdapter(listaDuvidas)
         recyclerViewDuvidas.adapter = adapterDuvidas
     }
 }
