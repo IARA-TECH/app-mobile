@@ -86,7 +86,9 @@ dependencies {
     implementation ("org.tensorflow:tensorflow-lite-support:0.4.4")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
-
+    //Cloudinary
+    implementation("com.cloudinary:cloudinary-android:2.3.1")
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

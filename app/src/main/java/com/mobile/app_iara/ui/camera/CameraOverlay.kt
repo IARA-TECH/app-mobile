@@ -417,7 +417,18 @@ class CameraOverlay : AppCompatActivity() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    redirectToNextScreen(savedUri)
+                    Log.d("CameraOverlay", "Foto salva: $savedUri")
+
+                    uploadToCloudinary(photoFile) { imageUrl, publicId ->
+                        if (imageUrl != null) {
+                            // Envia a URL pro backend processar
+//                            enviarImagemParaBackend(imageUrl)
+
+                            // guarda o publicId num campo global ou Intent extra
+                            var ultimoPublicId = publicId
+                        }
+                    }
+
                 }
 
                 override fun onError(exc: ImageCaptureException) {
@@ -452,6 +463,29 @@ class CameraOverlay : AppCompatActivity() {
     private fun hasFlashlight(): Boolean {
         return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
     }
+
+    private fun uploadToCloudinary(imageFile: File, onComplete: (String?, String?) -> Unit) {
+        Thread {
+            try {
+                val config = mapOf("cloud_name" to "abacus_photos")
+                val cloudinary = com.cloudinary.Cloudinary(config)
+                val uploadResult = cloudinary.uploader().upload(
+                    imageFile,
+                    mapOf("upload_preset" to "abacus_photos", "folder" to "iara_uploads")
+                )
+
+                val imageUrl = uploadResult["secure_url"] as? String
+                val publicId = uploadResult["public_id"] as? String
+
+                runOnUiThread { onComplete(imageUrl, publicId) }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                runOnUiThread { onComplete(null, null) }
+            }
+        }.start()
+    }
+
 
     override fun onDestroy() {
         isDestroyed.set(true)
