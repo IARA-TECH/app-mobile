@@ -13,7 +13,6 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHistoryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         binding = ActivityHistoryBinding.inflate(layoutInflater)
@@ -24,6 +23,8 @@ class HistoryActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        setupBackButton()
 
         val historyData = createDummyData()
         setupRecyclerView(historyData)
@@ -75,5 +76,11 @@ class HistoryActivity : AppCompatActivity() {
                 timestamp = "29/10/2025 - 10:27"
             )
         )
+    }
+
+    private fun setupBackButton() {
+        binding.included.imgBack.setOnClickListener {
+            finish()
+        }
     }
 }
