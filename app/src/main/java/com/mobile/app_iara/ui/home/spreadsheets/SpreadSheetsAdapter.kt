@@ -30,15 +30,13 @@ class SpreadSheetsAdapter(private val spreadSheets: List<SpreadSheets>) :
         holder.title.text = currentSheet.title
         holder.date.text = currentSheet.date
 
-        holder.link.setOnClickListener {
+        holder.itemView.setOnClickListener {
             val context = holder.itemView.context
 
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(currentSheet.urlSpreadSheet)
-
+            val intent = Intent(context, SpreadSheetsWebActivity::class.java)
+            intent.putExtra(SpreadSheetsWebActivity.EXTRA_URL, currentSheet.urlSpreadSheet)
             context.startActivity(intent)
         }
     }
-
     override fun getItemCount() = spreadSheets.size
 }

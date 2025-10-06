@@ -14,7 +14,6 @@ class SpreadSheetsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySpreadSheetsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         binding = ActivitySpreadSheetsBinding.inflate(layoutInflater)
@@ -25,6 +24,8 @@ class SpreadSheetsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        setupBackButton()
 
         val spreadSheetsData = createSpreadSheetsDummyData()
         setupRecyclerView(spreadSheetsData)
@@ -43,12 +44,12 @@ class SpreadSheetsActivity : AppCompatActivity() {
             SpreadSheets(
                 title = "Ábaco post-mortem - Lote A1",
                 date = "02/10/2025",
-                urlSpreadSheet = "url example"
+                urlSpreadSheet = "https://docs.google.com/spreadsheets/d/1FEHHzfSMBH4TO-2r3LHzxdKigFU-KqMmSxAPXLwpZvk/edit?gid=126838007#gid=126838007"
             ),
             SpreadSheets(
                 title = "Relatório de Perda - Silo 3",
                 date = "29/09/2025",
-                urlSpreadSheet = "url example"
+                urlSpreadSheet = "https://docs.google.com/spreadsheets/d/1Fhduw2am7gmtoBr3-cTR4e4XEodSPdZYEQo9iHXfpYs/edit?gid=0#gid=0"
             ),
             SpreadSheets(
                 title = "Análise de Mortalidade - Aviário 5",
@@ -66,5 +67,11 @@ class SpreadSheetsActivity : AppCompatActivity() {
                 urlSpreadSheet = "url example"
             )
         )
+    }
+
+    private fun setupBackButton() {
+        binding.included.imgBack.setOnClickListener {
+            finish()
+        }
     }
 }

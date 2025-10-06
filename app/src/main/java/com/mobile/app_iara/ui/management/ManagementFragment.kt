@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentManagementBinding
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorAdapter
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorModal
@@ -14,7 +16,6 @@ class ManagementFragment : Fragment() {
 
     private var _binding: FragmentManagementBinding? = null
     private val binding get() = _binding!!
-
 
     private lateinit var collaboratorAdapter: CollaboratorAdapter
 
@@ -45,6 +46,10 @@ class ManagementFragment : Fragment() {
         binding.recyclerViewEmployees.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = collaboratorAdapter
+        }
+
+        binding.imageButtonAddCollaborator.setOnClickListener {
+            findNavController().navigate(R.id.action_managementFragment_to_registerCollaboratorFragment)
         }
 
         collaboratorAdapter.submitList(listaDeExemplo)

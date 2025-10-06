@@ -5,8 +5,8 @@
         <item name="android:fontFamily">@font/rfdewiregular</item>
         <item name="android:colorControlHighlight">@android:color/transparent</item>
         <item name="colorControlActivated">@color/customSelection</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>
 
     <style name="circular" parent="">
