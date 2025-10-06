@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.mobile.app_iara.databinding.FragmentHomeBinding
+import com.mobile.app_iara.ui.home.history.HistoryActivity
 import androidx.navigation.fragment.findNavController
 import com.mobile.app_iara.R
-import com.mobile.app_iara.databinding.FragmentHomeBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.ui.home.history.HistoryActivity
 import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheetsActivity
-
 import com.mobile.app_iara.utils.NetworkUtils
 
 class HomeFragment : Fragment() {

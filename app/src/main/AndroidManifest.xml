@@ -19,6 +19,9 @@
             android:name=".ui.home.spreadsheets.SpreadSheetsWebActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.management.EditCollaboratorActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.spreadsheets.SpreadSheetsActivity"
             android:exported="false" />
         <activity
