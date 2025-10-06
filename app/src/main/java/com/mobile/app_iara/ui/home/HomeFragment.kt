@@ -2,6 +2,7 @@ package com.mobile.app_iara.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,9 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.cardAbacus.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_abacusList)
+        }
         binding.cardChat.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
         }
