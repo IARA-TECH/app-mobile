@@ -1,6 +1,7 @@
 package com.mobile.app_iara
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNav: BottomNavigationView = binding.navView
 
-        val tipoUser = "comum"
+        val tipoUser = "j"
 
         if (tipoUser == "comum") {
             bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
