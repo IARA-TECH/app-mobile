@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.mobile.app_iara.databinding.FragmentHomeBinding
 import com.mobile.app_iara.ui.home.history.HistoryActivity
 import androidx.navigation.fragment.findNavController
