@@ -1,13 +1,26 @@
 package com.mobile.app_iara
 
+import NotificationWorker
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.app_iara.databinding.ActivityMainBinding
+import java.util.concurrent.TimeUnit
+import android.Manifest
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,5 +52,64 @@ class MainActivity : AppCompatActivity() {
         }
 
         bottomNav.setupWithNavController(navController)
+        createNotificationChannel(this)
+        askNotificationPermission()
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                scheduleDailyNotification()
+            } else {
+
+            }
+        }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when {
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    scheduleDailyNotification()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+                else -> {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+        } else {
+            scheduleDailyNotification()
+        }
+    }
+
+    private fun scheduleDailyNotification() {
+        val notificationWorkRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
+            .setInitialDelay(15, TimeUnit.SECONDS) // tempo pra eu testar se realmente vem a notificacao
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniqueWork(
+            "dailyNotificationWork",
+            ExistingWorkPolicy.REPLACE,
+            notificationWorkRequest
+        )
+    }
+
+    fun createNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Lembretes Diários"
+            val descriptionText = "Canal para enviar lembretes diários do app."
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("DAILY_REMINDER_CHANNEL_ID", name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }
