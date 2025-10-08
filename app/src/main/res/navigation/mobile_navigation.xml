@@ -9,7 +9,12 @@
         android:id="@+id/navigation_home"
         android:name="com.mobile.app_iara.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_notificationsFragment_to_dashboardFragment"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -22,6 +27,7 @@
         android:name="com.mobile.app_iara.ui.gestao.GestaoFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_gestao" />
+
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"

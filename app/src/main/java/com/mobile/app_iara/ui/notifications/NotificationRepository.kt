@@ -1,19 +1,16 @@
 package com.mobile.app_iara.ui.notifications
 
-class NotificationRepository(private val dao: NotificationDAO) {
+import androidx.lifecycle.LiveData
 
-    suspend fun getAllNotifications(): List<NotificationModal> {
-        return dao.getAllNotifications().map {
-            NotificationModal(
-                title = it.title,
-                description = it.description,
-                time = it.time,
-                link = it.link
-            )
-        }
+class NotificationRepository(private val notificationDAO: NotificationDAO) {
+
+    val allNotifications: LiveData<List<NotificationEntity>> = notificationDAO.getAllNotifications()
+
+    suspend fun saveNotification(notification: NotificationEntity) {
+        notificationDAO.insert(notification)
     }
 
-    suspend fun saveNotification(entity: NotificationEntity) {
-        dao.insertNotification(entity)
+    suspend fun clearAll() {
+        notificationDAO.clearAll()
     }
 }

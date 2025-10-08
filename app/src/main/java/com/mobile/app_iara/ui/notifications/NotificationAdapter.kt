@@ -8,28 +8,36 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
 
 class NotificationAdapter(
-    private var notifications: List<NotificationEntity>
+    private var notifications: List<NotificationEntity>,
+    private val onLinkClicked: (NotificationEntity) -> Unit
 ) : RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, val onLinkClicked: (NotificationEntity) -> Unit) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.titleNotification)
         val description: TextView = view.findViewById(R.id.descriptionNotification)
         val time: TextView = view.findViewById(R.id.timeTxt)
-        val link: TextView = view.findViewById(R.id.actionTxt)
+        val linkTextView: TextView = view.findViewById(R.id.actionTxt)
+
+        fun bind(notification: NotificationEntity) {
+            title.text = notification.title
+            description.text = notification.description
+            time.text = notification.time
+            linkTextView.text = notification.link
+
+            linkTextView.setOnClickListener {
+                onLinkClicked(notification)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_notification, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, onLinkClicked)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val n = notifications[position]
-        holder.title.text = n.title
-        holder.description.text = n.description
-        holder.time.text = n.time
-        holder.link.text = n.link
+        holder.bind(notifications[position])
     }
 
     override fun getItemCount() = notifications.size

@@ -14,13 +14,18 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.app_iara.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 import android.Manifest
+import androidx.work.Data
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_DESC
+import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_LINK
+import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_TITLE
+import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                scheduleDailyNotification()
+                scheduleAnalysisReminder()
             } else {
 
             }
@@ -72,30 +77,111 @@ class MainActivity : AppCompatActivity() {
                     this,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    scheduleDailyNotification()
+                    scheduleAnalysisReminder()
+                    scheduleGoodMorning()
+                    scheduleAfternoon()
                 }
-                shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
 
+                shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
+
                 else -> {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
         } else {
-            scheduleDailyNotification()
+            scheduleAnalysisReminder()
+            scheduleGoodMorning()
+            scheduleAfternoon()
         }
     }
 
-    private fun scheduleDailyNotification() {
-        val notificationWorkRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
-            .setInitialDelay(15, TimeUnit.SECONDS) // tempo pra eu testar se realmente vem a notificacao
+    private fun scheduleAnalysisReminder() {
+        val inputData = Data.Builder()
+            .putString(KEY_NOTIFICATION_TITLE, "Análises do dia prontas!")
+            .putString(KEY_NOTIFICATION_DESC, "Não se esqueça de verificar os dados de hoje")
+            .putString(KEY_NOTIFICATION_LINK, "ANALISES")
             .build()
 
-        WorkManager.getInstance(this).enqueueUniqueWork(
-            "dailyNotificationWork",
-            ExistingWorkPolicy.REPLACE,
-            notificationWorkRequest
+        val currentTime = Calendar.getInstance()
+        val scheduledTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 18)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            if (before(currentTime)) {
+                add(Calendar.DAY_OF_MONTH, 1)
+            }
+        }
+        val initialDelay = scheduledTime.timeInMillis - currentTime.timeInMillis
+
+        val dailyWorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .setInputData(inputData)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "dailyAnalysisReminderWork",
+            ExistingPeriodicWorkPolicy.KEEP,
+            dailyWorkRequest
+        )
+    }
+
+    private fun scheduleGoodMorning() {
+        val inputData = Data.Builder()
+            .putString(KEY_NOTIFICATION_TITLE, "Bom dia!")
+            .putString(KEY_NOTIFICATION_DESC, "Pronto para fazer a contagem de hoje valer a pena?")
+            .build()
+
+        val currentTime = Calendar.getInstance()
+        val scheduledTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 8)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            if (before(currentTime)) {
+                add(Calendar.DAY_OF_MONTH, 1)
+            }
+        }
+        val initialDelay = scheduledTime.timeInMillis - currentTime.timeInMillis
+
+        val dailyWorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .setInputData(inputData)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "goodMorningWork",
+            ExistingPeriodicWorkPolicy.KEEP,
+            dailyWorkRequest
+        )
+    }
+
+    private fun scheduleAfternoon() {
+        val inputData = Data.Builder()
+            .putString(KEY_NOTIFICATION_TITLE, "Uma pausa para os dados!")
+            .putString(KEY_NOTIFICATION_DESC, "Recarregue as energias! A produção não para.")
+            .build()
+
+        val currentTime = Calendar.getInstance()
+        val scheduledTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 12)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            if (before(currentTime)) {
+                add(Calendar.DAY_OF_MONTH, 1)
+            }
+        }
+        val initialDelay = scheduledTime.timeInMillis - currentTime.timeInMillis
+
+        val dailyWorkRequest = PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .setInputData(inputData)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "afternoonWork",
+            ExistingPeriodicWorkPolicy.KEEP,
+            dailyWorkRequest
         )
     }
 

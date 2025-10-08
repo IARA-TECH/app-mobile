@@ -3,27 +3,30 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.mobile.app_iara.AppDatabase
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.notifications.NotificationEntity
-import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.work.CoroutineWorker
+
+const val KEY_NOTIFICATION_TITLE = "notification_title"
+const val KEY_NOTIFICATION_DESC = "notification_description"
+const val KEY_NOTIFICATION_LINK = "notification_link"
 
 class NotificationWorker(private val appContext: Context, workerParams: WorkerParameters) :
-    Worker(appContext, workerParams) {
+    CoroutineWorker(appContext, workerParams) {
 
-    override fun doWork(): Result {
-        val title = "Já registrou a contagem hoje?"
-        val description = "Não se esqueça de registrar os dados do dia."
+    override suspend fun doWork(): Result {
+        val title = inputData.getString(KEY_NOTIFICATION_TITLE) ?: return Result.failure()
+        val description = inputData.getString(KEY_NOTIFICATION_DESC) ?: return Result.failure()
+        val link = inputData.getString(KEY_NOTIFICATION_LINK)
 
         showSystemNotification(title, description)
-
-        saveNotificationToDatabase(title, description)
+        saveNotificationToDatabase(title, description, link)
 
         return Result.success()
     }
@@ -54,20 +57,17 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
         }
     }
 
-    private fun saveNotificationToDatabase(title: String, description: String) {
-        runBlocking {
-            val dao = AppDatabase.getDatabase(appContext).notificationDAO()
+    private suspend fun saveNotificationToDatabase(title: String, description: String, link: String?) {
+        val dao = AppDatabase.getDatabase(appContext).notificationDAO()
+        val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val currentTimeString = timeFormatter.format(Date())
 
-            val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val currentTimeString = timeFormatter.format(Date())
-
-            val notificationItem = NotificationEntity(
-                title = title,
-                description = description,
-                time = currentTimeString,
-                link = "so pra nao ficar dando erro"
-            )
-            dao.insert(notificationItem)
-        }
+        val notificationItem = NotificationEntity(
+            title = title,
+            description = description,
+            time = currentTimeString,
+            link = link
+        )
+        dao.insert(notificationItem)
     }
 }

@@ -10,9 +10,9 @@ interface NotificationDAO {
     @Insert
     suspend fun insert(notification: NotificationEntity)
 
-    @Query("SELECT * FROM notification_history ORDER BY id DESC")
+    @Query("SELECT * FROM notifications ORDER BY id DESC")
     fun getAllNotifications(): LiveData<List<NotificationEntity>>
 
-    @Query("DELETE FROM notification_history")
+    @Query("DELETE FROM notifications")
     suspend fun clearAll()
 }
