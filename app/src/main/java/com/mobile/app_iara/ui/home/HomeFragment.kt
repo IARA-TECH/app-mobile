@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import com.mobile.app_iara.databinding.FragmentHomeBinding
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.ui.home.history.HistoryActivity
+import androidx.navigation.fragment.findNavController
+import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheetsActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
 class HomeFragment : Fragment() {
 
@@ -23,29 +23,40 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
             activity?.finish()
-            return View(requireContext())
+            return
         }
 
-        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        binding.card3.setOnClickListener {
+            val intent = Intent(requireContext(), SpreadSheetsActivity::class.java)
+            startActivity(intent)
+        }
+        
+        binding.card2.setOnClickListener {
+            val intent = Intent(requireContext(), HistoryActivity::class.java)
+            startActivity(intent)
+        }
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+        binding.cardAbacus.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_abacusList)
+        }
+        binding.cardChat.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
+        }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

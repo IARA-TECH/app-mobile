@@ -10,6 +10,12 @@
         android:name="com.mobile.app_iara.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
+    <action
+        android:id="@+id/action_home_to_abacusList"
+        app:destination="@id/abacusListFragment" />
+    <action
+        android:id="@+id/action_homeFragment_to_chatFragment"
+        app:destination="@id/chatFragment" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -30,10 +36,16 @@
         app:destination="@id/dashboardComparisonFragment" />
 
     <fragment
-        android:id="@+id/navigation_gestao"
+        android:id="@+id/navigation_management"
         android:name="com.mobile.app_iara.ui.management.ManagementFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_gestao" />
+        android:label="fragment_management"
+        tools:layout="@layout/fragment_management">
+
+        <action
+            android:id="@+id/action_managementFragment_to_registerCollaboratorFragment"
+            app:destination="@id/registerCollaboratorFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_perfil"
@@ -60,6 +72,12 @@
         tools:layout="@layout/fragment_fabrica" />
 
     <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.mobile.app_iara.ui.chatbot.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
         android:id="@+id/technicalFailuresFragment"
         android:name="com.mobile.app_iara.ui.dashboard.technicalfailures.TechnicalFailuresFragment"
         android:label="fragment_technical_failures"
@@ -82,5 +100,26 @@
         android:name="com.mobile.app_iara.ui.dashboard.dashboardcomparison.DashboardComparisonFragment"
         android:label="Comparativo Dashboards"
         tools:layout="@layout/fragment_dashboard_comparison" />
+
+    <fragment
+        android:id="@+id/registerCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.RegisterCollaboratorFragment"
+        android:label="fragment_register_collaborator"
+        tools:layout="@layout/fragment_register_collaborator" />
+
+    <fragment
+        android:id="@+id/abacusListFragment"
+        android:name="com.mobile.app_iara.ui.abacus.AbacusListFragment"
+        android:label="Ábacos"
+        tools:layout="@layout/fragment_abacus_list" />
+    <action
+        android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
+        app:destination="@id/registerAbacusFragment" />
+
+    <fragment
+        android:id="@+id/registerAbacusFragment"
+        android:name="com.mobile.app_iara.ui.abacus.register.RegisterAbacusFragment"
+        android:label="Cadastrar Ábaco"
+        tools:layout="@layout/fragment_register_abacus" />
 
 </navigation>
