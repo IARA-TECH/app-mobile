@@ -51,9 +51,6 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             "ANALISES" -> {
                 findNavController().navigate(R.id.action_notificationsFragment_to_dashboardFragment)
             }
-            "PERFIL" -> {
-                findNavController().navigate(R.id.action_notificationsFragment_to_perfilFragment)
-            }
         }
     }
 
