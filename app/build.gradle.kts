@@ -88,7 +88,10 @@ dependencies {
 
     //Cloudinary
     implementation("com.cloudinary:cloudinary-android:2.3.1")
-    
+
+    // Animações
+    implementation("com.airbnb.android:lottie:6.3.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

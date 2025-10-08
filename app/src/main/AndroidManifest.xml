@@ -7,12 +7,14 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
-
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
-
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -26,6 +28,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Appiara"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.camera.ErrorProcessingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.camera.ProcessingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.camera.SucessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.camera.LoadingActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.camera.CameraOverlay"
             android:exported="false" />

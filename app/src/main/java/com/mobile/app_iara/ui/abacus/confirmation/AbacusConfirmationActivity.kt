@@ -1,7 +1,10 @@
 package com.mobile.app_iara.ui.abacus.confirmation
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,12 +12,22 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.camera.ErrorProcessingActivity
+import com.mobile.app_iara.ui.camera.ProcessingActivity
 
 class AbacusConfirmationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_abacus_confirmation)
+
+        val erro = true;
+
+        val imageUriString = intent.getStringExtra("image_uri")
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
+            Log.d("Confirmation", "URI recebida: $imageUri")
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -35,12 +48,26 @@ class AbacusConfirmationActivity : AppCompatActivity() {
         val adapter = AbacusConfirmationAdapter(lista)
         recyclerView.adapter = adapter
 
-//        btnCancelar.setOnClickListener {
-//            if (ultimoPublicId != null) {
-//                deletarDoCloudinary(ultimoPublicId!!)
-//            }
-//            finish()
-//        }
+        val btnConfirmar = findViewById<Button>(R.id.btnConfirmar)
+        val btnCancelar = findViewById<Button>(R.id.btnCancelar)
+
+        btnCancelar.setOnClickListener {
+            finish()
+        }
+
+        btnConfirmar.setOnClickListener {
+            // TODO: Lembrar de implementar lógica de verdade de erro
+            if(erro){
+                val intent = Intent(this, ErrorProcessingActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(this, ProcessingActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
 
     }
 

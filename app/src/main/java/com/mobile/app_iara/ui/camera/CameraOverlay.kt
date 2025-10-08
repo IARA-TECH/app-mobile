@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Intent
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.abacus.confirmation.AbacusConfirmationActivity
 import org.tensorflow.lite.Interpreter
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -418,17 +419,14 @@ class CameraOverlay : AppCompatActivity() {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     Log.d("CameraOverlay", "Foto salva: $savedUri")
+                    val intent = Intent(this@CameraOverlay, AbacusConfirmationActivity::class.java)
+                    intent.putExtra("image_uri", savedUri.toString())
+                    startActivity(intent)
 
+                    // TODO: Implemntar lógica do cloudinary
                     uploadToCloudinary(photoFile) { imageUrl, publicId ->
-                        if (imageUrl != null) {
-                            // Envia a URL pro backend processar
-//                            enviarImagemParaBackend(imageUrl)
-
-                            // guarda o publicId num campo global ou Intent extra
-                            var ultimoPublicId = publicId
-                        }
+                        // ...
                     }
-
                 }
 
                 override fun onError(exc: ImageCaptureException) {
