@@ -18,6 +18,15 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationsFragment"
             app:destination="@id/navigation_notification" />
+      
+        <action
+            android:id="@+id/action_homeFragment_to_abacusList"
+            app:destination="@id/abacusListFragment" />
+      
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+      
     </fragment>
 
     <fragment
@@ -25,6 +34,18 @@
         android:name="com.mobile.app_iara.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <action
+        android:id="@+id/action_dashboard_to_technicalFailures"
+        app:destination="@id/technicalFailuresFragment" />
+    <action
+        android:id="@+id/action_dashboard_to_shiftComparison"
+        app:destination="@id/shifComparisonFragment" />
+    <action
+        android:id="@+id/action_dashboard_to_farmCondemnation"
+        app:destination="@id/farmCondemnationFragment" />
+    <action
+        android:id="@+id/action_dashboard_to_dashboardComparison"
+        app:destination="@id/dashboardComparisonFragment" />
 
     <fragment
         android:id="@+id/navigation_notification"
@@ -33,14 +54,72 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/navigation_gestao"
-        android:name="com.mobile.app_iara.ui.gestao.GestaoFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_gestao" />
+        android:id="@+id/navigation_management"
+        android:name="com.mobile.app_iara.ui.management.ManagementFragment"
+        android:label="fragment_management"
+        tools:layout="@layout/fragment_management">
 
+        <action
+            android:id="@+id/action_managementFragment_to_registerCollaboratorFragment"
+            app:destination="@id/registerCollaboratorFragment" />
+
+    </fragment>
+  
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.mobile.app_iara.ui.chatbot.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/technicalFailuresFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.technicalfailures.TechnicalFailuresFragment"
+        android:label="fragment_technical_failures"
+        tools:layout="@layout/fragment_technical_failures" />
+
+    <fragment
+        android:id="@+id/shifComparisonFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.shiftcomparison.ShiftComparisonFragment"
+        android:label="fragment_shift_comparison"
+        tools:layout="@layout/fragment_shift_comparison" />
+
+    <fragment
+        android:id="@+id/farmCondemnationFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.farmcondemnation.FarmCondemnationFragment"
+        android:label="Condenas pela Granja"
+        tools:layout="@layout/fragment_farm_condemnation" />
+
+    <fragment
+        android:id="@+id/dashboardComparisonFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.dashboardcomparison.DashboardComparisonFragment"
+        android:label="Comparativo Dashboards"
+        tools:layout="@layout/fragment_dashboard_comparison" />
+
+    <fragment
+        android:id="@+id/registerCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.RegisterCollaboratorFragment"
+        android:label="fragment_register_collaborator"
+        tools:layout="@layout/fragment_register_collaborator" />
+
+    <fragment
+        android:id="@+id/abacusListFragment"
+        android:name="com.mobile.app_iara.ui.abacus.AbacusListFragment"
+        android:label="Ábacos"
+        tools:layout="@layout/fragment_abacus_list" />
+    <action
+        android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
+        app:destination="@id/registerAbacusFragment" />
+
+    <fragment
+        android:id="@+id/registerAbacusFragment"
+        android:name="com.mobile.app_iara.ui.abacus.register.RegisterAbacusFragment"
+        android:label="Cadastrar Ábaco"
+        tools:layout="@layout/fragment_register_abacus" />
+
 </navigation>

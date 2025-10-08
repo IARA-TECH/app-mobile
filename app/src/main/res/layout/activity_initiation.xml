@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.inicio.InitiationActivity">
+    tools:context=".ui.start.InitiationActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -97,5 +97,5 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/iara" />
+        app:srcCompat="@drawable/logo_iara" />
 </androidx.constraintlayout.widget.ConstraintLayout>

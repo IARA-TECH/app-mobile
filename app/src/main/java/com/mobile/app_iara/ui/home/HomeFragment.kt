@@ -2,14 +2,17 @@ package com.mobile.app_iara.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.mobile.app_iara.databinding.FragmentHomeBinding
+import com.mobile.app_iara.ui.home.history.HistoryActivity
+import androidx.navigation.fragment.findNavController
+import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheetsActivity
 import com.mobile.app_iara.utils.NetworkUtils
-import com.mobile.app_iara.ui.erros.ErroWifiActivity
 
 class HomeFragment : Fragment() {
 
@@ -17,28 +20,39 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
-            val intent = Intent(requireContext(), ErroWifiActivity::class.java)
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
             activity?.finish()
-            return View(requireContext())
+            return
         }
 
-        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.card3.setOnClickListener {
+            val intent = Intent(requireContext(), SpreadSheetsActivity::class.java)
+            startActivity(intent)
+        }
+        
+        binding.card2.setOnClickListener {
+            val intent = Intent(requireContext(), HistoryActivity::class.java)
+            startActivity(intent)
         }
 
-        return root
+        binding.cardAbacus.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_abacusList)
+        }
+        binding.cardChat.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
+        }
     }
 
     override fun onDestroyView() {

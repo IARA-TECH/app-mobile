@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -41,15 +43,15 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_gestao, R.id.navigation_perfil)
+            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_management, R.id.navigation_perfil)
         )
 
         val bottomNav: BottomNavigationView = binding.navView
 
-        val tipoUser = "comum"
+        val tipoUser = "j"
 
         if (tipoUser == "comum") {
-            bottomNav.menu.findItem(R.id.navigation_gestao)?.isVisible = false
+            bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
         } else {
             for (i in 0 until bottomNav.menu.size()) {
                 bottomNav.menu.getItem(i).isVisible = true

@@ -16,7 +16,7 @@
         android:contentDescription="Botão para voltar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/setavoltar" />
+        app:srcCompat="@drawable/ic_arrow_back" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -27,7 +27,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/iara" />
+        app:srcCompat="@drawable/logo_iara" />
 
     <TextView
         android:id="@+id/textView17"
@@ -71,33 +71,33 @@
             android:id="@+id/btnTermos"
             android:layout_width="185dp"
             android:layout_height="55dp"
-            android:background="@color/transparente"
-            android:backgroundTint="@color/transparente"
+            android:background="@color/transparent"
+            android:backgroundTint="@color/transparent"
             android:fontFamily="@font/rfdewibold"
             android:text="Termos e condições"
             android:textAllCaps="false"
-            android:textColor="@color/azul_primario"
+            android:textColor="@color/primaryBlue"
             android:textSize="12sp"
             app:cornerRadius="20dp"
-            app:icon="@drawable/termosecondicoesazul"
+            app:icon="@drawable/ic_document"
             app:iconGravity="start"
             app:iconPadding="-2dp"
             app:iconSize="20dp"
-            app:iconTint="@color/azul_primario" />
+            app:iconTint="@color/primaryBlue" />
 
         <Button
             android:id="@+id/btnPrivacidade"
             android:layout_width="185dp"
             android:layout_height="55dp"
-            android:backgroundTint="@color/azul_primario"
+            android:backgroundTint="@color/primaryBlue"
             android:fontFamily="@font/rfdewibold"
             android:text="Política de privacidade"
             android:textAllCaps="false"
-            android:textColor="@color/branco_background"
+            android:textColor="@color/backgroundWhite"
             android:textSize="12sp"
             app:cornerRadius="20dp"
-            app:icon="@drawable/politicaeprivacidadeazul"
-            app:iconTint="@color/branco_background" />
+            app:icon="@drawable/ic_check"
+            app:iconTint="@color/backgroundWhite" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
