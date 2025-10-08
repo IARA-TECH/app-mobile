@@ -49,7 +49,7 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
     private fun handleNavigation(targetLink: String) {
         when (targetLink) {
             "ANALISES" -> {
-                findNavController().navigate(R.id.action_notificationsFragment_to_dashboardFragment)
+                findNavController().navigate(R.id.action_homeFragment_to_dashboardFragment)
             }
         }
     }

@@ -12,8 +12,12 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_notificationsFragment_to_dashboardFragment"
+            android:id="@+id/action_homeFragment_to_dashboardFragment"
             app:destination="@id/navigation_dashboard" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
     </fragment>
 
     <fragment
@@ -21,6 +25,12 @@
         android:name="com.mobile.app_iara.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notification"
+        android:name="com.mobile.app_iara.ui.notifications.NotificationsFragment"
+        android:label="Notificacao"
+        tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_gestao"

@@ -22,10 +22,15 @@ class NotificationAdapter(
             title.text = notification.title
             description.text = notification.description
             time.text = notification.time
-            linkTextView.text = notification.link
+            if (notification.link != null) {
+                linkTextView.visibility = View.VISIBLE
+                linkTextView.text = "Ver mais"
 
-            linkTextView.setOnClickListener {
-                onLinkClicked(notification)
+                linkTextView.setOnClickListener {
+                    onLinkClicked(notification)
+                }
+            } else {
+                linkTextView.visibility = View.GONE
             }
         }
     }
