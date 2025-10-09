@@ -1,4 +1,3 @@
-// arquivo: com/mobile/app_iara/util/Extensions.kt
 package com.mobile.app_iara.util
 
 fun String.formatCnpj(): String {

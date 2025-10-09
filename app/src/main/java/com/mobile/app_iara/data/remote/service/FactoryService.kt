@@ -9,4 +9,5 @@ interface FactoryService {
 
     @GET("factories/{id}")
     suspend fun getFactoryDetails(@Path("id") factoryId: Int): Response<FactoryResponse>
+
 }
