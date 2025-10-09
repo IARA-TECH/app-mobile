@@ -78,7 +78,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/rfdewibold"
-        android:text="Seara"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +104,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/rfdewibold"
-        android:text="02.914.460/0001-60"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +130,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/rfdewibold"
-        android:text="Abate de aves"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -140,12 +137,12 @@
 
     <!-- Gênero -->
     <TextView
-        android:id="@+id/tvEnderecoLabel"
+        android:id="@+id/tvDescricaoLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:text="Endereco"
+        android:text="Descrição"
         android:textColor="#5D5D5E"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -153,16 +150,15 @@
         app:layout_constraintTop_toBottomOf="@id/tvDominio" />
 
     <TextView
-        android:id="@+id/tvEndereco"
+        android:id="@+id/tvDescricao"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/rfdewibold"
-        android:text="Avenida Paludo, 155, Parte B, Seara – SC, CEP 89770-000."
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEnderecoLabel" />
+        app:layout_constraintTop_toBottomOf="@id/tvDescricaoLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

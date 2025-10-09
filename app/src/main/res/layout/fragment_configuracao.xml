@@ -75,16 +75,14 @@
         android:id="@+id/tvEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="f*****************5@gmail.com"
-        android:textSize="16sp"
-        android:fontFamily="@font/rfdewibold"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/rfdewibold"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel" />
 
-    <!-- Senha -->
     <TextView
         android:id="@+id/tvPasswordLabel"
         android:layout_width="0dp"
@@ -111,7 +109,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="16dp"/>
 
-    <!-- Nome -->
     <TextView
         android:id="@+id/tvNameLabel"
         android:layout_width="0dp"
@@ -126,21 +123,19 @@
         app:layout_constraintTop_toBottomOf="@id/tvPassword" />
 
     <TextView
-        android:id="@+id/tvDominio"
+        android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Fernando Silva de Carlo"
-        android:textSize="16sp"
-        android:fontFamily="@font/rfdewibold"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/tvNameLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/rfdewibold"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNameLabel" />
 
-    <!-- Gênero -->
     <TextView
-        android:id="@+id/tvEnderecoLabel"
+        android:id="@+id/tvGenderLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -150,22 +145,20 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDominio" />
+        app:layout_constraintTop_toBottomOf="@id/tvName" />
 
     <TextView
-        android:id="@+id/tvEndereco"
+        android:id="@+id/tvGender"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Masculino"
-        android:textSize="16sp"
-        android:fontFamily="@font/rfdewibold"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/tvEnderecoLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/rfdewibold"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGenderLabel" />
 
-    <!-- Data de nascimento -->
     <TextView
         android:id="@+id/tvBirthLabel"
         android:layout_width="0dp"
@@ -177,22 +170,20 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEndereco" />
+        app:layout_constraintTop_toBottomOf="@id/tvGender" />
 
     <TextView
         android:id="@+id/tvBirth"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="13/04/1989"
-        android:textSize="16sp"
-        android:fontFamily="@font/rfdewibold"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/tvBirthLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/rfdewibold"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvBirthLabel" />
 
-    <!-- Botão Confirmar -->
     <Button
         android:id="@+id/btnConfirm"
         android:layout_width="0dp"

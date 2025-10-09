@@ -51,7 +51,6 @@ class ProfileFragment : Fragment() {
         val btnSair = view.findViewById<MaterialCardView>(R.id.btnSair)
         val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
         val btnFaq = view.findViewById<MaterialCardView>(R.id.btnFaq)
-        val btnVoltar = view.findViewById<ImageButton>(R.id.btnVoltar2)
         val btnConfig = view.findViewById<MaterialCardView>(R.id.btnConfig)
         val btnFabrica = view.findViewById<MaterialCardView>(R.id.btnFabrica)
 
@@ -91,11 +90,6 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), TermsActivity::class.java)
             startActivity(intent)
         }
-
-        btnVoltar.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-
 
         return view
     }

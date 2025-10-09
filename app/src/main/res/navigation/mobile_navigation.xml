@@ -53,10 +53,10 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <action
-        android:id="@+id/action_profile_to_fabrica"
+        android:id="@+id/action_profile_to_configuracao"
         app:destination="@id/configuracaoFragment" />
     <action
-        android:id="@+id/action_profile_to_configuracao"
+        android:id="@+id/action_profile_to_fabrica"
         app:destination="@id/fabricaFragment" />
 
     <fragment
