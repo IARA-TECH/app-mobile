@@ -9,13 +9,25 @@
         android:id="@+id/navigation_home"
         android:name="com.mobile.app_iara.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-    <action
-        android:id="@+id/action_home_to_abacusList"
-        app:destination="@id/abacusListFragment" />
-    <action
-        android:id="@+id/action_homeFragment_to_chatFragment"
-        app:destination="@id/chatFragment" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_dashboardFragment"
+            app:destination="@id/navigation_dashboard" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+      
+        <action
+            android:id="@+id/action_homeFragment_to_abacusList"
+            app:destination="@id/abacusListFragment" />
+      
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+      
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -34,6 +46,12 @@
     <action
         android:id="@+id/action_dashboard_to_dashboardComparison"
         app:destination="@id/dashboardComparisonFragment" />
+
+    <fragment
+        android:id="@+id/navigation_notification"
+        android:name="com.mobile.app_iara.ui.notifications.NotificationsFragment"
+        android:label="Notificacao"
+        tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_management"
