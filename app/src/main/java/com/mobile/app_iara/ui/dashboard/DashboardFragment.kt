@@ -47,6 +47,12 @@ class DashboardFragment : Fragment() {
         binding.cardDashboardComparison.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_dashboardComparison)
         }
+        binding.included.imgPerfilToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_profileFragment)
+        }
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_notificationsFragment)
+        }
     }
 
     override fun onDestroyView() {

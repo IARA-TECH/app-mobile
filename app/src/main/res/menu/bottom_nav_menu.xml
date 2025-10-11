@@ -17,7 +17,7 @@
         android:icon="@drawable/ic_team"
         android:title="Gestão" />
     <item
-        android:id="@+id/navigation_perfil"
+        android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_user"
         android:title="Perfil" />
 

@@ -45,7 +45,7 @@
             android:layout_alignBaseline="@id/titleNotification"
             android:layout_alignParentEnd="true"
             android:text="Ver"
-            android:textColor="@color/azul_primario"
+            android:textColor="@color/primaryBlue"
             android:textStyle="bold" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:ellipsize="end"
             android:singleLine="false"
             android:text="Descrição da notificação"
-            android:textColor="@color/texto_claro"
+            android:textColor="@color/lightText"
             android:textSize="14sp" />
 
         <TextView

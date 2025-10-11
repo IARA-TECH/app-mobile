@@ -40,6 +40,10 @@ class TechnicalFailuresFragment : Fragment() {
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_technicalFailuresFragment_to_notificationsFragment)
+        }
     }
 
     private fun setupLineChart() {

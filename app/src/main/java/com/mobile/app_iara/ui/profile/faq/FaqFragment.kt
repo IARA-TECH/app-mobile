@@ -1,46 +1,44 @@
 package com.mobile.app_iara.ui.profile.faq
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.start.InitiationActivity
 
-class FaqActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_faq)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+class FaqFragment : Fragment() {
 
-        val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar4)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_faq, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val btnVoltar = view.findViewById<ImageButton>(R.id.btnVoltar4)
+        val recyclerViewDuvidas = view.findViewById<RecyclerView>(R.id.recycler_duvidas)
+        val recyclerViewPopulares = view.findViewById<RecyclerView>(R.id.recycler_populares)
+
         btnVoltar.setOnClickListener {
-            val intent = Intent(this, InitiationActivity::class.java)
-            startActivity(intent)
+            findNavController().navigateUp()
         }
 
-        val recyclerViewDuvidas = findViewById<RecyclerView>(R.id.recycler_duvidas)
-        val recyclerViewPopulares = findViewById<RecyclerView>(R.id.recycler_populares)
-
-        recyclerViewPopulares.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewDuvidas.layoutManager = LinearLayoutManager(this)
+        recyclerViewPopulares.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewDuvidas.layoutManager = LinearLayoutManager(requireContext())
 
         val listaPopulares = listOf(
             FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
             FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
             FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit...")
-
-            )
+        )
 
         val adapterPopulares = FaqPopularQuestionAdapter(listaPopulares)
         recyclerViewPopulares.adapter = adapterPopulares

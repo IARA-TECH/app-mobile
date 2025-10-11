@@ -14,12 +14,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.app_iara.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 import android.Manifest
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavOptions
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_management, R.id.navigation_perfil)
+            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_management, R.id.navigation_profile)
         )
 
         val bottomNav: BottomNavigationView = binding.navView
@@ -58,7 +59,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        bottomNav.setupWithNavController(navController)
+        bottomNav.setOnItemSelectedListener { item ->
+            if (navController.currentDestination?.id == item.itemId) {
+                return@setOnItemSelectedListener false
+            }
+
+            val options = NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setEnterAnim(0)
+                .setExitAnim(0)
+                .setPopEnterAnim(0)
+                .setPopExitAnim(0)
+                .setPopUpTo(navController.graph.findStartDestination().id, inclusive = false, saveState = true)
+                .build()
+
+            navController.navigate(item.itemId, null, options)
+            true
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            bottomNav.menu.findItem(destination.id)?.isChecked = true
+        }
         createNotificationChannel(this)
         askNotificationPermission()
     }
@@ -201,3 +222,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+

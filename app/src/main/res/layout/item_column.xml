@@ -17,14 +17,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nome da Coluna"
-            android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textColor="@color/defaultText"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSubColumnCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3 sub-colunas"
+            android:textColor="@color/defaultText"
             android:textSize="12sp" />
     </LinearLayout>
 

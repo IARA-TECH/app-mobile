@@ -36,6 +36,10 @@ class ShiftComparisonFragment : Fragment() {
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_shiftComparisonFragment_to_notificationsFragment)
+        }
     }
 
     private fun setupQuantityList() {

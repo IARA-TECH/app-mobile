@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +31,8 @@
             android:id="@+id/card_technical_failures"
             android:layout_width="match_parent"
             android:layout_height="126dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
@@ -56,9 +58,10 @@
 
                     <TextView
                         android:id="@+id/textView22"
-                        android:layout_width="200dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/rfdewisemibold"
                         android:text="Condenas de falhas técnicas" />
 
@@ -66,8 +69,7 @@
                         android:id="@+id/imageView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="70dp"
-                        android:layout_weight="1"
+                        android:layout_marginRight="16dp"
                         android:src="@drawable/ic_arrow_up_circle" />
                 </LinearLayout>
 
@@ -99,12 +101,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="25dp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardFarmCondemnation"
             android:layout_width="match_parent"
             android:layout_height="126dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
@@ -131,9 +135,10 @@
 
                     <TextView
                         android:id="@+id/textView23"
-                        android:layout_width="200dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/rfdewisemibold"
                         android:text="Condenas pela granja" />
 
@@ -141,8 +146,7 @@
                         android:id="@+id/imageView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="70dp"
-                        android:layout_weight="1"
+                        android:layout_marginRight="16dp"
                         android:src="@drawable/ic_expand_down" />
                 </LinearLayout>
 
@@ -174,12 +178,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="25dp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_shift_comparison"
             android:layout_width="match_parent"
             android:layout_height="126dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
@@ -241,12 +247,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="25dp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardDashboardComparison"
             android:layout_width="match_parent"
             android:layout_height="126dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
@@ -327,7 +335,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="Acompanhe as últimas atualizações"
+        android:text="Acompanhe os detalhes das atualizações"
         android:textColor="@color/lightText"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
