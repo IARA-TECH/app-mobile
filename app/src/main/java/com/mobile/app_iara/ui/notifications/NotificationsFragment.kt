@@ -2,6 +2,7 @@ package com.mobile.app_iara.ui.notifications
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,6 +30,11 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             if (notification.link != null) {
                 handleNavigation(notification.link)
             }
+        }
+        val btnVoltar: ImageButton = view.findViewById(R.id.btnVoltar101)
+
+        btnVoltar.setOnClickListener {
+            findNavController().popBackStack()
         }
 
         recyclerNotifications.adapter = adapterNotifications

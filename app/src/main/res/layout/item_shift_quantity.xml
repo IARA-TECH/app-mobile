@@ -21,20 +21,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Nome do Turno"
+        android:textColor="@color/defaultText"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/viewColor"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvShiftQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00"
+        android:textColor="@color/defaultText"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

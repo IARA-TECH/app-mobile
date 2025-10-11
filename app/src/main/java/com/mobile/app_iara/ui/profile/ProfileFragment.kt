@@ -20,8 +20,8 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.start.LoginActivity
-import com.mobile.app_iara.ui.profile.faq.FaqActivity
-import com.mobile.app_iara.ui.profile.termsandprivacy.TermsActivity
+import com.mobile.app_iara.ui.profile.faq.FaqFragment
+import com.mobile.app_iara.ui.profile.termsandprivacy.TermsFragment
 
 class ProfileFragment : Fragment() {
 
@@ -72,13 +72,11 @@ class ProfileFragment : Fragment() {
         }
 
         btnFaq.setOnClickListener {
-            val intent = Intent(requireContext(), FaqActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_profileFragment_to_faqFragment)
         }
 
         btnTermos.setOnClickListener {
-            val intent = Intent(requireContext(), TermsActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_profileFragment_to_termsFragment)
         }
 
         btnChatBot.setOnClickListener {

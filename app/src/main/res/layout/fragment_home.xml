@@ -180,6 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Ábacos"
+                    android:textColor="@color/defaultText"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -222,6 +223,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Histórico"
+                    android:textColor="@color/defaultText"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -264,6 +266,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Planilhas"
+                    android:textColor="@color/defaultText"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -306,6 +309,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Chatbot"
+                    android:textColor="@color/defaultText"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 

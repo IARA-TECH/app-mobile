@@ -26,13 +26,13 @@
             android:name=".ui.abacus.confirmation.AbacusConfirmationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.profile.faq.FaqActivity"
+            android:name=".ui.profile.faq.FaqFragment"
             android:exported="false" />
         <activity
-            android:name=".ui.profile.termsandprivacy.PrivacyActivity"
+            android:name=".ui.profile.termsandprivacy.PrivacyFragment"
             android:exported="false" />
         <activity
-            android:name=".ui.profile.termsandprivacy.TermsActivity"
+            android:name=".ui.profile.termsandprivacy.TermsFragment"
             android:exported="false" />
         <activity
             android:name=".ui.start.EmailSentActivity"

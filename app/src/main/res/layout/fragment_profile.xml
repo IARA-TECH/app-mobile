@@ -57,7 +57,7 @@
                     android:paddingStart="16dp"
                     android:text="Configuração"
                     android:textAlignment="textStart"
-                    android:textColor="#5D5D5E"
+                    android:textColor="@color/lightText"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -112,7 +112,7 @@
                     android:layout_weight="1"
                     android:paddingStart="16dp"
                     android:text="Fábrica"
-                    android:textColor="#5D5D5E"
+                    android:textColor="@color/lightText"
                     android:textSize="16sp" />
 
 
@@ -167,7 +167,7 @@
                     android:layout_weight="1"
                     android:paddingStart="16dp"
                     android:text="FAQ"
-                    android:textColor="#5D5D5E"
+                    android:textColor="@color/lightText"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -222,7 +222,7 @@
                     android:layout_weight="1"
                     android:paddingStart="16dp"
                     android:text="Chatbot Iara"
-                    android:textColor="#5D5D5E"
+                    android:textColor="@color/lightText"
                     android:textSize="16sp" />
 
                 <!-- Setinha -->
@@ -279,7 +279,7 @@
                     android:layout_weight="1"
                     android:paddingStart="16dp"
                     android:text="Termos e condições"
-                    android:textColor="#5D5D5E"
+                    android:textColor="@color/lightText"
                     android:textSize="16sp" />
 
                 <!-- Setinha -->
@@ -358,6 +358,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/rfdewibold"
         android:text="Usuario"
+        android:textColor="@color/defaultText"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -406,6 +407,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="cargo"
+        android:textColor="@color/defaultText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

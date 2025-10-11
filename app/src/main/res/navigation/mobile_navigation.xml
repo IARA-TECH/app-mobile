@@ -73,6 +73,34 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
+        android:id="@+id/navigation_faq"
+        android:name="com.mobile.app_iara.ui.profile.faq.FaqFragment"
+        android:label="FAQ"
+        tools:layout="@layout/fragment_faq" />
+
+    <fragment
+        android:id="@+id/navigation_terms"
+        android:name="com.mobile.app_iara.ui.profile.termsandprivacy.TermsFragment"
+        android:label="Termos e condições"
+        tools:layout="@layout/fragment_terms_and_privacy">
+
+        <action
+            android:id="@+id/action_termsFragment_to_privacyFragment"
+            app:destination="@id/navigation_privacy" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_privacy"
+        android:name="com.mobile.app_iara.ui.profile.termsandprivacy.PrivacyFragment"
+        android:label="Política de Privacidade"
+        tools:layout="@layout/fragment_privacy">
+
+        <action
+            android:id="@+id/action_privacyFragment_to_termsFragment"
+            app:destination="@id/navigation_terms" />
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_management"
         android:name="com.mobile.app_iara.ui.management.ManagementFragment"
         android:label="fragment_management"
@@ -100,6 +128,14 @@
         <action
             android:id="@+id/action_profileFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_termsFragment"
+            app:destination="@id/navigation_terms" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_faqFragment"
+            app:destination="@id/navigation_faq" />
     </fragment>
 
     <fragment
