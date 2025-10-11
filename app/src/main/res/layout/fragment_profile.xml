@@ -45,13 +45,11 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
-                <!-- Ícone -->
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_gear" />
 
-                <!-- Texto -->
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -62,7 +60,6 @@
                     android:textColor="#5D5D5E"
                     android:textSize="16sp" />
 
-                <!-- Setinha -->
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
@@ -104,13 +101,11 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
-                <!-- Ícone -->
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_box_grey" />
 
-                <!-- Texto -->
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -120,7 +115,7 @@
                     android:textColor="#5D5D5E"
                     android:textSize="16sp" />
 
-                <!-- Setinha -->
+
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
@@ -161,13 +156,11 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
-                <!-- Ícone -->
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_warning" />
+                    android:src="@drawable/ic_warningprofile" />
 
-                <!-- Texto -->
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -177,7 +170,6 @@
                     android:textColor="#5D5D5E"
                     android:textSize="16sp" />
 
-                <!-- Setinha -->
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"

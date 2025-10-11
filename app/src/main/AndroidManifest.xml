@@ -17,16 +17,10 @@
         android:theme="@style/Theme.Appiara"
         tools:targetApi="31">
         <activity
-            android:name=".ui.home.spreadsheets.SpreadSheetsWebActivity"
+            android:name=".ui.spreadsheets.SpreadSheetsWebActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.management.EditCollaboratorActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.spreadsheets.SpreadSheetsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.history.HistoryActivity"
+            android:name=".ui.spreadsheets.SpreadSheetsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.abacus.confirmation.AbacusConfirmationActivity"

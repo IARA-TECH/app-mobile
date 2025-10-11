@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.home.history
+package com.mobile.app_iara.ui.history
 
 data class AbacusHistory(
     val urlPhoto: String,

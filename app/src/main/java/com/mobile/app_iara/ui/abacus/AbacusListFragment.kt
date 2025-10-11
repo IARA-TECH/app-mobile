@@ -38,6 +38,10 @@ class AbacusListFragment : Fragment() {
         binding.ivAdd.setOnClickListener {
             findNavController().navigate(R.id.action_abacusListFragment_to_registerAbacusFragment)
         }
+
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_abacusListFragment_to_notificationsFragment)
+        }
     }
 
     private fun setupRecyclerView() {

@@ -52,6 +52,14 @@ class ManagementFragment : Fragment() {
             findNavController().navigate(R.id.action_managementFragment_to_registerCollaboratorFragment)
         }
 
+        binding.included.imgPerfilToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_managementFragment_to_profileFragment)
+        }
+
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_managementFragment_to_notificationsFragment)
+        }
+
         collaboratorAdapter.submitList(listaDeExemplo)
     }
 

@@ -31,6 +31,8 @@
             android:id="@+id/card_technical_failures"
             android:layout_width="match_parent"
             android:layout_height="126dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
@@ -99,12 +101,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="25dp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardFarmCondemnation"
             android:layout_width="match_parent"
             android:layout_height="126dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
@@ -174,12 +178,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="25dp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_shift_comparison"
             android:layout_width="match_parent"
             android:layout_height="126dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">
@@ -241,12 +247,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="25dp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardDashboardComparison"
             android:layout_width="match_parent"
             android:layout_height="126dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp">

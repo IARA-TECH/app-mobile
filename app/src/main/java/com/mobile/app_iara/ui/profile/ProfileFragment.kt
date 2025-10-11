@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
@@ -44,11 +45,13 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         val imageProfile = view.findViewById<ShapeableImageView>(R.id.fotoPerfil)
-        val userName = view.findViewById<TextView>(R.id.textView13) // Nome
-        val userCargo = view.findViewById<TextView>(R.id.textView16) // Cargo / Email
+        val userName = view.findViewById<TextView>(R.id.textView13)
+        val userCargo = view.findViewById<TextView>(R.id.textView16)
         val btnSair = view.findViewById<MaterialCardView>(R.id.btnSair)
         val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
         val btnFaq = view.findViewById<MaterialCardView>(R.id.btnFaq)
+        val btnChatBot = view.findViewById<MaterialCardView>(R.id.btnChatbot)
+
 
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
@@ -76,6 +79,10 @@ class ProfileFragment : Fragment() {
         btnTermos.setOnClickListener {
             val intent = Intent(requireContext(), TermsActivity::class.java)
             startActivity(intent)
+        }
+
+        btnChatBot.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_chatFragment)
         }
 
         return view

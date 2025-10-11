@@ -22,7 +22,7 @@
             android:contentDescription="Botão para voltar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/setavoltar" />
+            app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
             android:id="@+id/textView27"
@@ -31,7 +31,7 @@
             android:fontFamily="@font/rfdewibold"
             android:text="Notificações"
             android:textAlignment="center"
-            android:textColor="@color/texto_padrao"
+            android:textColor="@color/defaultText"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/branco_background"
+            android:background="@color/backgroundWhite"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -65,7 +65,7 @@
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/rfdewisemibold"
                 android:text="Aprovações pendentes"
-                android:textColor="@color/texto_claro"
+                android:textColor="@color/lightText"
                 android:textSize="16sp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -81,7 +81,7 @@
                 android:padding="16dp"
                 android:text="Nenhuma aprovação pendente."
                 android:textAlignment="center"
-                android:textColor="@color/texto_claro"
+                android:textColor="@color/lightText"
                 android:visibility="gone" />
 
             <TextView
@@ -92,7 +92,7 @@
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/rfdewisemibold"
                 android:text="Hoje"
-                android:textColor="@color/texto_claro"
+                android:textColor="@color/lightText"
                 android:textSize="16sp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Nenhuma notificação recebida hoje"
-                android:textColor="@color/texto_claro"
+                android:textColor="@color/lightText"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -136,7 +136,7 @@
             android:fontFamily="@font/rfdewibold"
             android:text="Não há notificações no momento"
             android:textAlignment="center"
-            android:textColor="@color/azul_primario"
+            android:textColor="@color/primaryBlue"
             android:textSize="28sp" />
 
         <TextView
