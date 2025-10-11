@@ -34,7 +34,7 @@ class PrivacyFragment : Fragment() {
         }
 
         btnVoltar.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_privacyFragment_to_profileFragment)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

@@ -87,6 +87,10 @@
         <action
             android:id="@+id/action_termsFragment_to_privacyFragment"
             app:destination="@id/navigation_privacy" />
+
+        <action
+            android:id="@+id/action_termsFragment_to_profileFragment"
+            app:destination="@id/navigation_profile" />
     </fragment>
 
     <fragment
@@ -94,6 +98,10 @@
         android:name="com.mobile.app_iara.ui.profile.termsandprivacy.PrivacyFragment"
         android:label="Política de Privacidade"
         tools:layout="@layout/fragment_privacy">
+
+        <action
+            android:id="@+id/action_privacyFragment_to_profileFragment"
+            app:destination="@id/navigation_profile" />
 
         <action
             android:id="@+id/action_privacyFragment_to_termsFragment"
