@@ -31,7 +31,13 @@ class ManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collaboratorAdapter = CollaboratorAdapter()
+        collaboratorAdapter = CollaboratorAdapter { collaborator ->
+
+            val action = ManagementFragmentDirections
+                .actionManagementFragmentToEditCollaboratorFragment(collaborator.id)
+
+            findNavController().navigate(action)
+        }
 
         val listaDeExemplo = listOf(
             CollaboratorModal(id="1", name="Mariana Costa", email="mariana.costa@seara.com", role="Gerente de Produção", urlPhoto=null),
