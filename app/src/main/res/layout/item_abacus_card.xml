@@ -19,10 +19,9 @@
             android:id="@+id/ivIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/bg_icon_circle"
             android:contentDescription="Ícone do ábaco"
-            android:padding="10dp"
-            android:src="@drawable/ic_abacus"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_abacus_with_bg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,8 +30,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
+            android:textColor="@color/defaultText"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/ivIcon"
             app:layout_constraintEnd_toEndOf="parent"
@@ -45,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textColor="@color/defaultText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivIcon"
             tools:text="Descrição: Ábaco da área fria" />
@@ -54,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:textColor="@color/defaultText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
             tools:text="Linhas: 12" />
@@ -63,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:textColor="@color/defaultText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvLines"
             tools:text="Colunas: 2" />

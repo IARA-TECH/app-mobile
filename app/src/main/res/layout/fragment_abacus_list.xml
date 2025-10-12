@@ -21,22 +21,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="88dp"
         android:text="Ábacos"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textColor="@color/defaultText"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/included" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvScreenSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="@font/rfdewiregular"
         android:text="Visualize todos os ábacos cadastrados"
+        android:textColor="@color/lightText"
         android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
         app:layout_constraintEnd_toStartOf="@+id/ivAdd"
         app:layout_constraintStart_toStartOf="@id/tvScreenTitle"
         app:layout_constraintTop_toBottomOf="@id/tvScreenTitle" />

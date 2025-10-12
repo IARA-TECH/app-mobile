@@ -23,14 +23,14 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/ic_warning"
-                android:backgroundTint="#1A237E"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                tools:srcCompat="@tools:sample/avatars" />
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_circle_white"
+                android:backgroundTint="@color/primaryBlue"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_questions" />
 
             <TextView
                 android:id="@+id/tituloDuvida"
@@ -40,7 +40,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/rfdewisemibold"
                 android:text="Como as informações são calculadas?"
-                android:textColor="#000000"
+                android:textColor="@color/defaultText"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -52,7 +52,7 @@
             android:background="@drawable/bg_rounded_text"
             android:padding="10dp"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat"
-            android:textColor="#444444"
+            android:textColor="@color/defaultText"
             android:textSize="14sp" />
 
     </LinearLayout>

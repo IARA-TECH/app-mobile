@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.home.spreadsheets
+package com.mobile.app_iara.ui.spreadsheets
 
 import android.content.Intent
 import android.net.Uri

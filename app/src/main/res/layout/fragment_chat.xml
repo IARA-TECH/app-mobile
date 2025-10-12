@@ -32,32 +32,38 @@
         android:id="@+id/layoutInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/transparent"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:gravity="center_vertical"
-        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/etMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Escreva sua mensagem"
             android:background="@drawable/bg_edit_text"
-            android:padding="12dp"
-            android:maxLines="4" />
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/rfdewilight"
+            android:hint="Escreva sua mensagem"
+            android:maxLines="4"
+            android:padding="17dp"
+            android:textColorHint="#9E9E9E"
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/btnSend"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
-            android:src="@drawable/ic_send"
             android:background="@drawable/bg_send_button"
-            android:contentDescription="Enviar" />
+            android:contentDescription="Enviar"
+            android:src="@drawable/ic_send" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

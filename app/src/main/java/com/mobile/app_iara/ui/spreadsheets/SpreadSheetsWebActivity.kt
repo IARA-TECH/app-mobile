@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.home.spreadsheets
+package com.mobile.app_iara.ui.spreadsheets
 
 import android.os.Bundle
 import android.webkit.WebViewClient

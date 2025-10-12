@@ -45,7 +45,7 @@
             android:layout_alignBaseline="@id/titleConfirmation"
             android:layout_alignParentEnd="true"
             android:text="Ver"
-            android:textColor="@color/azul_primario"
+            android:textColor="@color/primaryBlue"
             android:textStyle="bold" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:ellipsize="end"
             android:singleLine="false"
             android:text="Aprovação pendente: foto do ábaco enviada por um colaborador"
-            android:textColor="@color/texto_claro"
+            android:textColor="@color/lightText"
             android:textSize="14sp" />
 
         <TextView

@@ -1,30 +1,43 @@
-package com.mobile.app_iara.ui.home.history
+
+package com.mobile.app_iara.ui.history
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mobile.app_iara.databinding.ActivityHistoryBinding
+import com.mobile.app_iara.R
+import com.mobile.app_iara.databinding.FragmentHistoryBinding
 
-class HistoryActivity : AppCompatActivity() {
+class HistoryFragment : Fragment() {
 
-    private lateinit var binding: ActivityHistoryBinding
+    private var _binding: FragmentHistoryBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding = ActivityHistoryBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupBackButton()
+
+        binding.included.imgBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_historyFragment_to_notificationsFragment)
+        }
 
         val historyData = createDummyData()
         setupRecyclerView(historyData)
@@ -34,7 +47,7 @@ class HistoryActivity : AppCompatActivity() {
         val historyAdapter = AbacusHistoryAdapter(historyList)
         binding.historyRecyclerView.apply {
             adapter = historyAdapter
-            layoutManager = LinearLayoutManager(this@HistoryActivity)
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
@@ -80,7 +93,12 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun setupBackButton() {
         binding.included.imgBack.setOnClickListener {
-            finish()
+            activity?.supportFragmentManager?.popBackStack()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

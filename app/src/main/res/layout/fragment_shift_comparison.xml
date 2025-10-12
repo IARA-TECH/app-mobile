@@ -33,7 +33,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="18dp"
                 android:text="Comparativo entre turnos"
-                android:textColor="@android:color/black"
+                android:textColor="@color/defaultText"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,10 +45,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="Acompanhe as últimas atualizações"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/lightText"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,6 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="Quantidade por turno"
+                        android:textColor="@color/defaultText"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -133,6 +134,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="Evolução por turno"
+                        android:textColor="@color/defaultText"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>

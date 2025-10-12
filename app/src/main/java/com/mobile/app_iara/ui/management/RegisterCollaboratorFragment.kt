@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -21,6 +22,8 @@ class RegisterCollaboratorFragment : Fragment() {
 
     private var _binding: FragmentRegisterCollaboratorBinding? = null
     private val binding get() = _binding!!
+    private var selectedGenderId: Int = -1
+    private var selectedRole: Role? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +43,14 @@ class RegisterCollaboratorFragment : Fragment() {
         binding.dropdownGender.setOnClickListener {
             showGenderSelectionDialog()
         }
+
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.btnCancelar.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun showRoleSelectionDialog() {
@@ -48,15 +59,30 @@ class RegisterCollaboratorFragment : Fragment() {
 
         val rolesList = getRolesFromViewModel()
 
+        selectedRole?.let { currentRole ->
+            rolesList.find { it.id == currentRole.id }?.isSelected = true
+        }
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.roles)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = RolesAdapter(rolesList) { selectedRole ->
-            binding.roleValue.text = selectedRole.name
+        val adapter = RolesAdapter(rolesList) { role ->
+            binding.roleValue.text = role.name
             binding.roleValue.setTextColor(Color.BLACK)
+            selectedRole = role
+
             dialog.dismiss()
         }
         recyclerView.adapter = adapter
+
+        dialog.setOnShowListener {
+            val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.let {
+                val layoutParams = it.layoutParams
+                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                it.layoutParams = layoutParams
+            }
+        }
 
         dialog.setContentView(view)
         dialog.show()
@@ -65,9 +91,12 @@ class RegisterCollaboratorFragment : Fragment() {
 
     private fun showGenderSelectionDialog() {
         val dialog = BottomSheetDialog(requireContext())
-
         val view = layoutInflater.inflate(R.layout.dialog_gender_dropdown, null)
         val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group_gender)
+
+        if (selectedGenderId != -1) {
+            radioGroup.check(selectedGenderId)
+        }
 
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId != -1) {
@@ -76,8 +105,19 @@ class RegisterCollaboratorFragment : Fragment() {
 
                 binding.genderValue.text = selectedText
                 binding.genderValue.setTextColor(Color.BLACK)
+                selectedGenderId = checkedId
+
 
                 dialog.dismiss()
+            }
+        }
+
+        dialog.setOnShowListener {
+            val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.let {
+                val layoutParams = it.layoutParams
+                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                it.layoutParams = layoutParams
             }
         }
 

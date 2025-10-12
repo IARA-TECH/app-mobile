@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.spreadsheets.SpreadSheetsActivity">
+    tools:context=".ui.spreadsheets.SpreadSheetsFragment">
 
     <include
         android:id="@+id/included"
@@ -24,6 +24,7 @@
         android:layout_marginTop="88dp"
         android:fontFamily="@font/rfdewibold"
         android:text="Planilhas"
+        android:textColor="@color/defaultText"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -37,7 +38,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:fontFamily="@font/rfdewisemibold"
+        android:fontFamily="@font/rfdewiregular"
         android:text="Acompanhe as últimas planilhas geradas"
         android:textColor="@color/lightText"
         android:textSize="16sp"
