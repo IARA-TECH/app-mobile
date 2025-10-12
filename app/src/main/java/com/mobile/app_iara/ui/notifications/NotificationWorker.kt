@@ -66,7 +66,6 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
             title = title,
             description = description,
             time = currentTimeString,
-            link = link
         )
         dao.insert(notificationItem)
     }

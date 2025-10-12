@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,24 +20,26 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
 
     private val viewModel: NotificationsViewModel by viewModels()
     private lateinit var adapterNotifications: NotificationAdapter
+    private lateinit var adapterApprovals: ApprovalAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerNotifications: RecyclerView = view.findViewById(R.id.recyclerNotifications)
+        val recyclerApprovals: RecyclerView = view.findViewById(R.id.recyclerApprovals)
+        val emptyApprovals: TextView = view.findViewById(R.id.emptyApprovals)
         val emptyScreen: LinearLayout = view.findViewById(R.id.emptyScreen)
-
-        adapterNotifications = NotificationAdapter(emptyList()) { notification ->
-            if (notification.link != null) {
-                handleNavigation(notification.link)
-            }
-        }
         val btnVoltar: ImageButton = view.findViewById(R.id.btnVoltar101)
 
         btnVoltar.setOnClickListener {
             findNavController().popBackStack()
         }
 
+        adapterApprovals = ApprovalAdapter(emptyList())
+        recyclerApprovals.adapter = adapterApprovals
+        recyclerApprovals.layoutManager = LinearLayoutManager(requireContext())
+
+        adapterNotifications = NotificationAdapter(emptyList())
         recyclerNotifications.adapter = adapterNotifications
         recyclerNotifications.layoutManager = LinearLayoutManager(requireContext())
 
@@ -49,14 +52,32 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
                 recyclerNotifications.visibility = View.VISIBLE
                 adapterNotifications.updateList(notificationList)
             }
+            checkEmptyState()
+        })
+
+        viewModel.pendingApprovals.observe(viewLifecycleOwner, Observer { approvalList ->
+            if (approvalList.isNullOrEmpty()) {
+                recyclerApprovals.visibility = View.GONE
+                emptyApprovals.visibility = View.VISIBLE
+            } else {
+                recyclerApprovals.visibility = View.VISIBLE
+                emptyApprovals.visibility = View.GONE
+                adapterApprovals.updateList(approvalList)
+            }
+            checkEmptyState()
         })
     }
 
-    private fun handleNavigation(targetLink: String) {
-        when (targetLink) {
-            "ANALISES" -> {
-                findNavController().navigate(R.id.action_homeFragment_to_dashboardFragment)
-            }
+    private fun checkEmptyState() {
+        val approvalsEmpty = viewModel.pendingApprovals.value.isNullOrEmpty()
+        val notificationsEmpty = viewModel.notifications.value.isNullOrEmpty()
+
+        val emptyScreen: LinearLayout? = view?.findViewById(R.id.emptyScreen)
+
+        if (approvalsEmpty && notificationsEmpty) {
+            emptyScreen?.visibility = View.VISIBLE
+        } else {
+            emptyScreen?.visibility = View.GONE
         }
     }
 
@@ -64,7 +85,6 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         val notification = NotificationEntity(
             title = title,
             description = description,
-            link = link,
             time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
         )
         viewModel.addNotification(notification)
