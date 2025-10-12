@@ -6,6 +6,4 @@
     <string name="title_notifications">Notifications</string>
     <string name="taken_by_format">Tirada por: %1$s</string>
     <string name="approved_by_format">Aprovado por: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
