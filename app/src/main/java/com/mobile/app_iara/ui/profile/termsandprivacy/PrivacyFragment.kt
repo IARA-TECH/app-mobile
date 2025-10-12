@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
 
-// ✨ MUDANÇA: Herda de Fragment
 class PrivacyFragment : Fragment() {
 
     override fun onCreateView(
