@@ -93,14 +93,12 @@ class HistoryFragment : Fragment() {
 
     private fun setupBackButton() {
         binding.included.imgBack.setOnClickListener {
-            // Em um Fragment, em vez de finish(), você remove o fragmento da pilha
             activity?.supportFragmentManager?.popBackStack()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Limpa a referência ao binding para evitar vazamento de memória
         _binding = null
     }
 }
