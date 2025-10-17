@@ -174,25 +174,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="350dp"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="88dp"
-        android:background="?android:attr/listDivider"
-        android:stateListAnimator="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAvancar" />
-
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="105dp"
-        android:layout_height="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="79dp"
         android:background="@color/backgroundWhite"
         android:backgroundTint="@color/backgroundWhite"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
         android:text="Ou entre com"
         android:textAlignment="center"
         android:textColor="#72525353"
@@ -249,10 +239,9 @@
         android:layout_width="409dp"
         android:layout_height="41dp"
         android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAvancar">

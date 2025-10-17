@@ -16,6 +16,8 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentEditCollaboratorBinding
 import com.mobile.app_iara.ui.management.collaborator.Role
 import com.mobile.app_iara.ui.management.collaborator.RolesAdapter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import android.widget.FrameLayout
 
 class EditCollaboratorFragment : Fragment() {
 
@@ -41,7 +43,7 @@ class EditCollaboratorFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        binding.btnCancelarOnboarding.setOnClickListener {
+        binding.btnCancelar.setOnClickListener {
             findNavController().popBackStack()
         }
 
@@ -84,9 +86,7 @@ class EditCollaboratorFragment : Fragment() {
         dialog.setOnShowListener {
             val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let {
-                val layoutParams = it.layoutParams
-                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                it.layoutParams = layoutParams
+                it.setBackgroundColor(Color.TRANSPARENT)
             }
         }
 
@@ -122,9 +122,7 @@ class EditCollaboratorFragment : Fragment() {
         dialog.setOnShowListener {
             val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let {
-                val layoutParams = it.layoutParams
-                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                it.layoutParams = layoutParams
+                it.setBackgroundColor(Color.TRANSPARENT)
             }
         }
 
