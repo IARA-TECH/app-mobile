@@ -11,6 +11,11 @@ jobs:
     name: Build & Generate APK
     runs-on: ubuntu-latest
 
+    env:
+      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -34,6 +39,13 @@ jobs:
       - name: Permitir execução do Gradle
         run: chmod +x ./gradlew
 
+      - name: Criar arquivo google-services.json
+        run: |
+          mkdir -p app/src/debug
+          printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+          printf '%s' "$GOOGLE_SERVICES_JSON" > app/src/debug/google-services.json
+          echo "Arquivo google-services.json criado com sucesso."
+
       - name: Build do APK
         run: ./gradlew assembleDebug
 
@@ -42,6 +54,17 @@ jobs:
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
+
+      - name: Build da imagem Docker (opcional)
+        run: |
+          docker build -t $DOCKER_USERNAME/app-mobile:latest .
+          docker push $DOCKER_USERNAME/app-mobile:latest
 
   deploy:
     name: Deploy automático (simples)
