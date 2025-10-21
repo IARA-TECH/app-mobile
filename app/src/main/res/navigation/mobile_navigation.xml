@@ -9,31 +9,104 @@
         android:id="@+id/navigation_home"
         android:name="com.mobile.app_iara.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-    <action
-        android:id="@+id/action_home_to_abacusList"
-        app:destination="@id/abacusListFragment" />
-    <action
-        android:id="@+id/action_homeFragment_to_chatFragment"
-        app:destination="@id/chatFragment" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_dashboardFragment"
+            app:destination="@id/navigation_dashboard" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+        
+        <action
+            android:id="@+id/action_homeFragment_to_abacusList"
+            app:destination="@id/abacusListFragment" />
+        
+        <action
+            android:id="@+id/action_homeFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_history"
+            app:destination="@id/historyFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_spreadSheets"
+            app:destination="@id/spreadSheetsFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.mobile.app_iara.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-    <action
-        android:id="@+id/action_dashboard_to_technicalFailures"
-        app:destination="@id/technicalFailuresFragment" />
-    <action
-        android:id="@+id/action_dashboard_to_shiftComparison"
-        app:destination="@id/shifComparisonFragment" />
-    <action
-        android:id="@+id/action_dashboard_to_farmCondemnation"
-        app:destination="@id/farmCondemnationFragment" />
-    <action
-        android:id="@+id/action_dashboard_to_dashboardComparison"
-        app:destination="@id/dashboardComparisonFragment" />
+        tools:layout="@layout/fragment_dashboard" >
+
+        <action
+            android:id="@+id/action_dashboard_to_technicalFailures"
+            app:destination="@id/technicalFailuresFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_shiftComparison"
+            app:destination="@id/shifComparisonFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_farmCondemnation"
+            app:destination="@id/farmCondemnationFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_dashboardComparison"
+            app:destination="@id/dashboardComparisonFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_profileFragment"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notification"
+        android:name="com.mobile.app_iara.ui.notifications.NotificationsFragment"
+        android:label="Notificacao"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_faq"
+        android:name="com.mobile.app_iara.ui.profile.faq.FaqFragment"
+        android:label="FAQ"
+        tools:layout="@layout/fragment_faq" />
+
+    <fragment
+        android:id="@+id/navigation_terms"
+        android:name="com.mobile.app_iara.ui.profile.termsandprivacy.TermsFragment"
+        android:label="Termos e condições"
+        tools:layout="@layout/fragment_terms_and_privacy">
+
+        <action
+            android:id="@+id/action_termsFragment_to_privacyFragment"
+            app:destination="@id/navigation_privacy" />
+
+        <action
+            android:id="@+id/action_termsFragment_to_profileFragment"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_privacy"
+        android:name="com.mobile.app_iara.ui.profile.termsandprivacy.PrivacyFragment"
+        android:label="Política de Privacidade"
+        tools:layout="@layout/fragment_privacy">
+
+        <action
+            android:id="@+id/action_privacyFragment_to_profileFragment"
+            app:destination="@id/navigation_profile" />
+
+        <action
+            android:id="@+id/action_privacyFragment_to_termsFragment"
+            app:destination="@id/navigation_terms" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_management"
@@ -42,22 +115,45 @@
         tools:layout="@layout/fragment_management">
 
         <action
+            android:id="@+id/action_managementFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+
+        <action
             android:id="@+id/action_managementFragment_to_registerCollaboratorFragment"
             app:destination="@id/registerCollaboratorFragment" />
 
+        <action
+            android:id="@+id/action_managementFragment_to_editCollaboratorFragment"
+            app:destination="@id/editCollaboratorFragment" />
+
+        <action
+            android:id="@+id/action_managementFragment_to_profileFragment"
+            app:destination="@id/navigation_profile" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_perfil"
+        android:id="@+id/navigation_profile"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
-    <action
-        android:id="@+id/action_profile_to_configuracao"
-        app:destination="@id/configuracaoFragment" />
-    <action
-        android:id="@+id/action_profile_to_fabrica"
-        app:destination="@id/fabricaFragment" />
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_profileFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_termsFragment"
+            app:destination="@id/navigation_terms" />
+        <action
+            android:id="@+id/action_profileFragment_to_faqFragment"
+            app:destination="@id/navigation_faq" />
+            
+        <action
+            android:id="@+id/action_profile_to_configuracao"
+            app:destination="@id/configuracaoFragment" />
+        <action
+            android:id="@+id/action_profile_to_fabrica"
+            app:destination="@id/fabricaFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/configuracaoFragment"
@@ -70,7 +166,28 @@
         android:name="com.mobile.app_iara.ui.profile.fabrica.FabricaFragment"
         android:label="fragment_fabrica"
         tools:layout="@layout/fragment_fabrica" />
+        
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.mobile.app_iara.ui.history.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
 
+        <action
+            android:id="@+id/action_historyFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/spreadSheetsFragment"
+        android:name="com.mobile.app_iara.ui.spreadsheets.SpreadSheetsFragment"
+        android:label="fragment_spreadSheets"
+        tools:layout="@layout/fragment_spread_sheets" >
+
+        <action
+            android:id="@+id/action_spreadSheetsFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+    </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.mobile.app_iara.ui.chatbot.ChatFragment"
@@ -81,25 +198,45 @@
         android:id="@+id/technicalFailuresFragment"
         android:name="com.mobile.app_iara.ui.dashboard.technicalfailures.TechnicalFailuresFragment"
         android:label="fragment_technical_failures"
-        tools:layout="@layout/fragment_technical_failures" />
+        tools:layout="@layout/fragment_technical_failures" >
+
+        <action
+            android:id="@+id/action_technicalFailuresFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+    </fragment>
 
     <fragment
         android:id="@+id/shifComparisonFragment"
         android:name="com.mobile.app_iara.ui.dashboard.shiftcomparison.ShiftComparisonFragment"
         android:label="fragment_shift_comparison"
-        tools:layout="@layout/fragment_shift_comparison" />
+        tools:layout="@layout/fragment_shift_comparison" >
+
+        <action
+            android:id="@+id/action_shiftComparisonFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+    </fragment>
 
     <fragment
         android:id="@+id/farmCondemnationFragment"
         android:name="com.mobile.app_iara.ui.dashboard.farmcondemnation.FarmCondemnationFragment"
         android:label="Condenas pela Granja"
-        tools:layout="@layout/fragment_farm_condemnation" />
+        tools:layout="@layout/fragment_farm_condemnation" >
+
+        <action
+            android:id="@+id/action_farmCondemnationFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+    </fragment>
 
     <fragment
         android:id="@+id/dashboardComparisonFragment"
         android:name="com.mobile.app_iara.ui.dashboard.dashboardcomparison.DashboardComparisonFragment"
         android:label="Comparativo Dashboards"
-        tools:layout="@layout/fragment_dashboard_comparison" />
+        tools:layout="@layout/fragment_dashboard_comparison" >
+
+        <action
+            android:id="@+id/action_dashboardComparisonFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+    </fragment>
 
     <fragment
         android:id="@+id/registerCollaboratorFragment"
@@ -108,13 +245,40 @@
         tools:layout="@layout/fragment_register_collaborator" />
 
     <fragment
+        android:id="@+id/editCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.EditCollaboratorFragment"
+        android:label="fragment_edit_collaborator"
+        tools:layout="@layout/fragment_edit_collaborator" >
+
+        <argument
+            android:name="collaboratorId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_editCollaboratorFragment_to_emailCollaboratorFragment"
+            app:destination="@id/editEmailCollaboratorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editEmailCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.EditEmailFragment"
+        android:label="fragment_edit_email_collaborator"
+        tools:layout="@layout/fragment_edit_email" />
+
+    <fragment
         android:id="@+id/abacusListFragment"
         android:name="com.mobile.app_iara.ui.abacus.AbacusListFragment"
         android:label="Ábacos"
-        tools:layout="@layout/fragment_abacus_list" />
-    <action
-        android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
-        app:destination="@id/registerAbacusFragment" />
+        tools:layout="@layout/fragment_abacus_list" >
+
+        <action
+            android:id="@+id/action_abacusListFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+
+        <action
+            android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
+            app:destination="@id/registerAbacusFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/registerAbacusFragment"

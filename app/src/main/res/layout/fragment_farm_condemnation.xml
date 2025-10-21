@@ -28,7 +28,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="68dp"
             android:text="Condenas pela granja"
-            android:textColor="@android:color/black"
+            android:textColor="@color/defaultText"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Acompanhe as últimas atualizações"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/lightText"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
@@ -76,6 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="120"
+                        android:textColor="@color/defaultText"
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
@@ -83,7 +84,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Total de condenas" />
+                        android:text="Total de condenas"
+                        android:textColor="@color/defaultText" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -106,6 +108,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="4,5%"
+                        android:textColor="@color/defaultText"
                         android:textSize="24sp"
                         android:textStyle="bold" />
 
@@ -113,7 +116,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Taxa de ocorrência" />
+                        android:text="Taxa de ocorrência"
+                        android:textColor="@color/defaultText" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -144,7 +148,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Comparativo com o mês anterior" />
+                        android:text="Comparativo com o mês anterior"
+                        android:textColor="@color/defaultText" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
@@ -175,8 +180,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="Ícone do gráfico"
                         android:src="@drawable/ic_ranking_title" />
 
@@ -185,6 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="Ranking das condenas pela granja"
+                        android:textColor="@color/defaultText"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -223,8 +229,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:contentDescription="Ícone do gráfico de barras"
                         android:src="@drawable/ic_farm_title" />
 
@@ -233,6 +239,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="Quantidade de condenas"
+                        android:textColor="@color/defaultText"
                         android:textStyle="bold" />
                 </LinearLayout>
 

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -83,6 +84,17 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:postgrest-kt:2.4.2")
     implementation("io.github.jan-tennert.supabase:storage-kt:2.4.2")
     implementation("io.ktor:ktor-client-android:2.3.11")
+    
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt ("androidx.room:room-compiler:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
+
+    // Work Runtime
+    implementation ("androidx.work:work-runtime-ktx:2.8.1")
+    
+    // Biblioteca para animação
+    implementation("com.airbnb.android:lottie:6.4.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

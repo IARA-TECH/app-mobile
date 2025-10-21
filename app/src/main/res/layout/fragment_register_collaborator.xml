@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".YourRegisterFragment">
+    tools:context=".ui.management.RegisterCollaboratorFragment">
 
     <ImageView
         android:id="@+id/button_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="center"
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -284,47 +283,48 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/buttonContainer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text">
+        app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancelar"
-            android:layout_width="145dp"
-            android:layout_height="67dp"
-            android:backgroundTint="#F2F2F2"
+            android:layout_width="175dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="@android:color/transparent"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="Cancelar"
             android:textAllCaps="false"
-            android:textColor="#5D5D5E"
+            android:textColor="@color/lightText"
             android:textSize="17sp"
-            app:cornerRadius="10dp"
+            app:cornerRadius="12dp"
             app:strokeColor="#D5D5D5"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="2dp" />
 
         <Space
-            android:layout_width="13dp"
-            android:layout_height="54dp" />
+            android:layout_width="16dp"
+            android:layout_height="match_parent" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConfirmar"
-            android:layout_width="145dp"
-            android:layout_height="67dp"
+            android:layout_width="175dp"
+            android:layout_height="match_parent"
             android:backgroundTint="@color/primaryBlue"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="Confirmar"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@android:color/white"
             android:textSize="17sp"
-            app:cornerRadius="13dp" />
+            app:cornerRadius="12dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

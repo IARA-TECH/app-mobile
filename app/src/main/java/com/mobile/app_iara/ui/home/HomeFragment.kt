@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mobile.app_iara.databinding.FragmentHomeBinding
-import com.mobile.app_iara.ui.home.history.HistoryActivity
 import androidx.navigation.fragment.findNavController
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
@@ -37,21 +36,25 @@ class HomeFragment : Fragment() {
             return
         }
 
-        binding.card3.setOnClickListener {
-            val intent = Intent(requireContext(), SpreadSheetsActivity::class.java)
-            startActivity(intent)
+        binding.cardSpreadSheets.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_spreadSheets)
         }
         
-        binding.card2.setOnClickListener {
-            val intent = Intent(requireContext(), HistoryActivity::class.java)
-            startActivity(intent)
+        binding.cardHistory.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_history)
         }
 
         binding.cardAbacus.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_abacusList)
+            findNavController().navigate(R.id.action_homeFragment_to_abacusList)
         }
         binding.cardChat.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
+        }
+        binding.included.imgPerfilToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+        }
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_notificationsFragment)
         }
     }
 

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -16,28 +17,10 @@
         android:theme="@style/Theme.Appiara"
         tools:targetApi="31">
         <activity
-            android:name=".ui.home.spreadsheets.SpreadSheetsWebActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.management.EditCollaboratorActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.spreadsheets.SpreadSheetsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.history.HistoryActivity"
+            android:name=".ui.spreadsheets.SpreadSheetsWebActivity"
             android:exported="false" />
         <activity
             android:name=".ui.abacus.confirmation.AbacusConfirmationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.profile.faq.FaqActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.profile.termsandprivacy.PrivacyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.profile.termsandprivacy.TermsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.start.EmailSentActivity"
@@ -69,7 +52,6 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

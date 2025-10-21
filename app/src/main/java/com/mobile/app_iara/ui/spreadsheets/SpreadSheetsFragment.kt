@@ -1,41 +1,53 @@
-package com.mobile.app_iara.ui.home.spreadsheets
+package com.mobile.app_iara.ui.spreadsheets
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
-import com.mobile.app_iara.databinding.ActivitySpreadSheetsBinding
+import com.mobile.app_iara.databinding.FragmentSpreadSheetsBinding
 
-class SpreadSheetsActivity : AppCompatActivity() {
+class SpreadSheetsFragment : Fragment() {
 
-    private lateinit var binding: ActivitySpreadSheetsBinding
+    private var _binding: FragmentSpreadSheetsBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSpreadSheetsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding = ActivitySpreadSheetsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupBackButton()
 
+        binding.included.imgBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_spreadSheetsFragment_to_notificationsFragment)
+        }
+
         val spreadSheetsData = createSpreadSheetsDummyData()
         setupRecyclerView(spreadSheetsData)
+
     }
 
-    private fun setupRecyclerView(historyList: List<SpreadSheets>) {
-        val spreadSheetsAdapter = SpreadSheetsAdapter(historyList)
+    private fun setupRecyclerView(spreadSheetsList: List<SpreadSheets>) {
+        val spreadSheetsAdapter = SpreadSheetsAdapter(spreadSheetsList)
         binding.spreadSheetsRecyclerView.apply {
             adapter = spreadSheetsAdapter
-            layoutManager = LinearLayoutManager(this@SpreadSheetsActivity)
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
@@ -71,7 +83,12 @@ class SpreadSheetsActivity : AppCompatActivity() {
 
     private fun setupBackButton() {
         binding.included.imgBack.setOnClickListener {
-            finish()
+            activity?.supportFragmentManager?.popBackStack()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

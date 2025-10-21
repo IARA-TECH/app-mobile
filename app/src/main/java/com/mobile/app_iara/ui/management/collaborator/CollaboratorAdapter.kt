@@ -11,13 +11,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 
-class CollaboratorAdapter : ListAdapter<CollaboratorModal, CollaboratorAdapter.CollaboratorViewHolder>(DiffCallback) {
+class CollaboratorAdapter(private val onArrowClicked: (CollaboratorModal) -> Unit) : ListAdapter<CollaboratorModal, CollaboratorAdapter.CollaboratorViewHolder>(DiffCallback) {
 
-    class CollaboratorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollaboratorViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_collaborator, parent, false)
+        return CollaboratorViewHolder(view, onArrowClicked)
+    }
+
+    override fun onBindViewHolder(holder: CollaboratorViewHolder, position: Int) {
+        val collaborator = getItem(position)
+        holder.bind(collaborator)
+    }
+
+    class CollaboratorViewHolder(
+        itemView: View,
+        private val onArrowClicked: (CollaboratorModal) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
         private val profileImageView: ImageView = itemView.findViewById(R.id.profile_image)
         private val nameTextView: TextView = itemView.findViewById(R.id.name_textview)
         private val emailTextView: TextView = itemView.findViewById(R.id.email_textview)
         private val roleTextView: TextView = itemView.findViewById(R.id.role_textview)
+        private val arrowButton: ImageView = itemView.findViewById(R.id.arrow_button)
 
         fun bind(collaborator: CollaboratorModal) {
             nameTextView.text = collaborator.name
@@ -30,18 +45,11 @@ class CollaboratorAdapter : ListAdapter<CollaboratorModal, CollaboratorAdapter.C
                 .error(R.drawable.ic_profile_circle)
                 .circleCrop()
                 .into(profileImageView)
+
+            arrowButton.setOnClickListener {
+                onArrowClicked(collaborator)
+            }
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollaboratorViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_collaborator, parent, false)
-        return CollaboratorViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: CollaboratorViewHolder, position: Int) {
-        val collaborator = getItem(position)
-        holder.bind(collaborator)
     }
 
     companion object {

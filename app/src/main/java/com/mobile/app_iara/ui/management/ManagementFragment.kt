@@ -31,7 +31,13 @@ class ManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collaboratorAdapter = CollaboratorAdapter()
+        collaboratorAdapter = CollaboratorAdapter { collaborator ->
+
+            val action = ManagementFragmentDirections
+                .actionManagementFragmentToEditCollaboratorFragment(collaborator.id)
+
+            findNavController().navigate(action)
+        }
 
         val listaDeExemplo = listOf(
             CollaboratorModal(id="1", name="Mariana Costa", email="mariana.costa@seara.com", role="Gerente de Produção", urlPhoto=null),
@@ -50,6 +56,14 @@ class ManagementFragment : Fragment() {
 
         binding.imageButtonAddCollaborator.setOnClickListener {
             findNavController().navigate(R.id.action_managementFragment_to_registerCollaboratorFragment)
+        }
+
+        binding.included.imgPerfilToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_managementFragment_to_profileFragment)
+        }
+
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_managementFragment_to_notificationsFragment)
         }
 
         collaboratorAdapter.submitList(listaDeExemplo)

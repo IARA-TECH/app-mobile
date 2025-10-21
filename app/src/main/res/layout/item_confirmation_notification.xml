@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:stateListAnimator="@null"
+    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="false"
+    app:cardPreventCornerOverlap="false"
+    app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:padding="12dp"
+        android:stateListAnimator="@null">
+
+        <ImageView
+            android:id="@+id/imgIcon"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_warning" />
+
+        <TextView
+            android:id="@+id/titleConfirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/imgIcon"
+            android:ellipsize="end"
+            android:fontFamily="@font/rfdewisemibold"
+            android:singleLine="true"
+            android:text="Solicitação de aprovação"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/actionTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/titleConfirmation"
+            android:layout_alignParentEnd="true"
+            android:text="Ver"
+            android:textColor="@color/primaryBlue"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleConfirmation"
+            android:layout_marginStart="-2dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@id/imgIcon"
+            android:ellipsize="end"
+            android:singleLine="false"
+            android:text="Aprovação pendente: foto do ábaco enviada por um colaborador"
+            android:textColor="@color/lightText"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/timeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtDescription"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@id/imgIcon"
+            android:text="Registrado às x"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

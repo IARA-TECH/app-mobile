@@ -37,23 +37,22 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="225dp"
-        android:layout_height="19dp"
-        android:layout_marginBottom="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/rfdewibold"
         android:text="Simples, rápido e inteligente!"
         android:textColor="#86A4D7"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLoginInicio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/btnLoginInicio"
         android:layout_width="0dp"
         android:layout_height="66dp"
         android:layout_marginStart="38dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="38dp"
         android:backgroundTint="#2B3078"
         android:fontFamily="@font/rfdewibold"
@@ -66,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
         android:id="@+id/botaoCadastroInicio"
@@ -92,9 +91,8 @@
         android:id="@+id/imageView2"
         android:layout_width="230dp"
         android:layout_height="109dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="175dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_iara" />

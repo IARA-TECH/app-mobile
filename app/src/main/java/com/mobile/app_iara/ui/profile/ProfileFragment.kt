@@ -10,21 +10,17 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment 
+import androidx.fragment.app.viewModels 
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
-import com.mobile.app_iara.databinding.FragmentProfileBinding
-import com.mobile.app_iara.ui.profile.faq.FaqActivity
-import com.mobile.app_iara.ui.profile.termsandprivacy.TermsActivity
+import com.mobile.app_iara.databinding.FragmentProfileBinding 
 import com.mobile.app_iara.ui.start.LoginActivity
 
 class ProfileFragment : Fragment() {
-
     private val viewModel: ProfileViewModel by viewModels()
-
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -68,6 +64,8 @@ class ProfileFragment : Fragment() {
             if (newPhotoUrl != null) {
                 Glide.with(this)
                     .load(newPhotoUrl)
+                    .placeholder(R.drawable.ic_user)
+                    .error(R.drawable.ic_user)
                     .into(binding.fotoPerfil)
             }
         }
@@ -91,10 +89,13 @@ class ProfileFragment : Fragment() {
             confirmarSaida()
         }
         binding.btnFaq.setOnClickListener {
-            startActivity(Intent(requireContext(), FaqActivity::class.java))
+            findNavController().navigate(R.id.action_profileFragment_to_faqFragment)
         }
         binding.btnTermsandconditions.setOnClickListener {
-            startActivity(Intent(requireContext(), TermsActivity::class.java))
+            findNavController().navigate(R.id.action_profileFragment_to_termsFragment)
+        }
+        binding.btnChatbot.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_chatFragment)
         }
     }
 

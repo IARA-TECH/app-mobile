@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".ui.profile.termsandprivacy.TermsActivity">
+    tools:context=".ui.profile.termsandprivacy.TermsFragment">
 
     <ImageButton
         android:id="@+id/btnVoltar3"
@@ -33,7 +33,7 @@
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/rfdewibold"
         android:text="Política de privacidade"
@@ -69,7 +69,7 @@
 
         <Button
             android:id="@+id/btnTermos"
-            android:layout_width="185dp"
+            android:layout_width="180dp"
             android:layout_height="55dp"
             android:background="@color/transparent"
             android:backgroundTint="@color/transparent"
@@ -85,9 +85,13 @@
             app:iconSize="20dp"
             app:iconTint="@color/primaryBlue" />
 
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/btnPrivacidade"
-            android:layout_width="185dp"
+            android:layout_width="180dp"
             android:layout_height="55dp"
             android:backgroundTint="@color/primaryBlue"
             android:fontFamily="@font/rfdewibold"
@@ -103,13 +107,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
-        android:layout_height="719dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        app:layout_constraintTop_toBottomOf="@+id/textView17"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
