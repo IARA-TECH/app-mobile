@@ -31,5 +31,8 @@ data class UserProfileResponse(
     val factoryName: String,
 
     @SerializedName("factoryId")
-    val factoryId: Int
+    val factoryId: Int,
+
+    @SerializedName("userPhotoUrl")
+    val userPhotoUrl: String
 )

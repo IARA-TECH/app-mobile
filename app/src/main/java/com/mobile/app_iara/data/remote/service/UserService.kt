@@ -2,6 +2,7 @@ package com.mobile.app_iara.data.remote.service
 
 import com.mobile.app_iara.data.model.response.UserProfileResponse
 import com.mobile.app_iara.data.model.request.EmailRequest
+import com.mobile.app_iara.data.model.request.UpdatePhotoRequest
 import com.mobile.app_iara.data.model.response.UserPhotoResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -19,5 +20,9 @@ interface UserService {
     suspend fun getUserPhoto(@Path("userId") userId: String): Response<UserPhotoResponse>
 
     @PUT("user-photos/by-user/{userId}")
-    suspend fun updateUserPhoto(@Path("userId") userId: String): Response<UserPhotoResponse>
+    suspend fun updateUserPhoto(
+        @Path("userId") id: String,
+        @Body request: UpdatePhotoRequest
+    ): Response<Unit>
+
 }

@@ -67,15 +67,22 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
-    // Dependência para o Gráfico (MPAndroidChart)
+    // Gráfico (MPAndroidChart)
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-    // Retrofit e Gson para comunicação com a API
+    // Retrofit e Gson
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    // Interceptor para logs (muito útil para debugar as chamadas de rede)
+    // Interceptor para logs
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    //Supabase
+    implementation("io.github.jan-tennert.supabase:supabase-kt:2.4.2")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.2")
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:2.4.2")
+    implementation("io.github.jan-tennert.supabase:storage-kt:2.4.2")
+    implementation("io.ktor:ktor-client-android:2.3.11")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

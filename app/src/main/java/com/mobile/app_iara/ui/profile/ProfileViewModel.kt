@@ -1,9 +1,14 @@
 package com.mobile.app_iara.ui.profile
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.mobile.app_iara.data.model.request.EmailRequest
+import com.mobile.app_iara.data.model.response.UserProfileResponse
 import com.mobile.app_iara.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
@@ -11,34 +16,60 @@ class ProfileViewModel : ViewModel() {
 
     private val repository = UserRepository()
 
-    private val _photoUrl = MutableLiveData<String?>()
-    val photoUrl: LiveData<String?> = _photoUrl
+    private val _userProfile = MutableLiveData<UserProfileResponse>()
+    val userProfile: LiveData<UserProfileResponse> = _userProfile
+
+    private val _newPhotoUrl = MutableLiveData<String?>()
+    val newPhotoUrl: LiveData<String?> = _newPhotoUrl
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    fun loadUserPhoto(userId: String) {
+    fun loadCurrentUserProfile() {
         viewModelScope.launch {
             try {
-                val response = repository.getUserPhoto(userId)
-                if (response.isSuccessful) {
-                    _photoUrl.postValue(response.body()?.urlBlob)
+                val email = FirebaseAuth.getInstance().currentUser?.email
+                if (email.isNullOrEmpty()) {
+                    _error.postValue("Usuário não encontrado.")
+                    return@launch
+                }
+
+                val response = repository.getUserProfileByEmail(EmailRequest(email))
+                if (response.isSuccessful && response.body() != null) {
+                    _userProfile.postValue(response.body())
                 } else {
-                    _error.postValue("Falha ao carregar a foto: ${response.code()} - ${response.message()}")
+                    _error.postValue("Falha ao carregar os dados do perfil.")
                 }
             } catch (e: Exception) {
-                _error.postValue("Erro de conexão: ${e.message}")
+                _error.postValue("Erro de conexão ao carregar perfil: ${e.message}")
             }
         }
     }
 
-    // TODO: Criar uma função para lidar com o upload da foto.
-    // Exemplo:
-    /*
-    fun updateUserPhoto(userId: String, photoUri: Uri) {
+    fun updateUserPhoto(context: Context, photoUri: Uri) {
+        val databaseUserId = _userProfile.value?.id
+        if (databaseUserId == null) {
+            _error.postValue("ID do usuário não carregado. Tente novamente.")
+            return
+        }
+
         viewModelScope.launch {
-            // Lógica para converter o Uri em um arquivo e enviar para o repositório
+            try {
+                val url = repository.uploadUserPhoto(context, databaseUserId, photoUri)
+
+                if (url != null) {
+                    val saveSuccess = repository.saveUserPhotoUrl(databaseUserId, url)
+                    if (saveSuccess) {
+                        _newPhotoUrl.postValue(url)
+                    } else {
+                        _error.postValue("Falha ao salvar a foto no perfil.")
+                    }
+                } else {
+                    _error.postValue("Falha ao fazer upload da imagem.")
+                }
+            } catch (e: Exception) {
+                _error.postValue("Erro ao enviar foto: ${e.message}")
+            }
         }
     }
-    */
 }
