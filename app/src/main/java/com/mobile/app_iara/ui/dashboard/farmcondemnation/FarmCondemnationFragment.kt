@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.dashboard.farmcondemnation
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,8 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentFarmCondemnationBinding
 import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
 import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
 class FarmCondemnationFragment : Fragment() {
 
@@ -31,6 +34,13 @@ class FarmCondemnationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRankingList()
         setupHorizontalBarChart()
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()

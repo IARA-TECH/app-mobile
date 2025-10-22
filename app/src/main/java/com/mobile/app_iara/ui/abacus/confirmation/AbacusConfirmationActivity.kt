@@ -1,13 +1,17 @@
 package com.mobile.app_iara.ui.abacus.confirmation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
 class AbacusConfirmationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +23,13 @@ class AbacusConfirmationActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        if (!NetworkUtils.isInternetAvailable(this)) {
+            val intent = Intent(this, WifiErrorActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerInformacoes)
