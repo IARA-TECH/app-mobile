@@ -1,6 +1,5 @@
 package com.mobile.app_iara.ui.error
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -8,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.start.LoginActivity
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 
 class WifiErrorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

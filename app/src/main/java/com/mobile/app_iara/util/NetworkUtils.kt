@@ -1,4 +1,4 @@
-package com.mobile.app_iara.utils
+package com.mobile.app_iara.util
 
 import android.content.Context
 import android.net.ConnectivityManager

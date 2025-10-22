@@ -148,6 +148,14 @@
         <action
             android:id="@+id/action_profileFragment_to_faqFragment"
             app:destination="@id/navigation_faq" />
+
+        <action
+            android:id="@+id/action_profile_to_configuracao"
+            app:destination="@id/configurationFragment" />
+
+        <action
+            android:id="@+id/action_profile_to_fabrica"
+            app:destination="@id/factoryFragment"/>
     </fragment>
 
     <fragment
@@ -263,6 +271,18 @@
             android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
             app:destination="@id/registerAbacusFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/configurationFragment"
+        android:name="com.mobile.app_iara.ui.profile.configuration.ConfigurationFragment"
+        android:label="fragment_configuration"
+        tools:layout="@layout/fragment_configuration" />
+
+    <fragment
+        android:id="@+id/factoryFragment"
+        android:name="com.mobile.app_iara.ui.profile.factory.FactoryFragment"
+        android:label="fragment_fabrica"
+        tools:layout="@layout/fragment_factory" />
 
     <fragment
         android:id="@+id/registerAbacusFragment"
