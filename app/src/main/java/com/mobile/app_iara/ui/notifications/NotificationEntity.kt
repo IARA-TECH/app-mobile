@@ -9,5 +9,4 @@ data class NotificationEntity(
     val title: String,
     val description: String,
     val time: String,
-    val link: String? = null
 )

@@ -25,7 +25,6 @@ import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_DESC
-import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_LINK
 import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_TITLE
 import java.util.Calendar
 
@@ -124,7 +123,6 @@ class MainActivity : AppCompatActivity() {
         val inputData = Data.Builder()
             .putString(KEY_NOTIFICATION_TITLE, "Análises do dia prontas!")
             .putString(KEY_NOTIFICATION_DESC, "Não se esqueça de verificar os dados de hoje")
-            .putString(KEY_NOTIFICATION_LINK, "ANALISES")
             .build()
 
         val currentTime = Calendar.getInstance()

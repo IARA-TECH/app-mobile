@@ -79,6 +79,9 @@ dependencies {
     // Dependência para o Gráfico (MPAndroidChart)
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
+    // Biblioteca para animação
+    implementation("com.airbnb.android:lottie:6.4.1")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -42,12 +42,11 @@ class EditEmailFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        binding.btnCancelarEditEmail.setOnClickListener {
+        binding.btnCancelar.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        binding.btnConfirmarEditEmail.setOnClickListener {
-
+        binding.btnConfirmar.setOnClickListener {
             findNavController().popBackStack()
         }
     }

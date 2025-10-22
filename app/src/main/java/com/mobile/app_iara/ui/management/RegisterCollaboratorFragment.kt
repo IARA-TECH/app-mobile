@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentRegisterCollaboratorBinding
@@ -88,9 +90,7 @@ class RegisterCollaboratorFragment : Fragment() {
         dialog.setOnShowListener {
             val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let {
-                val layoutParams = it.layoutParams
-                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                it.layoutParams = layoutParams
+                it.setBackgroundColor(Color.TRANSPARENT)
             }
         }
 
@@ -125,9 +125,7 @@ class RegisterCollaboratorFragment : Fragment() {
         dialog.setOnShowListener {
             val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let {
-                val layoutParams = it.layoutParams
-                layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                it.layoutParams = layoutParams
+                it.setBackgroundColor(Color.TRANSPARENT)
             }
         }
 
