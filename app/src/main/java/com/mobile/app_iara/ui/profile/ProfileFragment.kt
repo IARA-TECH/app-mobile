@@ -50,7 +50,7 @@ class ProfileFragment : Fragment() {
         val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
         val btnFaq = view.findViewById<MaterialCardView>(R.id.btnFaq)
         val btnChatBot = view.findViewById<MaterialCardView>(R.id.btnChatbot)
-        val btnAdmin = view.findViewById<ImageButton>(R.id.imageView15)
+        val btnAdmin = view.findViewById<ImageButton>(R.id.imageButtonAdmin)
 
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
@@ -72,8 +72,8 @@ class ProfileFragment : Fragment() {
 
         btnAdmin.setOnClickListener {
             val intent = Intent(requireContext(), AdminActivity::class.java)
+            intent.putExtra(AdminActivity.EXTRA_URL, "https://sitepradarerro")
             startActivity(intent)
-            requireActivity().finish()
         }
 
         btnFaq.setOnClickListener {
