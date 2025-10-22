@@ -1,6 +1,7 @@
 package com.mobile.app_iara.data.remote
 
 import com.mobile.app_iara.data.remote.service.FactoryService
+import com.mobile.app_iara.data.remote.service.UserAccessTypeService
 import com.mobile.app_iara.data.remote.service.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,5 +32,9 @@ object RetrofitClient {
 
     val factoryService: FactoryService by lazy {
         retrofit.create(FactoryService::class.java)
+    }
+
+    val userAccessTypeService: UserAccessTypeService by lazy {
+        retrofit.create(UserAccessTypeService::class.java)
     }
 }
