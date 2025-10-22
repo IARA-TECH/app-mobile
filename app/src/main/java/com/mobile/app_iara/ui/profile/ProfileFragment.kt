@@ -22,9 +22,6 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.admin.AdminActivity
 import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.ui.start.LoginActivity
-import com.mobile.app_iara.ui.profile.faq.FaqFragment
-import com.mobile.app_iara.ui.profile.termsandprivacy.TermsFragment
 import com.mobile.app_iara.utils.NetworkUtils
 
 
