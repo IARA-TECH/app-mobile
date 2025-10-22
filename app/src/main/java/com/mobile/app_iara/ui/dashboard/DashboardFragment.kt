@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
 class DashboardFragment : Fragment() {
 
@@ -32,6 +35,13 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         binding.cardTechnicalFailures.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_technicalFailures)

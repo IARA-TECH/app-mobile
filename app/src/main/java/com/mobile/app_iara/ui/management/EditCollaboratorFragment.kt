@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.management
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentEditCollaboratorBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.Role
 import com.mobile.app_iara.ui.management.collaborator.RolesAdapter
+import com.mobile.app_iara.utils.NetworkUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.widget.FrameLayout
 
@@ -34,6 +37,13 @@ class EditCollaboratorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         setupClickListeners()
     }
