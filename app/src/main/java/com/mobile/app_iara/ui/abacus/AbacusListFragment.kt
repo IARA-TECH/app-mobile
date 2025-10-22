@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.abacus
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentAbacusListBinding // Altere para seu pacote
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
 class AbacusListFragment : Fragment() {
 
@@ -27,6 +30,13 @@ class AbacusListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         setupRecyclerView()
         loadAbacusData()
