@@ -16,13 +16,13 @@ interface UserService {
     @POST("users/by-email")
     suspend fun getUserProfileByEmail(@Body request: EmailRequest): Response<UserProfileResponse>
 
-    @GET("user-photos/by-user/{userId}")
-    suspend fun getUserPhoto(@Path("userId") userId: String): Response<UserPhotoResponse>
-
     @PUT("user-photos/by-user/{userId}")
     suspend fun updateUserPhoto(
         @Path("userId") id: String,
         @Body request: UpdatePhotoRequest
     ): Response<Unit>
+
+    @GET("users/by-factory/{factoryId}")
+    suspend fun getUsersByFactory(@Path("factoryId") factoryId: Int): Response<List<UserProfileResponse>>
 
 }

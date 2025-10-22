@@ -20,13 +20,8 @@ class UserRepository {
 
     private val supabase = SupabaseClientProvider.client
 
-
     suspend fun getUserProfileByEmail(request: EmailRequest) =
         userService.getUserProfileByEmail(request)
-
-    suspend fun getUserPhoto(userId: String): Response<UserPhotoResponse> {
-        return userService.getUserPhoto(userId)
-    }
 
     suspend fun uploadUserPhoto(context: Context, userId: String, photoUri: Uri): String? {
         return withContext(Dispatchers.IO) {
@@ -70,4 +65,7 @@ class UserRepository {
             }
         }
     }
+
+    suspend fun getUsersByFactory(factoryId: Int) =
+        userService.getUsersByFactory(factoryId)
 }
