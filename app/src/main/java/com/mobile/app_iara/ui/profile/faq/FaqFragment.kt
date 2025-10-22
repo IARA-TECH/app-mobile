@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.profile.faq
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
 class FaqFragment : Fragment() {
 
@@ -22,6 +25,13 @@ class FaqFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         val btnVoltar = view.findViewById<ImageButton>(R.id.btnVoltar4)
         val recyclerViewDuvidas = view.findViewById<RecyclerView>(R.id.recycler_duvidas)

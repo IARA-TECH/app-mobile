@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.dashboard.shiftcomparison
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +18,8 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentShiftComparisonBinding
 import com.mobile.app_iara.databinding.ItemShiftQuantityBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.utils.NetworkUtils
 
 class ShiftComparisonFragment : Fragment() {
 
@@ -32,6 +35,13 @@ class ShiftComparisonFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupQuantityList()
         setupMultiLineChart()
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
