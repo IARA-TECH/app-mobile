@@ -3,132 +3,129 @@ package com.mobile.app_iara.ui.profile
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
-import androidx.appcompat.app.AlertDialog
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
+import com.mobile.app_iara.databinding.FragmentProfileBinding
 import com.mobile.app_iara.ui.start.LoginActivity
-import com.mobile.app_iara.ui.profile.faq.FaqFragment
-import com.mobile.app_iara.ui.profile.termsandprivacy.TermsFragment
 
 class ProfileFragment : Fragment() {
-
-    private lateinit var fotoPerfil: ImageView
-    private lateinit var btnTrocarFoto: ImageButton
+    private val viewModel: ProfileViewModel by viewModels()
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
     private val pickImage = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            Glide.with(this)
-                .load(it)
-                .into(fotoPerfil)
+            viewModel.updateUserPhoto(requireContext(), it)
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        val imageProfile = view.findViewById<ShapeableImageView>(R.id.fotoPerfil)
-        val userName = view.findViewById<TextView>(R.id.textView13)
-        val userCargo = view.findViewById<TextView>(R.id.textView16)
-        val btnSair = view.findViewById<MaterialCardView>(R.id.btnSair)
-        val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
-        val btnFaq = view.findViewById<MaterialCardView>(R.id.btnFaq)
-        val btnChatBot = view.findViewById<MaterialCardView>(R.id.btnChatbot)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.loadCurrentUserProfile()
 
+        setupObservers()
+        setupButtonClickListeners()
+    }
 
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            userName.text = user.displayName ?: "Usuário"
-            userCargo.text = user.email ?: "Cargo não definido"
+    private fun setupObservers() {
+        viewModel.userProfile.observe(viewLifecycleOwner) { userProfile ->
+            binding.textView13.text = userProfile.name
+            binding.textView16.text = userProfile.email
 
-            val photoUrl = user.photoUrl
-            if (photoUrl != null) {
+            Glide.with(this)
+                .load(userProfile.userPhotoUrl)
+                .placeholder(R.drawable.ic_user)
+                .error(R.drawable.ic_user)
+                .into(binding.fotoPerfil)
+        }
+
+        viewModel.newPhotoUrl.observe(viewLifecycleOwner) { newPhotoUrl ->
+            if (newPhotoUrl != null) {
                 Glide.with(this)
-                    .load(photoUrl)
+                    .load(newPhotoUrl)
                     .placeholder(R.drawable.ic_user)
-                    .into(imageProfile)
+                    .error(R.drawable.ic_user)
+                    .into(binding.fotoPerfil)
             }
         }
 
-        btnSair.setOnClickListener {
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupButtonClickListeners() {
+        binding.btnTrocarFoto.setOnClickListener {
+            pickImage.launch("image/*")
+        }
+        binding.btnConfig.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_configuracao)
+        }
+        binding.btnFabrica.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_fabrica)
+        }
+        binding.btnSair.setOnClickListener {
             confirmarSaida()
         }
-
-        btnFaq.setOnClickListener {
+        binding.btnFaq.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_faqFragment)
         }
-
-        btnTermos.setOnClickListener {
+        binding.btnTermsandconditions.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_termsFragment)
         }
-
-        btnChatBot.setOnClickListener {
+        binding.btnChatbot.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_chatFragment)
         }
-
-        return view
     }
 
     private fun confirmarSaida() {
         val builder = AlertDialog.Builder(requireContext())
-        val inflater = layoutInflater
-        val view = inflater.inflate(R.layout.dialog_exit_confirmation, null)
-        builder.setView(view)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_exit_confirmation, null)
+        builder.setView(dialogView)
 
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        val width = (resources.displayMetrics.widthPixels * 0.8).toInt()
-        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val dialog = builder.create().apply {
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            show()
+            val width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+            window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
 
-        val btnSair = view.findViewById<Button>(R.id.btnSairDialog)
-        val btnCancelar = view.findViewById<Button>(R.id.btnCancelarDialog)
-
-        btnSair.setOnClickListener {
-            val prefs = requireActivity().getSharedPreferences("user_prefs", 0)
-            prefs.edit().putBoolean("is_logged_in", false).apply()
-
+        dialogView.findViewById<Button>(R.id.btnSairDialog).setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-
             val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-            requireActivity().finish()
-
             dialog.dismiss()
         }
 
-        btnCancelar.setOnClickListener {
+        dialogView.findViewById<Button>(R.id.btnCancelarDialog).setOnClickListener {
             dialog.dismiss()
         }
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        fotoPerfil = view.findViewById(R.id.fotoPerfil)
-        btnTrocarFoto = view.findViewById(R.id.btnTrocarFoto)
-
-        btnTrocarFoto.setOnClickListener {
-            pickImage.launch("image/*")
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-
 }
