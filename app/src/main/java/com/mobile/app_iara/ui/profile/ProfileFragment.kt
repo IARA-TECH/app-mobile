@@ -21,6 +21,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.admin.AdminActivity
 import com.mobile.app_iara.ui.start.LoginActivity
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.start.LoginActivity
+import com.mobile.app_iara.ui.profile.faq.FaqFragment
+import com.mobile.app_iara.ui.profile.termsandprivacy.TermsFragment
+import com.mobile.app_iara.utils.NetworkUtils
+
 
 class ProfileFragment : Fragment() {
 
@@ -127,6 +133,13 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         fotoPerfil = view.findViewById(R.id.fotoPerfil)
         btnTrocarFoto = view.findViewById(R.id.btnTrocarFoto)
