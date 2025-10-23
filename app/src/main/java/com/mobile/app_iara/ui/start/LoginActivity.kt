@@ -2,9 +2,12 @@ package com.mobile.app_iara.ui.start
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -21,6 +24,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.utils.NetworkUtils
@@ -75,8 +80,26 @@ class LoginActivity : AppCompatActivity() {
         val checkLogado = findViewById<CheckBox>(R.id.checkBox2)
         var senhaVisivel = false
         val primeiroAcesso = findViewById<TextView>(R.id.PrimeiroAcesso)
+        val mensagemCampos = findViewById<TextView>(R.id.MensagemCampos)
+        val mensagemCredenciais = findViewById<TextView>(R.id.MensagemCredenciais)
 
         val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+
+        val errorClearTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                mensagemCampos.visibility = View.GONE
+                mensagemCredenciais.visibility = View.GONE
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+
+        emailEditText.addTextChangedListener(errorClearTextWatcher)
+        edtSenha.addTextChangedListener(errorClearTextWatcher)
 
         btnVoltar.setOnClickListener {
             val intent = Intent(this, InitiationActivity::class.java)
@@ -103,7 +126,7 @@ class LoginActivity : AppCompatActivity() {
             val senha = edtSenha.text.toString().trim()
 
             if (email.isEmpty() || senha.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                mensagemCampos.visibility = View.VISIBLE
                 return@setOnClickListener
             }
 
@@ -127,34 +150,18 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                    }
-                }
-        }
+                        val exception = task.exception
 
-        btnAvancarLogin.setOnClickListener {
-            val email = emailEditText.text.toString().trim()
-            val senha = edtSenha.text.toString().trim()
-
-            if (email.isEmpty() || senha.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            auth.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        if (checkLogado.isChecked) {
-                            sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
-                        } else {
-                            sharedPrefs.edit().putBoolean("is_logged_in", false).apply()
+                        when (exception) {
+                            is FirebaseAuthInvalidUserException,
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                mensagemCredenciais.visibility = View.VISIBLE
+                            }
+                            else -> {
+                                Toast.makeText(this, "Ocorreu um erro. Tente novamente.", Toast.LENGTH_LONG).show()
+                                Log.e("LoginActivity", "Firebase Auth failed", exception)
+                            }
                         }
-
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                     }
                 }
         }
