@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
@@ -36,9 +36,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         val emailEditText = findViewById<TextInputEditText>(R.id.emailEsqueceuSenha)
 
         btnVoltar.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         btnVerificarEmail.setOnClickListener {

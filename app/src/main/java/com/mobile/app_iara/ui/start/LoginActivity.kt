@@ -23,7 +23,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.mobile.app_iara.MainActivity
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 

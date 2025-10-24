@@ -10,7 +10,8 @@ import com.mobile.app_iara.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheetsActivity
+import com.mobile.app_iara.util.NetworkUtils
 
 class HomeFragment : Fragment() {
 
