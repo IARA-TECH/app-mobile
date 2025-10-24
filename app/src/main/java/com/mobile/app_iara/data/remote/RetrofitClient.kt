@@ -3,10 +3,13 @@ package com.mobile.app_iara.data.remote
 import com.mobile.app_iara.data.remote.service.FactoryService
 import com.mobile.app_iara.data.remote.service.UserAccessTypeService
 import com.mobile.app_iara.data.remote.service.UserService
+import okhttp3.Credentials
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
@@ -16,8 +19,35 @@ object RetrofitClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
+    private val authInterceptor = Interceptor { chain ->
+        val email = UserCredentialsHolder.email
+        val password = UserCredentialsHolder.password
+        val originalRequest = chain.request()
+
+        if (email == null || password == null) {
+            println(">>> Sem credenciais salvas")
+            return@Interceptor chain.proceed(originalRequest)
+        }
+
+        val credentials = Credentials.basic(email, password)
+        println(">>> Credenciais BASIC: $credentials")
+
+        val newRequest = originalRequest.newBuilder()
+            .header("Authorization", credentials)
+            .build()
+
+        println(">>> Header Authorization adicionado: ${newRequest.header("Authorization")}")
+
+        return@Interceptor chain.proceed(newRequest)
+    }
+
+
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(authInterceptor)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
     private val retrofit = Retrofit.Builder()

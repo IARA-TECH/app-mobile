@@ -25,6 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.util.NetworkUtils
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.remote.UserCredentialsHolder
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -64,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Erro no login com Google", Toast.LENGTH_SHORT).show()
             }
         }
-        
+
         val btnGoogle = findViewById<ImageButton>(R.id.btnGoogle)
         val tvEsqueceuSenha = findViewById<TextView>(R.id.textView5)
         val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
@@ -117,43 +118,28 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
+                        UserCredentialsHolder.setCredentials(email, senha)
+
                         if (checkLogado.isChecked) {
-                            sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
+                            sharedPrefs.edit()
+                                .putBoolean("is_logged_in", true)
+                                .putString("email", email)
+                                .putString("password", senha)
+                                .apply()
+
                         } else {
-                            sharedPrefs.edit().putBoolean("is_logged_in", false).apply()
+                            sharedPrefs.edit()
+                                .putBoolean("is_logged_in", false)
+                                .remove("email")
+                                .remove("password")
+                                .apply()
                         }
 
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                    }
-                }
-        }
-
-        btnAvancarLogin.setOnClickListener {
-            val email = emailEditText.text.toString().trim()
-            val senha = edtSenha.text.toString().trim()
-
-            if (email.isEmpty() || senha.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            auth.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        if (checkLogado.isChecked) {
-                            sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
-                        } else {
-                            sharedPrefs.edit().putBoolean("is_logged_in", false).apply()
-                        }
-
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
+                        UserCredentialsHolder.clear()
                         Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                     }
                 }
@@ -185,7 +171,14 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                    sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
+
+                    sharedPrefs.edit()
+                        .putBoolean("is_logged_in", true)
+                        .remove("email")
+                        .remove("password")
+                        .apply()
+
+                    UserCredentialsHolder.clear()
 
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
@@ -209,6 +202,15 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
                 return
+            }
+
+            val savedEmail = sharedPrefs.getString("email", null)
+            val savedPassword = sharedPrefs.getString("password", null)
+
+            if (savedEmail != null && savedPassword != null) {
+                UserCredentialsHolder.setCredentials(savedEmail, savedPassword)
+            } else {
+                UserCredentialsHolder.clear()
             }
 
             val intent = Intent(this, MainActivity::class.java)
