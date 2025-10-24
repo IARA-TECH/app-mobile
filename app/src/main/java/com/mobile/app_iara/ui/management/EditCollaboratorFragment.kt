@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
@@ -21,6 +22,9 @@ import com.mobile.app_iara.ui.management.collaborator.RolesAdapter
 import com.mobile.app_iara.utils.NetworkUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.mobile.app_iara.ui.start.LoginActivity
 
 class EditCollaboratorFragment : Fragment() {
 
@@ -51,6 +55,10 @@ class EditCollaboratorFragment : Fragment() {
     private fun setupClickListeners() {
         binding.buttonBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        binding.imageButtonExcluir.setOnClickListener {
+            showConfirmationDialog()
         }
 
         binding.btnCancelar.setOnClickListener {
@@ -102,6 +110,30 @@ class EditCollaboratorFragment : Fragment() {
 
         dialog.setContentView(view)
         dialog.show()
+    }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.dialog_confirmation_management, null)
+        builder.setView(view)
+
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        val btnConfirmar = view.findViewById<Button>(R.id.btnConfirmarExclusaoDialog)
+        val btnCancelar = view.findViewById<Button>(R.id.btnCancelarExclusaoDialog)
+
+        btnConfirmar.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnCancelar.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     private fun showRoleSelectionDialog() {
