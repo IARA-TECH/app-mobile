@@ -3,7 +3,6 @@ package com.mobile.app_iara.data.remote.service
 import com.mobile.app_iara.data.model.response.UserProfileResponse
 import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.model.request.UpdatePhotoRequest
-import com.mobile.app_iara.data.model.response.UserPhotoResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

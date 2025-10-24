@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.model.request.UpdatePhotoRequest
-import com.mobile.app_iara.data.model.response.UserPhotoResponse
 import com.mobile.app_iara.data.remote.RetrofitClient
 import com.mobile.app_iara.data.remote.SupabaseClientProvider
 import io.github.jan.supabase.storage.storage
