@@ -2,16 +2,17 @@ package com.mobile.app_iara.ui.spreadsheets
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentSpreadSheetsBinding
+import java.text.Normalizer
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.utils.NetworkUtils
 
@@ -19,6 +20,9 @@ class SpreadSheetsFragment : Fragment() {
 
     private var _binding: FragmentSpreadSheetsBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var spreadSheetsAdapter: SpreadSheetsAdapter
+    private val listaOriginalPlanilhas = createSpreadSheetsDummyData()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +34,8 @@ class SpreadSheetsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupRecyclerView()
+        
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
@@ -38,26 +43,48 @@ class SpreadSheetsFragment : Fragment() {
             return
         }
 
-        setupBackButton()
+        binding.inputSearchSpreadsheet.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
-        binding.included.imgBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString().removeAccents().lowercase()
 
-        binding.included.iconNotificationToolbar.setOnClickListener {
-            findNavController().navigate(R.id.action_spreadSheetsFragment_to_notificationsFragment)
-        }
+                val filteredList = listaOriginalPlanilhas.filter { spreadsheet ->
+                    spreadsheet.title.removeAccents().lowercase().contains(query)
+                }
 
-        val spreadSheetsData = createSpreadSheetsDummyData()
-        setupRecyclerView(spreadSheetsData)
+                spreadSheetsAdapter.submitList(filteredList)
+            }
+        })
 
+        setupClickListeners()
+        spreadSheetsAdapter.submitList(listaOriginalPlanilhas)
     }
 
-    private fun setupRecyclerView(spreadSheetsList: List<SpreadSheets>) {
-        val spreadSheetsAdapter = SpreadSheetsAdapter(spreadSheetsList)
+    fun String.removeAccents(): String {
+        val normalizedString = Normalizer.normalize(this, Normalizer.Form.NFD)
+
+        val regex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+
+        return regex.replace(normalizedString, "")
+    }
+
+
+    private fun setupRecyclerView() {
+        spreadSheetsAdapter = SpreadSheetsAdapter()
         binding.spreadSheetsRecyclerView.apply {
             adapter = spreadSheetsAdapter
             layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun setupClickListeners() {
+        binding.included.imgBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_spreadSheetsFragment_to_notificationsFragment)
         }
     }
 
@@ -66,12 +93,12 @@ class SpreadSheetsFragment : Fragment() {
             SpreadSheets(
                 title = "Ábaco post-mortem - Lote A1",
                 date = "02/10/2025",
-                urlSpreadSheet = "https://docs.google.com/spreadsheets/d/1FEHHzfSMBH4TO-2r3LHzxdKigFU-KqMmSxAPXLwpZvk/edit?gid=126838007#gid=126838007"
+                urlSpreadSheet = "url example"
             ),
             SpreadSheets(
                 title = "Relatório de Perda - Silo 3",
                 date = "29/09/2025",
-                urlSpreadSheet = "https://docs.google.com/spreadsheets/d/1Fhduw2am7gmtoBr3-cTR4e4XEodSPdZYEQo9iHXfpYs/edit?gid=0#gid=0"
+                urlSpreadSheet = "url example"
             ),
             SpreadSheets(
                 title = "Análise de Mortalidade - Aviário 5",
@@ -89,12 +116,6 @@ class SpreadSheetsFragment : Fragment() {
                 urlSpreadSheet = "url example"
             )
         )
-    }
-
-    private fun setupBackButton() {
-        binding.included.imgBack.setOnClickListener {
-            activity?.supportFragmentManager?.popBackStack()
-        }
     }
 
     override fun onDestroyView() {
