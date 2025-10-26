@@ -27,10 +27,20 @@ import androidx.work.PeriodicWorkRequestBuilder
 import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_DESC
 import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_TITLE
 import java.util.Calendar
+import com.google.firebase.auth.FirebaseAuth
+import com.mobile.app_iara.data.model.request.EmailRequest
+import com.mobile.app_iara.data.repository.UserAccessTypeRepository
+import com.mobile.app_iara.data.repository.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val userRepository = UserRepository()
+    private val accessTypeRepository = UserAccessTypeRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,15 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNav: BottomNavigationView = binding.navView
 
-        val tipoUser = "j"
-
-        if (tipoUser == "comum") {
-            bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
-        } else {
-            for (i in 0 until bottomNav.menu.size()) {
-                bottomNav.menu.getItem(i).isVisible = true
-            }
-        }
+        loadUserAccessAndConfigureNav(bottomNav)
 
         bottomNav.setOnItemSelectedListener { item ->
             if (navController.currentDestination?.id == item.itemId) {
@@ -79,8 +81,59 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNav.menu.findItem(destination.id)?.isChecked = true
         }
+
         createNotificationChannel(this)
         askNotificationPermission()
+    }
+
+    private fun loadUserAccessAndConfigureNav(bottomNav: BottomNavigationView) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val email = FirebaseAuth.getInstance().currentUser?.email
+                if (email.isNullOrEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                    }
+                    return@launch
+                }
+
+                val userResponse = userRepository.getUserProfileByEmail(EmailRequest(email))
+                if (!userResponse.isSuccessful || userResponse.body() == null) {
+                    withContext(Dispatchers.Main) {
+                        bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                    }
+                    return@launch
+                }
+
+                val userId = userResponse.body()!!.id
+
+                val accessResponse = accessTypeRepository.getUserAccessType(userId)
+
+                withContext(Dispatchers.Main) {
+                    if (accessResponse.isSuccessful && accessResponse.body() != null) {
+                        val accessTypes = accessResponse.body()!!
+                        val hasManagementAccess = accessTypes.any {
+                            it.accessTypeName.equals("Administrador", ignoreCase = true) ||
+                                    it.accessTypeName.equals("Supervisor", ignoreCase = true)
+                        }
+
+                        if (hasManagementAccess) {
+                            for (i in 0 until bottomNav.menu.size()) {
+                                bottomNav.menu.getItem(i).isVisible = true
+                            }
+                        } else {
+                            bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                        }
+                    } else {
+                        bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                }
+            }
+        }
     }
 
     private val requestPermissionLauncher =
@@ -220,4 +273,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-

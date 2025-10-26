@@ -8,5 +8,5 @@ import retrofit2.http.Path
 interface UserAccessTypeService {
 
     @GET("users-access-type/{userId}")
-    suspend fun getAccessTypeById(@Path("userId") userId: Int): Response<List<UserAccessTypeResponse>>
+    suspend fun getAccessTypeById(@Path("userId") userId: String): Response<List<UserAccessTypeResponse>>
 }

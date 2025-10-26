@@ -6,7 +6,7 @@ import retrofit2.Response
 
 class UserAccessTypeRepository {
 
-    suspend fun getUserAccessType(userId: Int): Response<List<UserAccessTypeResponse>> {
+    suspend fun getUserAccessType(userId: String): Response<List<UserAccessTypeResponse>> {
         return userAccessTypeService.getAccessTypeById(userId)
     }
 }
