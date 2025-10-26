@@ -19,11 +19,11 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.admin.AdminActivity
 import com.mobile.app_iara.ui.start.LoginActivity
-import com.mobile.app_iara.ui.profile.faq.FaqFragment
-import com.mobile.app_iara.ui.profile.termsandprivacy.TermsFragment
+import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.utils.NetworkUtils
+
 
 class ProfileFragment : Fragment() {
 
@@ -53,7 +53,7 @@ class ProfileFragment : Fragment() {
         val btnTermos = view.findViewById<MaterialCardView>(R.id.btnTermsandconditions)
         val btnFaq = view.findViewById<MaterialCardView>(R.id.btnFaq)
         val btnChatBot = view.findViewById<MaterialCardView>(R.id.btnChatbot)
-
+        val btnAdmin = view.findViewById<ImageButton>(R.id.imageButtonAdmin)
 
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
@@ -71,6 +71,12 @@ class ProfileFragment : Fragment() {
 
         btnSair.setOnClickListener {
             confirmarSaida()
+        }
+
+        btnAdmin.setOnClickListener {
+            val intent = Intent(requireContext(), AdminActivity::class.java)
+            intent.putExtra(AdminActivity.EXTRA_URL, "https://sitepradarerro")
+            startActivity(intent)
         }
 
         btnFaq.setOnClickListener {
