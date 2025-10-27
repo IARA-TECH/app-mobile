@@ -5,6 +5,7 @@ import android.net.Uri
 import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.model.request.UpdatePhotoRequest
 import com.mobile.app_iara.data.model.response.UserPhotoResponse
+import com.mobile.app_iara.data.model.response.UserProfileResponse
 import com.mobile.app_iara.data.remote.RetrofitClient
 import com.mobile.app_iara.data.remote.SupabaseClientProvider
 import io.github.jan.supabase.storage.storage
@@ -26,6 +27,21 @@ class UserRepository {
 
     suspend fun getUserPhoto(userId: String): Response<UserPhotoResponse> {
         return userService.getUserPhoto(userId)
+    }
+
+    suspend fun getAllUsers(): Result<List<UserProfileResponse>> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = userService.getAllUsers()
+                if (response.isSuccessful && response.body() != null) {
+                    Result.success(response.body()!!)
+                } else {
+                    Result.failure(Exception("Erro ao buscar usuários: ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
     }
 
     suspend fun uploadUserPhoto(context: Context, userId: String, photoUri: Uri): String? {

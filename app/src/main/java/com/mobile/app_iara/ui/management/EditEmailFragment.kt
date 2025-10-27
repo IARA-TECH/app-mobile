@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.mobile.app_iara.databinding.FragmentEditEmailBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 
 class EditEmailFragment : Fragment() {
 

@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.start
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
@@ -15,22 +16,34 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.mobile.app_iara.MainActivity
-import com.mobile.app_iara.util.NetworkUtils
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.request.EmailRequest // Importe o modelo de request
+import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.util.NetworkUtils
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private val userRepository = UserRepository()
+
+    companion object {
+        const val PREFS_NAME = "IARA_APP_POSTECH_PREFS"
+        const val KEY_FACTORY_ID = "USER_FACTORY_ID"
+        const val KEY_LOGGED_IN = "is_logged_in"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +77,9 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Erro no login com Google", Toast.LENGTH_SHORT).show()
             }
         }
-        
+
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+
         val btnGoogle = findViewById<ImageButton>(R.id.btnGoogle)
         val tvEsqueceuSenha = findViewById<TextView>(R.id.textView5)
         val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
@@ -75,8 +90,6 @@ class LoginActivity : AppCompatActivity() {
         val checkLogado = findViewById<CheckBox>(R.id.checkBox2)
         var senhaVisivel = false
         val primeiroAcesso = findViewById<TextView>(R.id.PrimeiroAcesso)
-
-        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
         btnVoltar.setOnClickListener {
             val intent = Intent(this, InitiationActivity::class.java)
@@ -97,7 +110,6 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-
         btnAvancarLogin.setOnClickListener {
             val email = emailEditText.text.toString().trim()
             val senha = edtSenha.text.toString().trim()
@@ -116,43 +128,8 @@ class LoginActivity : AppCompatActivity() {
 
             auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        if (checkLogado.isChecked) {
-                            sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
-                        } else {
-                            sharedPrefs.edit().putBoolean("is_logged_in", false).apply()
-                        }
-
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                    }
-                }
-        }
-
-        btnAvancarLogin.setOnClickListener {
-            val email = emailEditText.text.toString().trim()
-            val senha = edtSenha.text.toString().trim()
-
-            if (email.isEmpty() || senha.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            auth.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        if (checkLogado.isChecked) {
-                            sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
-                        } else {
-                            sharedPrefs.edit().putBoolean("is_logged_in", false).apply()
-                        }
-
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                    if (task.isSuccessful && auth.currentUser != null) {
+                        fetchApiDataAndNavigate(auth.currentUser!!, checkLogado.isChecked)
                     } else {
                         Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                     }
@@ -161,7 +138,6 @@ class LoginActivity : AppCompatActivity() {
 
         btnToggle.setOnClickListener {
             senhaVisivel = !senhaVisivel
-
             if (senhaVisivel) {
                 edtSenha.transformationMethod = HideReturnsTransformationMethod.getInstance()
                 btnToggle.setImageResource(R.drawable.ic_open_eye)
@@ -169,7 +145,6 @@ class LoginActivity : AppCompatActivity() {
                 edtSenha.transformationMethod = PasswordTransformationMethod.getInstance()
                 btnToggle.setImageResource(R.drawable.ic_close_eye)
             }
-
             edtSenha.setSelection(edtSenha.text?.length ?: 0)
         }
 
@@ -183,24 +158,55 @@ class LoginActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                    sharedPrefs.edit().putBoolean("is_logged_in", true).apply()
-
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                if (task.isSuccessful && auth.currentUser != null) {
+                    fetchApiDataAndNavigate(auth.currentUser!!, true)
+                } else {
+                    Toast.makeText(this, "Falha na autenticação com Google.", Toast.LENGTH_SHORT).show()
                 }
-
             }
     }
 
+    private fun fetchApiDataAndNavigate(firebaseUser: FirebaseUser, keepLoggedIn: Boolean) {
+        val userEmail = firebaseUser.email
+        if (userEmail.isNullOrEmpty()) {
+            Toast.makeText(this, "Erro: E-mail não encontrado no Firebase.", Toast.LENGTH_SHORT).show()
+            auth.signOut()
+            return
+        }
+
+        lifecycleScope.launch {
+            try {
+                val userResponse = userRepository.getUserProfileByEmail(EmailRequest(userEmail))
+
+                if (userResponse.isSuccessful && userResponse.body() != null) {
+                    val factoryId = userResponse.body()!!.factoryId
+
+                    val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    prefs.edit()
+                        .putInt(KEY_FACTORY_ID, factoryId)
+                        .putBoolean(KEY_LOGGED_IN, keepLoggedIn)
+                        .apply()
+
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
+                } else {
+                    Toast.makeText(this@LoginActivity, "Usuário não encontrado em nossa base de dados.", Toast.LENGTH_LONG).show()
+                    auth.signOut()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@LoginActivity, "Falha de conexão: ${e.message}", Toast.LENGTH_LONG).show()
+                auth.signOut()
+            }
+        }
+    }
 
     override fun onStart() {
         super.onStart()
 
-        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val manterLogado = sharedPrefs.getBoolean("is_logged_in", false)
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        val manterLogado = sharedPrefs.getBoolean(KEY_LOGGED_IN, false)
         val userLogin = auth.currentUser
 
         if (userLogin != null && manterLogado) {

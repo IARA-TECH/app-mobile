@@ -25,4 +25,6 @@ interface UserService {
         @Body request: UpdatePhotoRequest
     ): Response<Unit>
 
+    @GET("users")
+    suspend fun getAllUsers(): Response<List<UserProfileResponse>>
 }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.databinding.DialogAddColumnBinding
 import com.mobile.app_iara.databinding.FragmentRegisterAbacusBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 
 
 class RegisterAbacusFragment : Fragment() {

@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.databinding.ItemAbacusCardBinding
 
-class AbacusAdapter(private val abacusList: List<Abacus>) :
-    RecyclerView.Adapter<AbacusAdapter.AbacusViewHolder>() {
+
+class AbacusAdapter(
+    private var abacusList: List<Abacus>
+) : RecyclerView.Adapter<AbacusAdapter.AbacusViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbacusViewHolder {
         val binding = ItemAbacusCardBinding.inflate(
@@ -23,6 +25,11 @@ class AbacusAdapter(private val abacusList: List<Abacus>) :
 
     override fun getItemCount(): Int = abacusList.size
 
+    fun updateData(newList: List<Abacus>) {
+        this.abacusList = newList
+        notifyDataSetChanged()
+    }
+
     inner class AbacusViewHolder(private val binding: ItemAbacusCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -31,9 +38,6 @@ class AbacusAdapter(private val abacusList: List<Abacus>) :
             binding.tvDescription.text = "Descrição: ${abacus.description}"
             binding.tvLines.text = "Linhas: ${abacus.lines}"
             binding.tvColumns.text = "Colunas: ${abacus.columns}"
-
-            val imageAdapter = ImageAdapter(abacus.imageUrls)
-            binding.rvImages.adapter = imageAdapter
         }
     }
 }

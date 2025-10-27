@@ -13,7 +13,7 @@ import com.mobile.app_iara.databinding.FragmentManagementBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorAdapter
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorModal
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 
 class ManagementFragment : Fragment() {
 

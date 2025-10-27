@@ -271,6 +271,10 @@
         android:label="Ábacos"
         tools:layout="@layout/fragment_abacus_list" >
 
+        <argument
+            android:name="factoryId"
+            app:argType="integer" />
+
         <action
             android:id="@+id/action_abacusListFragment_to_notificationsFragment"
             app:destination="@id/navigation_notification" />

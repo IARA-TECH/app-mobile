@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +11,10 @@ import com.mobile.app_iara.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.ui.home.spreadsheets.SpreadSheetsActivity
 import com.mobile.app_iara.util.NetworkUtils
+import com.mobile.app_iara.ui.start.LoginActivity.Companion.KEY_FACTORY_ID
+import com.mobile.app_iara.ui.start.LoginActivity.Companion.PREFS_NAME
+import android.widget.Toast
 
 class HomeFragment : Fragment() {
 
@@ -45,8 +48,23 @@ class HomeFragment : Fragment() {
         }
 
         binding.cardAbacus.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_abacusList)
+            val prefs = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+            val idDaFabricaAtual = prefs.getInt(KEY_FACTORY_ID, -1)
+
+            if (idDaFabricaAtual != -1) {
+                val action = HomeFragmentDirections.actionHomeFragmentToAbacusList(idDaFabricaAtual)
+                findNavController().navigate(action)
+            } else {
+
+                Toast.makeText(
+                    requireContext(),
+                    "Erro: ID da fábrica não encontrado. Tente logar novamente.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
+
         binding.cardChat.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_chatFragment)
         }

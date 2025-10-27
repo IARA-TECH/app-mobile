@@ -21,7 +21,7 @@ import com.mobile.app_iara.databinding.FragmentRegisterCollaboratorBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.Role
 import com.mobile.app_iara.ui.management.collaborator.RolesAdapter
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 
 class RegisterCollaboratorFragment : Fragment() {
 

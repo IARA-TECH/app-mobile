@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentConfiguracaoBinding
-import com.mobile.app_iara.ui.profile.faq.FaqActivity
 import com.mobile.app_iara.ui.start.ForgotPasswordActivity
 
 class ConfiguracaoFragment : Fragment() {

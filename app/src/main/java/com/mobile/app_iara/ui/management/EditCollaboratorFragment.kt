@@ -18,7 +18,7 @@ import com.mobile.app_iara.databinding.FragmentEditCollaboratorBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.Role
 import com.mobile.app_iara.ui.management.collaborator.RolesAdapter
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.widget.FrameLayout
 
