@@ -1,4 +1,4 @@
-    # iara_mobile
+# iara_mobile
 
 Aplicativo móvel do projeto IARA para registro e consulta de ábacos industriais
 
