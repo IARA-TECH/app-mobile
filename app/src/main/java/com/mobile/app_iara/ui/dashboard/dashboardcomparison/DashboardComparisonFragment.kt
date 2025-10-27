@@ -52,7 +52,7 @@ class DashboardComparisonFragment : Fragment() {
         }
 
         binding.included.iconNotificationToolbar.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_notificationsFragment)
+            findNavController().navigate(R.id.action_dashboardComparisonFragment_to_notificationsFragment)
         }
     }
 
