@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mobile.app_iara.AppDatabase
+import com.mobile.app_iara.data.local.AppDatabase
 import kotlinx.coroutines.launch
 
 class NotificationsViewModel(application: Application) : AndroidViewModel(application) {

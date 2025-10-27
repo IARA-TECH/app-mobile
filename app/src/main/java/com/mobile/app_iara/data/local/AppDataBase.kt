@@ -1,4 +1,4 @@
-package com.mobile.app_iara
+package com.mobile.app_iara.data.local
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room

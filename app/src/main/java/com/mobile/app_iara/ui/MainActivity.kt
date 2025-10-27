@@ -1,4 +1,4 @@
-package com.mobile.app_iara
+package com.mobile.app_iara.ui
 
 import NotificationWorker
 import android.app.NotificationChannel
@@ -28,6 +28,7 @@ import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_DESC
 import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_TITLE
 import java.util.Calendar
 import com.google.firebase.auth.FirebaseAuth
+import com.mobile.app_iara.R
 import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.repository.UserAccessTypeRepository
 import com.mobile.app_iara.data.repository.UserRepository
@@ -53,7 +54,12 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_management, R.id.navigation_profile)
+            setOf(
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_management,
+                R.id.navigation_profile
+            )
         )
 
         val bottomNav: BottomNavigationView = binding.navView

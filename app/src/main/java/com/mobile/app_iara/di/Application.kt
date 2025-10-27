@@ -1,4 +1,4 @@
-package com.mobile.app_iara
+package com.mobile.app_iara.di
 
 import android.app.Application
 import android.util.Log

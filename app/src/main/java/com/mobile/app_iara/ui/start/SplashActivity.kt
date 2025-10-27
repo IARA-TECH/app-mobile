@@ -13,7 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.mobile.app_iara.MainActivity
+import com.mobile.app_iara.ui.MainActivity
 import com.mobile.app_iara.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

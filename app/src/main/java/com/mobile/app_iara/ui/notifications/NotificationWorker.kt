@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkerParameters
-import com.mobile.app_iara.AppDatabase
-import com.mobile.app_iara.MainActivity
+import com.mobile.app_iara.data.local.AppDatabase
+import com.mobile.app_iara.ui.MainActivity
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.notifications.NotificationEntity
 import java.text.SimpleDateFormat
