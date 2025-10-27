@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -58,10 +57,8 @@ class LoginActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)!!
-                Log.d("LoginGoogle", "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                Log.w("LoginGoogle", "Google sign in failed", e)
                 Toast.makeText(this, "Erro no login com Google", Toast.LENGTH_SHORT).show()
             }
         }
@@ -80,8 +77,7 @@ class LoginActivity : AppCompatActivity() {
         val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
         btnVoltar.setOnClickListener {
-            val intent = Intent(this, InitiationActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, InitiationActivity::class.java))
             finish()
         }
 
@@ -93,11 +89,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         primeiroAcesso.setOnClickListener {
-            val intent = Intent(this, ForgotPasswordActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
             finish()
         }
-
 
         btnAvancarLogin.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -109,8 +103,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             if (!NetworkUtils.isInternetAvailable(this)) {
-                val intent = Intent(this, WifiErrorActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, WifiErrorActivity::class.java))
                 finish()
                 return@setOnClickListener
             }
@@ -121,33 +114,21 @@ class LoginActivity : AppCompatActivity() {
                         UserCredentialsHolder.setCredentials(email, senha)
 
                         if (checkLogado.isChecked) {
-                            sharedPrefs.edit()
-                                .putBoolean("is_logged_in", true)
-                                .putString("email", email)
-                                .putString("password", senha)
-                                .apply()
-
-                        } else {
-                            sharedPrefs.edit()
-                                .putBoolean("is_logged_in", false)
-                                .remove("email")
-                                .remove("password")
-                                .apply()
+                            val editor = sharedPrefs.edit()
+                            editor.putBoolean("is_logged_in", true)
+                            editor.putString("email", email)
+                            editor.putString("password", senha)
+                            editor.apply()
                         }
 
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
+                        startActivity(Intent(this, MainActivity::class.java))
                         finish()
-                    } else {
-                        UserCredentialsHolder.clear()
-                        Toast.makeText(this, "Falha no login: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                     }
                 }
         }
 
         btnToggle.setOnClickListener {
             senhaVisivel = !senhaVisivel
-
             if (senhaVisivel) {
                 edtSenha.transformationMethod = HideReturnsTransformationMethod.getInstance()
                 btnToggle.setImageResource(R.drawable.ic_open_eye)
@@ -155,13 +136,11 @@ class LoginActivity : AppCompatActivity() {
                 edtSenha.transformationMethod = PasswordTransformationMethod.getInstance()
                 btnToggle.setImageResource(R.drawable.ic_close_eye)
             }
-
             edtSenha.setSelection(edtSenha.text?.length ?: 0)
         }
 
         tvEsqueceuSenha.setOnClickListener {
-            val intent = Intent(this, ForgotPasswordActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 
@@ -171,7 +150,6 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-
                     sharedPrefs.edit()
                         .putBoolean("is_logged_in", true)
                         .remove("email")
@@ -179,42 +157,25 @@ class LoginActivity : AppCompatActivity() {
                         .apply()
 
                     UserCredentialsHolder.clear()
-
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
-
             }
     }
 
-
     override fun onStart() {
         super.onStart()
-
         val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
         val manterLogado = sharedPrefs.getBoolean("is_logged_in", false)
         val userLogin = auth.currentUser
 
         if (userLogin != null && manterLogado) {
             if (!NetworkUtils.isInternetAvailable(this)) {
-                val intent = Intent(this, WifiErrorActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, WifiErrorActivity::class.java))
                 finish()
                 return
             }
-
-            val savedEmail = sharedPrefs.getString("email", null)
-            val savedPassword = sharedPrefs.getString("password", null)
-
-            if (savedEmail != null && savedPassword != null) {
-                UserCredentialsHolder.setCredentials(savedEmail, savedPassword)
-            } else {
-                UserCredentialsHolder.clear()
-            }
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }
