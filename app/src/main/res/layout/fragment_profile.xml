@@ -71,8 +71,10 @@
 
         <View
             android:id="@+id/divider11"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="?android:attr/listDivider"
             android:backgroundTint="#909090" />
 
@@ -126,8 +128,10 @@
 
         <View
             android:id="@+id/divider12"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="?android:attr/listDivider"
             android:backgroundTint="#909090" />
 
@@ -180,8 +184,10 @@
 
         <View
             android:id="@+id/divider13"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="?android:attr/listDivider"
             android:backgroundTint="#909090" />
 
@@ -236,8 +242,10 @@
 
         <View
             android:id="@+id/divider14"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="?android:attr/listDivider"
             android:backgroundTint="#909090" />
 
@@ -293,8 +301,10 @@
 
         <View
             android:id="@+id/divider15"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="?android:attr/listDivider"
             android:backgroundTint="#909090" />
 
