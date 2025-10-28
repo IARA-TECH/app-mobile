@@ -1,31 +1,37 @@
 package com.mobile.app_iara.ui.management
 
-import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.response.AccessTypeResponse
 import com.mobile.app_iara.databinding.FragmentRegisterCollaboratorBinding
+import com.mobile.app_iara.data.model.response.GenderResponse
+import com.mobile.app_iara.data.model.response.UserAccessTypeResponse
 import com.mobile.app_iara.ui.management.collaborator.Role
 import com.mobile.app_iara.ui.management.collaborator.RolesAdapter
+import kotlinx.coroutines.launch
 
 class RegisterCollaboratorFragment : Fragment() {
 
     private var _binding: FragmentRegisterCollaboratorBinding? = null
     private val binding get() = _binding!!
-    private var selectedGenderId: Int = -1
-    private var selectedRole: Role? = null
+    private var selectedGender: GenderResponse? = null
+    private var selectedRole: AccessTypeResponse? = null
+
+    private val viewModel: RegisterCollaboratorViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +44,75 @@ class RegisterCollaboratorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.loadCurrentUserData()
+        viewModel.loadGenders()
+
+        setupObservers()
+        setupClickListeners()
+
+        binding.editTextDataNascimentoColaboradorCadastro.addTextChangedListener(object : android.text.TextWatcher {
+            private var isUpdating = false
+            private val mask = "####-##-##" // Formato desejado
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (isUpdating) return
+
+                val str = s.toString().replace(Regex("[^\\d]"), "")
+                val formatted = StringBuilder()
+                var i = 0
+
+                for (m in mask.toCharArray()) {
+                    if (m == '#') {
+                        if (i >= str.length) break
+                        formatted.append(str[i])
+                        i++
+                    } else {
+                        if (i < str.length) formatted.append(m)
+                    }
+                }
+
+                isUpdating = true
+                binding.editTextDataNascimentoColaboradorCadastro.setText(formatted.toString())
+                binding.editTextDataNascimentoColaboradorCadastro.setSelection(formatted.length)
+                isUpdating = false
+            }
+
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+
+
+    }
+
+    private fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.registerState.collect { state ->
+                when (state) {
+                    is RegisterState.Idle -> {
+                        // Nada a fazer
+                    }
+                    is RegisterState.Success -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Colaborador registrado com sucesso!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().popBackStack()
+                    }
+                    is RegisterState.Error -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Erro: ${state.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupClickListeners() {
         binding.dropdownRole.setOnClickListener {
             showRoleSelectionDialog()
         }
@@ -53,29 +128,88 @@ class RegisterCollaboratorFragment : Fragment() {
         binding.btnCancelar.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.btnConfirmar.setOnClickListener {
+            validateAndRegister()
+        }
+    }
+
+    private fun validateAndRegister() {
+        val name = binding.editTextNomeCadastroColaborador.text.toString().trim()
+        val email = binding.editTextEmailColaboradorCadastro.text.toString().trim()
+        val dateOfBirth = binding.editTextDataNascimentoColaboradorCadastro.text.toString().trim()
+
+        when {
+            name.isEmpty() -> {
+                Toast.makeText(requireContext(), "Preencha o nome", Toast.LENGTH_SHORT).show()
+                return
+            }
+            email.isEmpty() -> {
+                Toast.makeText(requireContext(), "Preencha o email", Toast.LENGTH_SHORT).show()
+                return
+            }
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                Toast.makeText(requireContext(), "Email inválido", Toast.LENGTH_SHORT).show()
+                return
+            }
+            dateOfBirth.isEmpty() -> {
+                Toast.makeText(requireContext(), "Preencha a data de nascimento", Toast.LENGTH_SHORT).show()
+                return
+            }
+            selectedGender == null -> {
+                Toast.makeText(requireContext(), "Selecione o gênero", Toast.LENGTH_SHORT).show()
+                return
+            }
+            selectedRole == null -> {
+                Toast.makeText(requireContext(), "Selecione o cargo", Toast.LENGTH_SHORT).show()
+                return
+            }
+        }
+
+        viewModel.registerCollaborator(
+            name = name,
+            email = email,
+            password = "123456",
+            dateOfBirth = dateOfBirth,
+            genderId = selectedGender!!.id,
+            roleId = selectedRole!!.id
+        )
     }
 
     private fun showRoleSelectionDialog() {
         val dialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_role_dropdown, null)
 
-        val rolesList = getRolesFromViewModel()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.roles.collect { rolesList ->
+                if (rolesList.isEmpty()) {
+                    Toast.makeText(requireContext(), "Nenhum cargo disponível", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    return@collect
+                }
 
-        selectedRole?.let { currentRole ->
-            rolesList.find { it.id == currentRole.id }?.isSelected = true
+                // Converte UserAccessTypeResponse para Role
+                val roles = rolesList.map { accessType ->
+                    Role(
+                        id = accessType.id,
+                        name = accessType.name ?: "Sem nome",
+                        isSelected = selectedRole?.id == accessType.id
+                    )
+                }
+
+                val recyclerView = view.findViewById<RecyclerView>(R.id.roles)
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+                val adapter = RolesAdapter(roles) { role ->
+                    selectedRole = rolesList.find { it.id == role.id }
+                    binding.roleValue.text = role.name
+                    binding.roleValue.setTextColor(Color.BLACK)
+
+                    dialog.dismiss()
+                }
+                recyclerView.adapter = adapter
+            }
         }
-
-        val recyclerView = view.findViewById<RecyclerView>(R.id.roles)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        val adapter = RolesAdapter(rolesList) { role ->
-            binding.roleValue.text = role.name
-            binding.roleValue.setTextColor(Color.BLACK)
-            selectedRole = role
-
-            dialog.dismiss()
-        }
-        recyclerView.adapter = adapter
 
         dialog.setOnShowListener {
             val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
@@ -87,28 +221,48 @@ class RegisterCollaboratorFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
     }
-
 
     private fun showGenderSelectionDialog() {
         val dialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_gender_dropdown, null)
         val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group_gender)
 
-        if (selectedGenderId != -1) {
-            radioGroup.check(selectedGenderId)
-        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.genders.collect { gendersList ->
+                if (gendersList.isEmpty()) {
+                    Toast.makeText(requireContext(), "Nenhum gênero disponível", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    return@collect
+                }
 
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            if (checkedId != -1) {
-                val selectedRadioButton = group.findViewById<RadioButton>(checkedId)
-                val selectedText = selectedRadioButton.text.toString()
+                radioGroup.removeAllViews()
+                gendersList.forEach { gender ->
+                    val radioButton = RadioButton(requireContext()).apply {
+                        id = View.generateViewId()
+                        text = gender.name
+                        textSize = 16f
+                        setPadding(16, 16, 16, 16)
+                        tag = gender.id
+                    }
+                    radioGroup.addView(radioButton)
 
-                binding.genderValue.text = selectedText
-                binding.genderValue.setTextColor(Color.BLACK)
-                selectedGenderId = checkedId
+                    if (selectedGender?.id == gender.id) {
+                        radioGroup.check(radioButton.id)
+                    }
+                }
 
+                radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                    if (checkedId != -1) {
+                        val selectedRadioButton = group.findViewById<RadioButton>(checkedId)
+                        val genderId = selectedRadioButton.tag as Int
 
-                dialog.dismiss()
+                        selectedGender = gendersList.find { it.id == genderId }
+                        binding.genderValue.text = selectedRadioButton.text.toString()
+                        binding.genderValue.setTextColor(Color.BLACK)
+
+                        dialog.dismiss()
+                    }
+                }
             }
         }
 
@@ -121,15 +275,6 @@ class RegisterCollaboratorFragment : Fragment() {
 
         dialog.setContentView(view)
         dialog.show()
-    }
-
-    private fun getRolesFromViewModel(): List<Role> {
-        return listOf(
-            Role(1, "Supervisor SIF", isSelected = false),
-            Role(2, "Colaborador", isSelected = false),
-            Role(3, "Germinare", isSelected = false),
-            Role(4, "Analista de Qualidade", isSelected = false)
-        )
     }
 
     override fun onDestroyView() {

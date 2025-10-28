@@ -3,6 +3,7 @@ package com.mobile.app_iara.data.repository
 import android.content.Context
 import android.net.Uri
 import com.mobile.app_iara.data.model.request.EmailRequest
+import com.mobile.app_iara.data.model.request.RegisterCollaboratorRequest
 import com.mobile.app_iara.data.model.request.UpdatePhotoRequest
 import com.mobile.app_iara.data.model.response.UserProfileResponse
 import com.mobile.app_iara.data.remote.RetrofitClient
@@ -69,4 +70,7 @@ class UserRepository {
     suspend fun getUsersByFactory(factoryId: Int): Response<List<UserProfileResponse>> {
         return userService.getUsersByFactory(factoryId)
     }
+
+    suspend fun registerCollaborator(request: RegisterCollaboratorRequest) =
+        userService.registerCollaborator(request)
 }

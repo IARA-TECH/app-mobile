@@ -1,6 +1,8 @@
 package com.mobile.app_iara.data.remote
 
+import com.mobile.app_iara.data.remote.service.AccessTypeService
 import com.mobile.app_iara.data.remote.service.FactoryService
+import com.mobile.app_iara.data.remote.service.GenderService
 import com.mobile.app_iara.data.remote.service.UserAccessTypeService
 import com.mobile.app_iara.data.remote.service.UserService
 import okhttp3.Credentials
@@ -67,4 +69,13 @@ object RetrofitClient {
     val userAccessTypeService: UserAccessTypeService by lazy {
         retrofit.create(UserAccessTypeService::class.java)
     }
+
+    val genderService: GenderService by lazy {
+        retrofit.create(GenderService::class.java)
+    }
+
+    val accessTypeService: AccessTypeService by lazy {
+        retrofit.create(AccessTypeService::class.java)
+    }
+
 }

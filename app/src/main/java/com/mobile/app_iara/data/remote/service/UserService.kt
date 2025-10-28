@@ -2,6 +2,7 @@ package com.mobile.app_iara.data.remote.service
 
 import com.mobile.app_iara.data.model.response.UserProfileResponse
 import com.mobile.app_iara.data.model.request.EmailRequest
+import com.mobile.app_iara.data.model.request.RegisterCollaboratorRequest
 import com.mobile.app_iara.data.model.request.UpdatePhotoRequest
 import retrofit2.Response
 import retrofit2.http.Body
@@ -24,4 +25,8 @@ interface UserService {
     @GET("users/by-factory/{factoryId}")
     suspend fun getUsersByFactory(@Path("factoryId") factoryId: Int): Response<List<UserProfileResponse>>
 
+    @POST("users")
+    suspend fun registerCollaborator(
+        @Body request: RegisterCollaboratorRequest
+    ): Response<Unit>
 }
