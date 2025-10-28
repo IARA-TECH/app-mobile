@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
+    id("androidx.room")
 }
 
 android {
@@ -39,6 +40,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {
