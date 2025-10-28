@@ -25,18 +25,18 @@ object RetrofitClient {
         val originalRequest = chain.request()
 
         if (email == null || password == null) {
-            println(">>> Sem credenciais salvas")
+            println("[Authentication] Sem credenciais salvas")
             return@Interceptor chain.proceed(originalRequest)
         }
 
         val credentials = Credentials.basic(email, password)
-        println(">>> Credenciais BASIC: $credentials")
+        println("[Authentication] Credenciais BASIC: $credentials")
 
         val newRequest = originalRequest.newBuilder()
             .header("Authorization", credentials)
             .build()
 
-        println(">>> Header Authorization adicionado: ${newRequest.header("Authorization")}")
+        println("[Authentication] Header Authorization adicionado: ${newRequest.header("Authorization")}")
 
         return@Interceptor chain.proceed(newRequest)
     }
