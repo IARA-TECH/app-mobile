@@ -33,6 +33,9 @@ data class UserProfileResponse(
     @SerializedName("factoryId")
     val factoryId: Int,
 
+    @SerializedName("accessTypeName")
+    val accessTypeName: String,
+
     @SerializedName("userPhotoUrl")
     val userPhotoUrl: String
 )

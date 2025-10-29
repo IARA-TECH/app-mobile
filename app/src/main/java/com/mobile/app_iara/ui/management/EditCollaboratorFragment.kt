@@ -37,10 +37,12 @@ class EditCollaboratorFragment : Fragment() {
 
         val collaborator = args.collaborator
 
-        // 4. Preencha sua UI com os dados!
         binding.textViewNome.text = collaborator.name
-        binding.textViewEmail.text = collaborator.email // Exemplo
-        binding.textViewCargo.text = collaborator.role // Cargo
+        binding.textViewEmail.text = collaborator.email
+        binding.textViewCargo.text = collaborator.role
+        binding.textView272.text = collaborator.gender
+        binding.textView274.text = collaborator.dateBirth
+
 
         setupClickListeners()
 

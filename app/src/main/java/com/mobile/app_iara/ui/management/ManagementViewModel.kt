@@ -9,6 +9,7 @@ import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorModal
 import kotlinx.coroutines.launch
+import java.sql.Date
 
 class ManagementViewModel : ViewModel() {
 
@@ -37,10 +38,6 @@ class ManagementViewModel : ViewModel() {
                 }
 
                 val factoryId = userResponse.body()!!.factoryId
-                if (factoryId == null) {
-                    _error.postValue("Usuário não está associado a nenhuma fábrica.")
-                    return@launch
-                }
 
                 val collaboratorsResponse = userRepository.getUsersByFactory(factoryId)
                 if (collaboratorsResponse.isSuccessful && collaboratorsResponse.body() != null) {
@@ -51,8 +48,10 @@ class ManagementViewModel : ViewModel() {
                             id = user.id.toString(),
                             name = user.name,
                             email = user.email,
-                            role ="Colaborador", // Use um valor padrão se role for null
-                            urlPhoto = user.userPhotoUrl
+                            role = user.accessTypeName,
+                            gender = user.genderName,
+                            urlPhoto = user.userPhotoUrl,
+                            dateBirth = user.dateOfBirth
                         )
                     }
 
