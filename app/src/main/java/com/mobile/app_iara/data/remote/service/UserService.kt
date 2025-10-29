@@ -28,5 +28,5 @@ interface UserService {
     @POST("users")
     suspend fun registerCollaborator(
         @Body request: RegisterCollaboratorRequest
-    ): Response<Unit>
+    ): Response<UserProfileResponse>
 }

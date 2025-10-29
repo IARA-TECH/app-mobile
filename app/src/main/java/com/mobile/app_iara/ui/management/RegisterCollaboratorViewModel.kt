@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.model.request.RegisterCollaboratorRequest
+import com.mobile.app_iara.data.model.request.UserAccessTypeRequest
 import com.mobile.app_iara.data.model.response.AccessTypeResponse
 import com.mobile.app_iara.data.model.response.GenderResponse
-import com.mobile.app_iara.data.model.response.UserAccessTypeResponse
 import com.mobile.app_iara.data.repository.AccessTypeRepository
 import com.mobile.app_iara.data.repository.GenderRepository
 import com.mobile.app_iara.data.repository.UserAccessTypeRepository
@@ -21,6 +21,7 @@ class RegisterCollaboratorViewModel : ViewModel() {
     private val accessTypeRepository = AccessTypeRepository()
     private val userRepository = UserRepository()
     private val genderRepository = GenderRepository()
+    private val userAccessTypeRepository = UserAccessTypeRepository()
 
     private val _registerState = MutableStateFlow<RegisterState>(RegisterState.Idle)
     val registerState: StateFlow<RegisterState> = _registerState
@@ -118,8 +119,26 @@ class RegisterCollaboratorViewModel : ViewModel() {
 
                 val response = userRepository.registerCollaborator(request)
 
-                if (response.isSuccessful) {
-                    _registerState.value = RegisterState.Success(response.body())
+                if (response.isSuccessful && response.body() != null) {
+                    val newUserId = response.body()!!.id
+
+                    try {
+                        val accessRequest = UserAccessTypeRequest(
+                            accessTypeId = roleId,
+                            userId = newUserId.toString()
+                        )
+
+                        val accessResponse = userAccessTypeRepository.createUserAccessType(accessRequest)
+
+                        if (accessResponse.isSuccessful) {
+                            _registerState.value = RegisterState.Success(response.body())
+                        } else {
+                            _registerState.value = RegisterState.Error("Usuário criado, mas falha ao definir cargo: ${accessResponse.message()}")
+                        }
+                    } catch (e: Exception) {
+                        _registerState.value = RegisterState.Error("Usuário criado, mas erro ao definir cargo: ${e.message}")
+                    }
+
                 } else {
                     _registerState.value = RegisterState.Error("Erro ao registrar: ${response.message()}")
                 }

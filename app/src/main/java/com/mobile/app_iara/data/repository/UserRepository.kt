@@ -71,6 +71,6 @@ class UserRepository {
         return userService.getUsersByFactory(factoryId)
     }
 
-    suspend fun registerCollaborator(request: RegisterCollaboratorRequest) =
+    suspend fun registerCollaborator(request: RegisterCollaboratorRequest): Response<UserProfileResponse> =
         userService.registerCollaborator(request)
 }

@@ -41,14 +41,5 @@
             android:text="Outros"
             android:textSize="16sp" />
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radio_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/custom_radio_selector"
-            android:layoutDirection="rtl"
-            android:text="Prefiro não informar"
-            android:textSize="16sp" />
     </RadioGroup>
 </LinearLayout>

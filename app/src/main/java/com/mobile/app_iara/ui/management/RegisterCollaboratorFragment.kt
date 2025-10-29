@@ -52,7 +52,7 @@ class RegisterCollaboratorFragment : Fragment() {
 
         binding.editTextDataNascimentoColaboradorCadastro.addTextChangedListener(object : android.text.TextWatcher {
             private var isUpdating = false
-            private val mask = "####-##-##" // Formato desejado
+            private val mask = "####-##-##"
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -188,7 +188,6 @@ class RegisterCollaboratorFragment : Fragment() {
                     return@collect
                 }
 
-                // Converte UserAccessTypeResponse para Role
                 val roles = rolesList.map { accessType ->
                     Role(
                         id = accessType.id,
