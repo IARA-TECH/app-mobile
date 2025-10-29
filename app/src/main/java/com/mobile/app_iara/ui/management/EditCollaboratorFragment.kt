@@ -16,13 +16,13 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentEditCollaboratorBinding
 import com.mobile.app_iara.ui.management.collaborator.Role
 import com.mobile.app_iara.ui.management.collaborator.RolesAdapter
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import android.widget.FrameLayout
+import androidx.navigation.fragment.navArgs
 
 class EditCollaboratorFragment : Fragment() {
 
     private var _binding: FragmentEditCollaboratorBinding? = null
     private val binding get() = _binding!!
+    private val args: EditCollaboratorFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +35,15 @@ class EditCollaboratorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val collaborator = args.collaborator
+
+        // 4. Preencha sua UI com os dados!
+        binding.textViewNome.text = collaborator.name
+        binding.textViewEmail.text = collaborator.email // Exemplo
+        binding.textViewCargo.text = collaborator.role // Cargo
+
         setupClickListeners()
+
     }
 
     private fun setupClickListeners() {
@@ -99,7 +107,7 @@ class EditCollaboratorFragment : Fragment() {
         val view = layoutInflater.inflate(R.layout.dialog_role_dropdown, null)
         val recyclerView = view.findViewById<RecyclerView>(R.id.roles)
 
-        val currentRoleName = binding.textView27.text.toString()
+        val currentRoleName = binding.textViewCargo.text.toString()
 
         val rolesList = mutableListOf(
             Role(id = 1, name = "Gerente de Produção"),
@@ -113,8 +121,8 @@ class EditCollaboratorFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         val adapter = RolesAdapter(rolesList) { selectedRole ->
-            binding.textView27.text = selectedRole.name
-            binding.textView27.setTextColor(Color.BLACK)
+            binding.textViewCargo.text = selectedRole.name
+            binding.textViewCargo.setTextColor(Color.BLACK)
             dialog.dismiss()
         }
         recyclerView.adapter = adapter

@@ -45,7 +45,7 @@ class ManagementFragment : Fragment() {
     private fun setupRecyclerView() {
         collaboratorAdapter = CollaboratorAdapter { collaborator ->
             val action = ManagementFragmentDirections
-                .actionManagementFragmentToEditCollaboratorFragment(collaborator.id)
+                .actionManagementFragmentToEditCollaboratorFragment(collaborator)
 
             findNavController().navigate(action)
         }
