@@ -58,7 +58,6 @@ class RegisterCollaboratorViewModel : ViewModel() {
                     return@launch
                 }
 
-                // Carrega roles para o usuário
                 loadUserAccessTypes()
             } catch (e: Exception) {
                 _registerState.value = RegisterState.Error("Erro ao carregar dados: ${e.message}")
