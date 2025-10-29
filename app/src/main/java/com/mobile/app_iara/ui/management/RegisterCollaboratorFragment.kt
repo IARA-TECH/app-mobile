@@ -90,7 +90,6 @@ class RegisterCollaboratorFragment : Fragment() {
             viewModel.registerState.collect { state ->
                 when (state) {
                     is RegisterState.Idle -> {
-                        // Nada a fazer
                     }
                     is RegisterState.Success -> {
                         Toast.makeText(

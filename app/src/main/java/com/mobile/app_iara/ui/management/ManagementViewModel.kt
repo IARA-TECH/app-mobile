@@ -40,7 +40,7 @@ class ManagementViewModel : ViewModel() {
                 val factoryId = userResponse.body()!!.factoryId
 
                 val collaboratorsResponse = userRepository.getUsersByFactory(factoryId)
-                if (collaboratorsResponse.isSuccessful && collaboratorsResponse.body() != null) {
+                if (collaboratorsResponse.isSuccessful) {
                     val users = collaboratorsResponse.body()!!
 
                     val collaboratorList = users.map { user ->

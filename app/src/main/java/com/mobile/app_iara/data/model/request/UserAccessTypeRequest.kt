@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 class UserAccessTypeRequest (
 
-
     @SerializedName("access_type_id")
     val accessTypeId: Int,
 

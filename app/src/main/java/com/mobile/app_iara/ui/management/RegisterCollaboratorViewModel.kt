@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.data.model.request.EmailRequest
-import com.mobile.app_iara.data.model.request.RegisterCollaboratorRequest
+import com.mobile.app_iara.data.model.request.UserProfileRequest
 import com.mobile.app_iara.data.model.request.UserAccessTypeRequest
 import com.mobile.app_iara.data.model.response.AccessTypeResponse
 import com.mobile.app_iara.data.model.response.GenderResponse
@@ -107,14 +107,14 @@ class RegisterCollaboratorViewModel : ViewModel() {
                     return@launch
                 }
 
-                val request = RegisterCollaboratorRequest(
+                val request = UserProfileRequest(
                     name = name,
                     email = email,
                     password = password,
                     dateOfBirth = dateOfBirth,
-                    user_manager_id = currentUserManagerId!!,
-                    factory_id = currentFactoryId!!,
-                    gender_id = genderId
+                    userManagerId = currentUserManagerId!!,
+                    factoryId = currentFactoryId!!,
+                    genderId = genderId
                 )
 
                 val response = userRepository.registerCollaborator(request)
