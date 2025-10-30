@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 
 class AbacusHistoryAdapter(
-    private var historyList: List<AbacusHistory> // Mude de 'val' para 'var'
+    private var historyList: List<AbacusHistory>
 ) : RecyclerView.Adapter<AbacusHistoryAdapter.HistoryViewHolder>() {
 
 

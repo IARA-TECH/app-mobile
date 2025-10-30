@@ -1,6 +1,5 @@
 package com.mobile.app_iara.data.model.response
 
-import com.mobile.app_iara.data.model.AbacusData
 import com.mobile.app_iara.data.model.AbacusPhotoData
 
 data class AbacusPhotosApiResponse(

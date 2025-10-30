@@ -3,6 +3,8 @@ package com.mobile.app_iara.data.remote
 import com.mobile.app_iara.data.remote.service.AbacusPhotoService
 import com.mobile.app_iara.data.remote.service.AbacusService
 import com.mobile.app_iara.data.remote.service.FactoryService
+import com.mobile.app_iara.data.remote.service.NewsService
+import com.mobile.app_iara.data.remote.service.ShiftService
 import com.mobile.app_iara.data.remote.service.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -64,5 +66,14 @@ object RetrofitClient {
 
     val abacusPhotosService: AbacusPhotoService by lazy {
         mongoRetrofit.create(AbacusPhotoService::class.java)
+    }
+
+    val shiftService: ShiftService by lazy {
+        mongoRetrofit.create(ShiftService::class.java)
+    }
+
+
+    val newsService: NewsService by lazy {
+        mongoRetrofit.create(NewsService::class.java)
     }
 }

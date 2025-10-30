@@ -5,5 +5,4 @@ data class Abacus(
     val description: String,
     val lines: Int,
     val columns: Int,
-    val imageUrls: List<String>
 )

@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import com.mobile.app_iara.ui.notifications.NotificationDAO
 import com.mobile.app_iara.ui.notifications.NotificationEntity
 
-@Database(entities = [NotificationEntity::class], version = 2)
+@Database(entities = [NotificationEntity::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun notificationDAO(): NotificationDAO
 

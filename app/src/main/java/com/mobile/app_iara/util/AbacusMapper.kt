@@ -11,7 +11,6 @@ object AbacusMapper {
             description = apiData.description,
             lines = apiData.lines.size,
             columns = apiData.columns.size,
-            imageUrls = emptyList()
         )
     }
 

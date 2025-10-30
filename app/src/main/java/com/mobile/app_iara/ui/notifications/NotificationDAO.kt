@@ -10,9 +10,9 @@ interface NotificationDAO {
     @Insert
     suspend fun insert(notification: NotificationEntity)
 
-    @Query("SELECT * FROM notifications ORDER BY id DESC")
-    fun getAllNotifications(): LiveData<List<NotificationEntity>>
+    @Query("SELECT * FROM notifications WHERE timestamp >= :todayStartTimestamp ORDER BY timestamp DESC")
+    fun getTodaysNotifications(todayStartTimestamp: Long): LiveData<List<NotificationEntity>>
 
-    @Query("DELETE FROM notifications")
-    suspend fun clearAll()
+    @Query("DELETE FROM notifications WHERE timestamp < :todayStartTimestamp")
+    suspend fun clearOldNotifications(todayStartTimestamp: Long)
 }
