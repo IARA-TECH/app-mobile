@@ -12,7 +12,7 @@ import com.mobile.app_iara.data.model.request.RefreshTokenRequest
 import com.mobile.app_iara.data.repository.ChatbotRepository
 import kotlinx.coroutines.launch
 
-class ChatbotViewModel(application: Application) : AndroidViewModel(application) {
+class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = ChatbotRepository(application.applicationContext)
 

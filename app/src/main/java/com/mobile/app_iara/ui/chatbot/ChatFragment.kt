@@ -19,7 +19,7 @@ class ChatFragment : Fragment() {
 
     private val messageList = mutableListOf<ChatMessage>()
     private lateinit var chatAdapter: ChatAdapter
-    private val viewModel: ChatbotViewModel by viewModels()
+    private val viewModel: ChatViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +40,10 @@ class ChatFragment : Fragment() {
 
             if (text.isNotEmpty()) {
                 addMessage(text, Sender.USER)
-                viewModel.sendMessage(text)
 
+                addTypingIndicator()
+
+                viewModel.sendMessage(text)
                 binding.etMessage.text.clear()
             } else {
                 Log.w("ChatFragment", "Texto está vazio, mensagem não enviada")
@@ -71,6 +73,9 @@ class ChatFragment : Fragment() {
 
         viewModel.botMessage.observe(viewLifecycleOwner) { message ->
             Log.d("ChatFragment", "Mensagem do bot recebida: $message")
+
+            removeTypingIndicator()
+
             addMessage(message, Sender.BOT)
         }
     }
@@ -83,6 +88,20 @@ class ChatFragment : Fragment() {
         messageList.add(ChatMessage(text, formattedTime, sender))
         chatAdapter.notifyItemInserted(messageList.size - 1)
         binding.rvChatMessages.scrollToPosition(messageList.size - 1)
+    }
+
+    private fun addTypingIndicator() {
+        messageList.add(ChatMessage("", "", Sender.TYPING))
+        chatAdapter.notifyItemInserted(messageList.size - 1)
+        binding.rvChatMessages.scrollToPosition(messageList.size - 1)
+    }
+
+    private fun removeTypingIndicator() {
+        val typingIndex = messageList.indexOfLast { it.sender == Sender.TYPING }
+        if (typingIndex != -1) {
+            messageList.removeAt(typingIndex)
+            chatAdapter.notifyItemRemoved(typingIndex)
+        }
     }
 
     override fun onDestroyView() {
