@@ -14,18 +14,18 @@ import retrofit2.http.DELETE
 import retrofit2.http.POST
 
 interface ChabotService {
-    @POST("/auth/login")
+    @POST("auth/login")
     suspend fun authUser(@Body request: AuthRequest): Response<AuthResponse>
 
-    @POST("/auth/refresh")
-    fun refreshToken(@Body request: RefreshTokenRequest): Call<AuthResponse>
+    @POST("auth/refresh")
+    suspend fun refreshToken(@Body request: RefreshTokenRequest): Response<AuthResponse>
 
-    @POST("/session")
+    @POST("session")
     suspend fun createSession(): Response<SessionResponse>
 
-    @DELETE("/session")
+    @DELETE("session")
     suspend fun deleteSession(@Body request: SessionRequest)
 
-    @POST("/chat/")
+    @POST("chat/")
     suspend fun sendMessage(@Body request: MessageRequest): Response<MessageResponse>
 }

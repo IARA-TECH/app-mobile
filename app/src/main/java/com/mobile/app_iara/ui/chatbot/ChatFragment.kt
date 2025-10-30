@@ -1,16 +1,13 @@
 package com.mobile.app_iara.ui.chatbot
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.databinding.FragmentChatBinding
-import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.util.NetworkUtils
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -21,6 +18,7 @@ class ChatFragment : Fragment() {
 
     private val messageList = mutableListOf<ChatMessage>()
     private lateinit var chatAdapter: ChatAdapter
+    private val viewModel: ChatbotViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,20 +31,16 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!NetworkUtils.isInternetAvailable(requireContext())) {
-            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
-            startActivity(intent)
-            activity?.finish()
-            return
-        }
-
         setupRecyclerView()
-        loadInitialMessages()
+        observeViewModel()
+
         binding.btnSend.setOnClickListener {
-            sendMessage()
-        }
-        binding.included.imgBack.setOnClickListener {
-            findNavController().navigateUp()
+            val text = binding.etMessage.text.toString().trim()
+            if (text.isNotEmpty()) {
+                addMessage(text, Sender.USER)
+                viewModel.sendMessage(text)
+                binding.etMessage.text.clear()
+            }
         }
     }
 
@@ -58,27 +52,28 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private fun loadInitialMessages() {
-        messageList.add(ChatMessage("Olá, eu sou a Iara! No que posso te ajudar?", "09:26", Sender.BOT))
-        messageList.add(ChatMessage("Como eu tiro foto do ábaco?", "09:27", Sender.USER))
-        messageList.add(ChatMessage("Primeiro abra a home do app e clique no botão azul localizado no canto inferior direito, depois apenas siga o passo a passo.", "09:27", Sender.BOT))
-        chatAdapter.notifyDataSetChanged()
+    private fun observeViewModel() {
+        viewModel.isReady.observe(viewLifecycleOwner) { ready ->
+            if (ready == true) {
+                addMessage("Olá, eu sou a Iara! Como posso te ajudar?", Sender.BOT)
+            } else {
+                addMessage("❌ Falha ao conectar com o servidor do chatbot.", Sender.BOT)
+            }
+        }
+
+        viewModel.botMessage.observe(viewLifecycleOwner) { message ->
+            addMessage(message, Sender.BOT)
+        }
     }
 
-    private fun sendMessage() {
-        val text = binding.etMessage.text.toString()
-        if (text.isNotBlank()) {
-            val currentTime = LocalDateTime.now()
-            val formatter = DateTimeFormatter.ofPattern("HH:mm")
-            val formattedTime = currentTime.format(formatter)
-            val userMessage = ChatMessage(text, formattedTime, Sender.USER)
+    private fun addMessage(text: String, sender: Sender) {
+        val currentTime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        val formattedTime = currentTime.format(formatter)
 
-            messageList.add(userMessage)
-            binding.etMessage.text.clear()
-
-            chatAdapter.notifyItemInserted(messageList.size - 1)
-            binding.rvChatMessages.scrollToPosition(messageList.size - 1)
-        }
+        messageList.add(ChatMessage(text, formattedTime, sender))
+        chatAdapter.notifyItemInserted(messageList.size - 1)
+        binding.rvChatMessages.scrollToPosition(messageList.size - 1)
     }
 
     override fun onDestroyView() {
