@@ -16,10 +16,10 @@ data class UserProfileResponse(
     val dateOfBirth: String,
 
     @SerializedName("userManagerName")
-    val userManagerName: String,
+    val userManagerName: String?,
 
     @SerializedName("userManagerId")
-    val userManagerId: String,
+    val userManagerId: String?,
 
     @SerializedName("genderName")
     val genderName: String,
@@ -37,5 +37,5 @@ data class UserProfileResponse(
     val accessTypeName: String,
 
     @SerializedName("userPhotoUrl")
-    val userPhotoUrl: String
+    val userPhotoUrl: String?
 )
