@@ -2,7 +2,12 @@ package com.mobile.app_iara.data.model.response
 
 import com.google.gson.annotations.SerializedName
 
-class AuthResponse (
+data class AuthResponse(
+    @SerializedName("response")
+    val response: AuthData
+)
+
+data class AuthData(
     @SerializedName("access_token")
     val accessToken: String,
 

@@ -1,6 +1,7 @@
 package com.mobile.app_iara.ui.chatbot
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,10 +37,14 @@ class ChatFragment : Fragment() {
 
         binding.btnSend.setOnClickListener {
             val text = binding.etMessage.text.toString().trim()
+
             if (text.isNotEmpty()) {
                 addMessage(text, Sender.USER)
                 viewModel.sendMessage(text)
+
                 binding.etMessage.text.clear()
+            } else {
+                Log.w("ChatFragment", "Texto está vazio, mensagem não enviada")
             }
         }
     }
@@ -53,7 +58,10 @@ class ChatFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        Log.d("ChatFragment", "Observando ViewModel...")
+
         viewModel.isReady.observe(viewLifecycleOwner) { ready ->
+            Log.d("ChatFragment", "isReady mudou para: $ready")
             if (ready == true) {
                 addMessage("Olá, eu sou a Iara! Como posso te ajudar?", Sender.BOT)
             } else {
@@ -62,6 +70,7 @@ class ChatFragment : Fragment() {
         }
 
         viewModel.botMessage.observe(viewLifecycleOwner) { message ->
+            Log.d("ChatFragment", "Mensagem do bot recebida: $message")
             addMessage(message, Sender.BOT)
         }
     }

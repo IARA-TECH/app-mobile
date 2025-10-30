@@ -1,6 +1,7 @@
 package com.mobile.app_iara.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.mobile.app_iara.data.model.request.AuthRequest
 import com.mobile.app_iara.data.model.request.MessageRequest
 import com.mobile.app_iara.data.model.request.RefreshTokenRequest
@@ -18,8 +19,8 @@ class ChatbotRepository(private val context: Context) {
     suspend fun authUser(request: AuthRequest): Response<AuthResponse> =
         chatbotService.authUser(request)
 
-    suspend fun createSession(): Response<SessionResponse> =
-        chatbotService.createSession()
+    suspend fun createSession(accessToken: String): Response<SessionResponse> =
+        chatbotService.createSession("Bearer $accessToken")
 
     suspend fun refreshToken(request: RefreshTokenRequest): Response<AuthResponse> {
         return chatbotService.refreshToken(request)
@@ -28,8 +29,9 @@ class ChatbotRepository(private val context: Context) {
     suspend fun deleteSession(request: SessionRequest) =
         chatbotService.deleteSession(request)
 
-    suspend fun sendMessage(request: MessageRequest): Response<MessageResponse> =
-        chatbotService.sendMessage(request)
+    suspend fun sendMessage(request: MessageRequest, accessToken: String): Response<MessageResponse> {
+        return chatbotService.sendMessage("Bearer $accessToken", request)
+    }
 
     suspend fun authSavedUser(): Response<AuthResponse>? {
         val prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
