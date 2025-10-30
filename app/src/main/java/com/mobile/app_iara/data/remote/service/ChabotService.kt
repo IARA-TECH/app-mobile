@@ -1,0 +1,31 @@
+package com.mobile.app_iara.data.remote.service
+
+import com.mobile.app_iara.data.model.request.AuthRequest
+import com.mobile.app_iara.data.model.request.MessageRequest
+import com.mobile.app_iara.data.model.request.RefreshTokenRequest
+import com.mobile.app_iara.data.model.request.SessionRequest
+import com.mobile.app_iara.data.model.response.AuthResponse
+import com.mobile.app_iara.data.model.response.MessageResponse
+import com.mobile.app_iara.data.model.response.SessionResponse
+import retrofit2.Call
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.POST
+
+interface ChabotService {
+    @POST("/auth/login")
+    suspend fun authUser(@Body request: AuthRequest): Response<AuthResponse>
+
+    @POST("/auth/refresh")
+    fun refreshToken(@Body request: RefreshTokenRequest): Call<AuthResponse>
+
+    @POST("/session")
+    suspend fun createSession(): Response<SessionResponse>
+
+    @DELETE("/session")
+    suspend fun deleteSession(@Body request: SessionRequest)
+
+    @POST("/chat/")
+    suspend fun sendMessage(@Body request: MessageRequest): Response<MessageResponse>
+}

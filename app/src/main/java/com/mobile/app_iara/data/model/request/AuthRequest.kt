@@ -2,7 +2,10 @@ package com.mobile.app_iara.data.model.request
 
 import com.google.gson.annotations.SerializedName
 
-data class EmailRequest(
+class AuthRequest (
     @SerializedName("email")
-    val email: String
+    var email: String,
+
+    @SerializedName("password")
+    var password: String
 )
