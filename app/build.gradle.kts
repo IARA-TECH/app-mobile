@@ -5,6 +5,7 @@ plugins {
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    id("androidx.room")
 }
 
 android {
@@ -40,6 +41,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {

@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.dashboard.dashboardcomparison
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +20,8 @@ import com.mobile.app_iara.databinding.FragmentDashboardComparisonBinding
 import com.mobile.app_iara.databinding.ItemShiftQuantityBinding
 import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
 import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.util.NetworkUtils
 
 class DashboardComparisonFragment : Fragment() {
 
@@ -32,6 +35,14 @@ class DashboardComparisonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         setupGroupedBarChart()
         setupRankingList()
         setupQuantitySummary()
@@ -41,7 +52,7 @@ class DashboardComparisonFragment : Fragment() {
         }
 
         binding.included.iconNotificationToolbar.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_notificationsFragment)
+            findNavController().navigate(R.id.action_dashboardComparisonFragment_to_notificationsFragment)
         }
     }
 

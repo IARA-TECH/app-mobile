@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.chatbot
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.databinding.FragmentChatBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.util.NetworkUtils
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -29,6 +32,14 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         setupRecyclerView()
         loadInitialMessages()
         binding.btnSend.setOnClickListener {

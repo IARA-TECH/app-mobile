@@ -2,8 +2,11 @@ package com.mobile.app_iara.ui.start
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -73,8 +76,26 @@ class LoginActivity : AppCompatActivity() {
         val checkLogado = findViewById<CheckBox>(R.id.checkBox2)
         var senhaVisivel = false
         val primeiroAcesso = findViewById<TextView>(R.id.PrimeiroAcesso)
+        val mensagemCampos = findViewById<TextView>(R.id.MensagemCampos)
+        val mensagemCredenciais = findViewById<TextView>(R.id.MensagemCredenciais)
 
         val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+
+        val errorClearTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                mensagemCampos.visibility = View.GONE
+                mensagemCredenciais.visibility = View.GONE
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+
+        emailEditText.addTextChangedListener(errorClearTextWatcher)
+        edtSenha.addTextChangedListener(errorClearTextWatcher)
 
         btnVoltar.setOnClickListener {
             startActivity(Intent(this, InitiationActivity::class.java))
@@ -98,7 +119,7 @@ class LoginActivity : AppCompatActivity() {
             val senha = edtSenha.text.toString().trim()
 
             if (email.isEmpty() || senha.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                mensagemCampos.visibility = View.VISIBLE
                 return@setOnClickListener
             }
 

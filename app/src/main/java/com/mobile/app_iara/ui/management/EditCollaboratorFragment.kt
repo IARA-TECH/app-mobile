@@ -1,10 +1,13 @@
 package com.mobile.app_iara.ui.management
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
@@ -17,6 +20,8 @@ import com.mobile.app_iara.databinding.FragmentEditCollaboratorBinding
 import com.mobile.app_iara.ui.management.collaborator.Role
 import com.mobile.app_iara.ui.management.collaborator.RolesAdapter
 import androidx.navigation.fragment.navArgs
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.util.NetworkUtils
 
 class EditCollaboratorFragment : Fragment() {
 
@@ -44,6 +49,13 @@ class EditCollaboratorFragment : Fragment() {
         binding.textView274.text = collaborator.dateBirth
 
 
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         setupClickListeners()
 
     }
@@ -51,6 +63,10 @@ class EditCollaboratorFragment : Fragment() {
     private fun setupClickListeners() {
         binding.buttonBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        binding.imageButtonExcluir.setOnClickListener {
+            showConfirmationDialog()
         }
 
         binding.btnCancelar.setOnClickListener {
@@ -102,6 +118,30 @@ class EditCollaboratorFragment : Fragment() {
 
         dialog.setContentView(view)
         dialog.show()
+    }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.dialog_confirmation_management, null)
+        builder.setView(view)
+
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val width = (resources.displayMetrics.widthPixels * 0.8).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        val btnConfirmar = view.findViewById<Button>(R.id.btnConfirmarExclusaoDialog)
+        val btnCancelar = view.findViewById<Button>(R.id.btnCancelarExclusaoDialog)
+
+        btnConfirmar.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnCancelar.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     private fun showRoleSelectionDialog() {

@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.dashboard.technicalfailures
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,8 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentTechnicalFailuresBinding
 import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
 import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.util.NetworkUtils
 
 class TechnicalFailuresFragment : Fragment() {
 
@@ -33,6 +36,13 @@ class TechnicalFailuresFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         setupLineChart()
         setupRankingList()

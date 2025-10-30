@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.abacus.register
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.databinding.DialogAddColumnBinding
 import com.mobile.app_iara.databinding.FragmentRegisterAbacusBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.util.NetworkUtils
 
 
 class RegisterAbacusFragment : Fragment() {
@@ -35,6 +38,14 @@ class RegisterAbacusFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         setupRecyclerViews()
         setupClickListeners()
 

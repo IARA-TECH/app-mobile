@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.management
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentManagementBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorAdapter
+import com.mobile.app_iara.util.NetworkUtils
 
 class ManagementFragment : Fragment() {
 
@@ -43,6 +46,13 @@ class ManagementFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         collaboratorAdapter = CollaboratorAdapter { collaborator ->
             val action = ManagementFragmentDirections
                 .actionManagementFragmentToEditCollaboratorFragment(collaborator)

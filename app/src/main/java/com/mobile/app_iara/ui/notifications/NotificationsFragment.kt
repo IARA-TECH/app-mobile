@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.notifications
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -12,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.util.NetworkUtils
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -24,6 +27,13 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         val recyclerNotifications: RecyclerView = view.findViewById(R.id.recyclerNotifications)
         val recyclerApprovals: RecyclerView = view.findViewById(R.id.recyclerApprovals)

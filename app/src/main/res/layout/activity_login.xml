@@ -66,7 +66,7 @@
         android:layout_width="0dp"
         android:layout_height="66dp"
         android:layout_marginStart="38dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="90dp"
         android:layout_marginEnd="38dp"
         android:backgroundTint="#2B3078"
         android:fontFamily="@font/rfdewibold"
@@ -192,7 +192,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="58dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="38dp"
@@ -201,8 +201,10 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btnAvancar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputSenha">
+        app:layout_constraintTop_toBottomOf="@+id/inputSenha"
+        app:layout_constraintVertical_bias="0.0">
 
         <CheckBox
             android:id="@+id/checkBox2"
@@ -244,13 +246,15 @@
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAvancar">
+        app:layout_constraintTop_toBottomOf="@+id/btnAvancar"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginRight="6dp"
+            android:fontFamily="@font/rfdewisemibold"
             android:text="Acessando pela primeira vez?"
             android:textSize="12sp" />
 
@@ -287,6 +291,32 @@
             app:srcCompat="@drawable/btn_google" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/MensagemCampos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rfdewilight"
+        android:text="Preencha todos os campos!"
+        android:textColor="#FF0000"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnAvancar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/MensagemCredenciais"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="2dp"
+        android:text="Credenciais inválidas. Verifique seu e-mail e senha e tente novamente."
+        android:textColor="#EB2626"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

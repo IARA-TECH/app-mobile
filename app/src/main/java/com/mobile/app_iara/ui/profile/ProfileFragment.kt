@@ -17,7 +17,9 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentProfileBinding
+import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.start.LoginActivity
+import com.mobile.app_iara.util.NetworkUtils
 
 class ProfileFragment : Fragment() {
     private val viewModel: ProfileViewModel by viewModels()
@@ -126,6 +128,14 @@ class ProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        if (!NetworkUtils.isInternetAvailable(requireContext())) {
+            val intent = Intent(requireContext(), WifiErrorActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         _binding = null
     }
 }
