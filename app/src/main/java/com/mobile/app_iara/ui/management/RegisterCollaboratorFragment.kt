@@ -16,6 +16,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.mobile.app_iara.R
 import com.mobile.app_iara.data.model.response.AccessTypeResponse
 import com.mobile.app_iara.databinding.FragmentRegisterCollaboratorBinding
@@ -32,6 +35,7 @@ class RegisterCollaboratorFragment : Fragment() {
     private val binding get() = _binding!!
     private var selectedGender: GenderResponse? = null
     private var selectedRole: AccessTypeResponse? = null
+    private lateinit var auth: FirebaseAuth
 
     private val viewModel: RegisterCollaboratorViewModel by viewModels()
 
@@ -49,6 +53,7 @@ class RegisterCollaboratorFragment : Fragment() {
         viewModel.loadCurrentUserData()
         viewModel.loadGenders()
 
+        auth = Firebase.auth
         setupObservers()
         setupClickListeners()
 
@@ -174,10 +179,12 @@ class RegisterCollaboratorFragment : Fragment() {
             }
         }
 
+        auth.createUserWithEmailAndPassword(email, "12345a")
+
         viewModel.registerCollaborator(
             name = name,
             email = email,
-            password = "123456",
+            password = "12345a",
             dateOfBirth = dateOfBirth,
             genderId = selectedGender!!.id,
             roleId = selectedRole!!.id
