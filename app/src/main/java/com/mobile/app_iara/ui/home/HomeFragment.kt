@@ -12,12 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
-import com.mobile.app_iara.ui.start.LoginActivity.Companion.KEY_FACTORY_ID
-import com.mobile.app_iara.ui.start.LoginActivity.Companion.PREFS_NAME
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.mobile.app_iara.data.remote.RetrofitClient
-import com.mobile.app_iara.data.repository.ShiftRepository
 
 class HomeFragment : Fragment() {
 
@@ -82,8 +78,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.cardAbacus.setOnClickListener {
-            val prefs = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            val idDaFabricaAtual = prefs.getInt(KEY_FACTORY_ID, -1)
+            val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            val idDaFabricaAtual = prefs.getInt("key_factory_id", -1)
 
             if (idDaFabricaAtual != -1) {
                 val action = HomeFragmentDirections.actionHomeFragmentToAbacusList(idDaFabricaAtual)

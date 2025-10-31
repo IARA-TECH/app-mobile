@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobile.app_iara.data.model.ColumnData
+import com.mobile.app_iara.data.model.request.LineCreateRequest
 import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.databinding.DialogAddColumnBinding
 import com.mobile.app_iara.databinding.FragmentRegisterAbacusBinding
@@ -26,8 +28,8 @@ class RegisterAbacusFragment : Fragment() {
     private var _binding: FragmentRegisterAbacusBinding? = null
     private val binding get() = _binding!!
 
-    private val columnsList = mutableListOf<AbacusColumn>()
-    private val linesList = mutableListOf<String>()
+    private val columnsList = mutableListOf<ColumnData>()
+    private val linesList = mutableListOf<LineCreateRequest>()
 
     private lateinit var columnsAdapter: ColumnsAdapter
     private lateinit var linesAdapter: LinesAdapter
@@ -67,7 +69,6 @@ class RegisterAbacusFragment : Fragment() {
         columnsAdapter = ColumnsAdapter(columnsList) { position ->
             columnsList.removeAt(position)
             columnsAdapter.notifyItemRemoved(position)
-            columnsAdapter.notifyItemRangeChanged(position, columnsList.size)
         }
         binding.rvColumns.layoutManager = LinearLayoutManager(requireContext())
         binding.rvColumns.adapter = columnsAdapter
@@ -75,7 +76,6 @@ class RegisterAbacusFragment : Fragment() {
         linesAdapter = LinesAdapter(linesList) { position ->
             linesList.removeAt(position)
             linesAdapter.notifyItemRemoved(position)
-            linesAdapter.notifyItemRangeChanged(position, linesList.size)
         }
         binding.rvLines.layoutManager = LinearLayoutManager(requireContext())
         binding.rvLines.adapter = linesAdapter
@@ -83,7 +83,7 @@ class RegisterAbacusFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnAddColumn.setOnClickListener {
-            showAddColumnDialog()
+            showAddColumnDialog(
         }
 
         binding.tilLine.setEndIconOnClickListener {
@@ -102,7 +102,9 @@ class RegisterAbacusFragment : Fragment() {
     private fun addLine() {
         val lineName = binding.etLine.text.toString().trim()
         if (lineName.isNotEmpty()) {
-            linesList.add(lineName)
+            val newLine = LineCreateRequest(name = lineName)
+            linesList.add(newLine)
+
             linesAdapter.notifyItemInserted(linesList.size - 1)
             binding.rvLines.scrollToPosition(linesList.size - 1)
             binding.etLine.text?.clear()
@@ -181,8 +183,8 @@ class RegisterAbacusFragment : Fragment() {
             return
         }
 
-        val prefs = requireActivity().getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
-        val factoryId = prefs.getInt(LoginActivity.KEY_FACTORY_ID, -1)
+        val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val factoryId = prefs.getInt("key_factory_id", -1)
 
         if (factoryId == -1) {
             Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado. Tente logar novamente.", Toast.LENGTH_LONG).show()

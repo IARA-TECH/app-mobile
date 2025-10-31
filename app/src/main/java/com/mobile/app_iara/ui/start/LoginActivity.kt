@@ -39,12 +39,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private val userRepository = UserRepository()
 
-    companion object {
-        const val PREFS_NAME = "IARA_APP_POSTECH_PREFS"
-        const val KEY_FACTORY_ID = "USER_FACTORY_ID"
-        const val KEY_LOGGED_IN = "is_logged_in"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -78,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
         val btnGoogle = findViewById<ImageButton>(R.id.btnGoogle)
         val tvEsqueceuSenha = findViewById<TextView>(R.id.textView5)
@@ -181,10 +175,10 @@ class LoginActivity : AppCompatActivity() {
                 if (userResponse.isSuccessful && userResponse.body() != null) {
                     val factoryId = userResponse.body()!!.factoryId
 
-                    val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    val prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
                     prefs.edit()
-                        .putInt(KEY_FACTORY_ID, factoryId)
-                        .putBoolean(KEY_LOGGED_IN, keepLoggedIn)
+                        .putInt("key_factory_id", factoryId)
+                        .putBoolean("is_logged_in", keepLoggedIn)
                         .apply()
 
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
@@ -205,8 +199,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        val manterLogado = sharedPrefs.getBoolean(KEY_LOGGED_IN, false)
+        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val manterLogado = sharedPrefs.getBoolean("is_logged_in", false)
         val userLogin = auth.currentUser
 
         if (userLogin != null && manterLogado) {

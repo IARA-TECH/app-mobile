@@ -68,11 +68,6 @@ object RetrofitClient {
         mongoRetrofit.create(AbacusPhotoService::class.java)
     }
 
-    val shiftService: ShiftService by lazy {
-        mongoRetrofit.create(ShiftService::class.java)
-    }
-
-
     val newsService: NewsService by lazy {
         mongoRetrofit.create(NewsService::class.java)
     }

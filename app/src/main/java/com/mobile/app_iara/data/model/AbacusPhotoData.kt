@@ -8,7 +8,10 @@ data class AbacusPhotoData(
     val takenBy: String,
     val takenAt: String,
     val date: String,
-    val urlBlob: String,
+    val photoUrlBlob: String,
+    val sheetUrlBlob: String,
     val validatedBy: String?,
-    val shiftName: String
+    val shiftName: String,
+    val shiftStartsAt: String,
+    val shiftEndsAt: String
 )

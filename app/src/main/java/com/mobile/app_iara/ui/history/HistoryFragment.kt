@@ -82,8 +82,8 @@ class HistoryFragment : Fragment() {
     }
 
     private fun loadValidatedPhotos() {
-        val prefs = requireActivity().getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
-        val factoryId = prefs.getInt(LoginActivity.KEY_FACTORY_ID, -1)
+        val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val factoryId = prefs.getInt("key_factory_id", -1)
 
         if (factoryId == -1) {
             Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado. Tente logar novamente.", Toast.LENGTH_LONG).show()
@@ -148,7 +148,7 @@ class HistoryFragment : Fragment() {
         }
 
         return AbacusHistory(
-            urlPhoto = photo.urlBlob,
+            urlPhoto = photo.photoUrlBlob,
             titulo = abacusName,
             name = takenByName,
             approve = validatedByName,

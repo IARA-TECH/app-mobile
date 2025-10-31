@@ -72,11 +72,11 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         })
 
         val prefs = requireActivity().getSharedPreferences(
-            LoginActivity.PREFS_NAME,
+            "user_prefs",
             Context.MODE_PRIVATE
         )
 
-        val factoryId = prefs.getInt(LoginActivity.KEY_FACTORY_ID, -1)
+        val factoryId = prefs.getInt("key_factory_id", -1)
 
         if (factoryId != -1) {
             viewModel.fetchPendingApprovals(factoryId)
