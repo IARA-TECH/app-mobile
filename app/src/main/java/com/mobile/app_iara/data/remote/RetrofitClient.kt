@@ -1,6 +1,7 @@
 package com.mobile.app_iara.data.remote
 
 import com.mobile.app_iara.data.remote.service.AccessTypeService
+import com.mobile.app_iara.data.remote.service.DailyActiveUsersService
 import com.mobile.app_iara.data.remote.service.FactoryService
 import com.mobile.app_iara.data.remote.service.GenderService
 import com.mobile.app_iara.data.remote.service.UserAccessTypeService
@@ -76,6 +77,10 @@ object RetrofitClient {
 
     val accessTypeService: AccessTypeService by lazy {
         retrofit.create(AccessTypeService::class.java)
+    }
+
+    val dailyActiveUsersService: DailyActiveUsersService by lazy {
+        retrofit.create(DailyActiveUsersService::class.java)
     }
 
 }

@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.app_iara.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 import android.Manifest
+import android.util.Log
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
 import androidx.work.Data
@@ -29,7 +30,9 @@ import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_TITLE
 import java.util.Calendar
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.request.DailyActiveUsersRequest
 import com.mobile.app_iara.data.model.request.EmailRequest
+import com.mobile.app_iara.data.repository.DailyActiveUsersRepository
 import com.mobile.app_iara.data.repository.UserAccessTypeRepository
 import com.mobile.app_iara.data.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val userRepository = UserRepository()
     private val accessTypeRepository = UserAccessTypeRepository()
+    private val dailyActiveUsersRepository = DailyActiveUsersRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,6 +119,8 @@ class MainActivity : AppCompatActivity() {
 
                 val accessResponse = accessTypeRepository.getUserAccessType(userId)
 
+                registerDailyActiveUser(userId)
+
                 withContext(Dispatchers.Main) {
                     if (accessResponse.isSuccessful && accessResponse.body() != null) {
                         val accessTypes = accessResponse.body()!!
@@ -139,6 +145,16 @@ class MainActivity : AppCompatActivity() {
                     bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
                 }
             }
+        }
+    }
+
+    private suspend fun registerDailyActiveUser(userId: String) {
+        try {
+            val request = DailyActiveUsersRequest(userId = userId)
+            dailyActiveUsersRepository.registerDailyActiveUsers(request)
+            Log.i("MainActivity_DAU", "Usuário ativo registrado com sucesso.")
+        } catch (e: Exception) {
+            Log.e("MainActivity_DAU", "Falha ao registrar usuário ativo (não crítico)", e)
         }
     }
 
