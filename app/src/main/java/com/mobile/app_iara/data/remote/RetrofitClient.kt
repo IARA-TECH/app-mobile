@@ -1,5 +1,6 @@
 package com.mobile.app_iara.data.remote
 
+import com.mobile.app_iara.data.remote.service.AbacusPhotoService
 import com.mobile.app_iara.data.remote.service.AccessTypeService
 import com.mobile.app_iara.data.remote.service.DailyActiveUsersService
 import com.mobile.app_iara.data.remote.service.FactoryService
@@ -83,4 +84,7 @@ object RetrofitClient {
         retrofit.create(DailyActiveUsersService::class.java)
     }
 
+    val abacusPhotoService: AbacusPhotoService by lazy {
+        retrofit.create(AbacusPhotoService::class.java)
+    }
 }

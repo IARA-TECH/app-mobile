@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 
 class AbacusPhotoRepository {
 
-    private val abacusPhotoService: AbacusPhotoService = RetrofitClient.abacusPhotosService
+    private val abacusPhotoService: AbacusPhotoService = RetrofitClient.abacusPhotoService
 
     suspend fun getPendingPhotosByFactory(factoryId: Int): Result<List<AbacusPhotoData>> {
         return withContext(Dispatchers.IO) {
