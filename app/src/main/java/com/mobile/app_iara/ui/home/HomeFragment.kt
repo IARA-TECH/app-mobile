@@ -15,8 +15,6 @@ import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
-import com.mobile.app_iara.ui.start.LoginActivity.Companion.KEY_FACTORY_ID
-import com.mobile.app_iara.ui.start.LoginActivity.Companion.PREFS_NAME
 
 class HomeFragment : Fragment() {
 

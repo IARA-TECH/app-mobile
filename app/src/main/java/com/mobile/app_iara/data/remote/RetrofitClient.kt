@@ -6,6 +6,7 @@ import com.mobile.app_iara.data.remote.service.AccessTypeService
 import com.mobile.app_iara.data.remote.service.DailyActiveUsersService
 import com.mobile.app_iara.data.remote.service.FactoryService
 import com.mobile.app_iara.data.remote.service.GenderService
+import com.mobile.app_iara.data.remote.service.NewsService
 import com.mobile.app_iara.data.remote.service.UserAccessTypeService
 import com.mobile.app_iara.data.remote.service.UserService
 import okhttp3.Credentials
@@ -18,7 +19,8 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://iara-api-sql.onrender.com/api/v1/"
+    private const val SQL_BASE_URL = "https://iara-api-sql.onrender.com/api/v1/"
+    private const val MONGO_BASE_URL = "https://iara-api-mongo.onrender.com/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -46,50 +48,67 @@ object RetrofitClient {
         return@Interceptor chain.proceed(newRequest)
     }
 
-
-    private val okHttpClient = OkHttpClient.Builder()
+    private val sqlOkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .addInterceptor(authInterceptor)
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(40, TimeUnit.SECONDS)
         .build()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(okHttpClient)
+    private val mongoOkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .connectTimeout(60, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)
+        .writeTimeout(60, TimeUnit.SECONDS)
+        .build()
+
+    private val sqlRetrofit = Retrofit.Builder()
+        .baseUrl(SQL_BASE_URL)
+        .client(sqlOkHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val mongoRetrofit = Retrofit.Builder()
+        .baseUrl(MONGO_BASE_URL)
+        .client(mongoOkHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     val userService: UserService by lazy {
-        retrofit.create(UserService::class.java)
+        sqlRetrofit.create(UserService::class.java)
     }
 
     val factoryService: FactoryService by lazy {
-        retrofit.create(FactoryService::class.java)
+        sqlRetrofit.create(FactoryService::class.java)
     }
 
     val userAccessTypeService: UserAccessTypeService by lazy {
-        retrofit.create(UserAccessTypeService::class.java)
+        sqlRetrofit.create(UserAccessTypeService::class.java)
     }
 
     val genderService: GenderService by lazy {
-        retrofit.create(GenderService::class.java)
+        sqlRetrofit.create(GenderService::class.java)
     }
 
     val accessTypeService: AccessTypeService by lazy {
-        retrofit.create(AccessTypeService::class.java)
+        sqlRetrofit.create(AccessTypeService::class.java)
     }
 
     val dailyActiveUsersService: DailyActiveUsersService by lazy {
-        retrofit.create(DailyActiveUsersService::class.java)
-    }
-
-    val abacusPhotoService: AbacusPhotoService by lazy {
-        retrofit.create(AbacusPhotoService::class.java)
+        sqlRetrofit.create(DailyActiveUsersService::class.java)
     }
 
     val abacusService: AbacusService by lazy {
-        retrofit.create(AbacusService::class.java)
+        mongoRetrofit.create(AbacusService::class.java)
     }
+
+    val abacusPhotoService: AbacusPhotoService by lazy {
+        mongoRetrofit.create(AbacusPhotoService::class.java)
+    }
+
+    val newsService: NewsService by lazy {
+        mongoRetrofit.create(NewsService::class.java)
+    }
+
 }

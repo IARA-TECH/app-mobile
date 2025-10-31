@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentManagementBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
@@ -27,7 +28,6 @@ class ManagementFragment : Fragment() {
     private lateinit var collaboratorAdapter: CollaboratorAdapter
     private lateinit var viewModel: ManagementViewModel
 
-    // Lista completa de colaboradores (sem filtro)
     private var allCollaborators: List<CollaboratorModal> = emptyList()
 
     override fun onCreateView(
@@ -43,6 +43,8 @@ class ManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[ManagementViewModel::class.java]
+
+        viewModel.loadUserProfileData()
 
         setupRecyclerView()
         setupObservers()
@@ -76,6 +78,17 @@ class ManagementFragment : Fragment() {
         viewModel.collaborators.observe(viewLifecycleOwner) { collaborators ->
             allCollaborators = collaborators
             collaboratorAdapter.submitList(collaborators)
+        }
+
+        viewModel.userPhotoUrl.observe(viewLifecycleOwner) { photoUrl ->
+            if (!photoUrl.isNullOrEmpty()) {
+                Glide.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.ic_profile_circle)
+                    .error(R.drawable.ic_profile_circle)
+                    .circleCrop()
+                    .into(binding.included.imgPerfilToolbar)
+            }
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
