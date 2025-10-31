@@ -35,7 +35,6 @@ class EditCollaboratorFragment : Fragment() {
 
     private val viewModel: EditCollaboratorViewModel by viewModels()
 
-    // --- Guarde as seleções (como objetos de Response da API) ---
     private var selectedGender: GenderResponse? = null
     private var selectedRole: AccessTypeResponse? = null
 
@@ -57,15 +56,13 @@ class EditCollaboratorFragment : Fragment() {
             return
         }
 
-        // Carrega os dados iniciais do colaborador (vindo do Modal)
         val collaborator = args.collaborator
         binding.textViewNome.text = collaborator.name
         binding.textViewEmail.text = collaborator.email
-        binding.textViewCargo.text = collaborator.roleName // <- Ajuste se o nome do campo for outro
+        binding.textViewCargo.text = collaborator.roleName
         binding.textView272.text = collaborator.genderName
         binding.textView274.text = collaborator.dateBirth
 
-        // Carrega as listas de Gêneros e Cargos
         viewModel.loadGenders()
         viewModel.loadUserAccessTypes()
 
@@ -79,7 +76,6 @@ class EditCollaboratorFragment : Fragment() {
         }
 
         binding.imageButtonExcluir.setOnClickListener {
-            // Lógica de exclusão pendente
             Toast.makeText(requireContext(), "Função de excluir não implementada.", Toast.LENGTH_SHORT).show()
         }
 
@@ -87,7 +83,6 @@ class EditCollaboratorFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        // Assumindo que seu botão de salvar se chama 'btnConfirmar' no XML
         binding.btnConfirmar.setOnClickListener {
             validateAndUpdate()
         }
@@ -107,29 +102,23 @@ class EditCollaboratorFragment : Fragment() {
 
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            // Observador para carregar os GÊNEROS
             viewModel.genders.collect { gendersList ->
                 if (gendersList.isNotEmpty() && selectedGender == null) {
-                    // Encontra o gênero inicial do colaborador
                     selectedGender = gendersList.find { it.name == args.collaborator.genderName }
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            // Observador para carregar os CARGOS
             viewModel.roles.collect { rolesList ->
                 if (rolesList.isNotEmpty() && selectedRole == null) {
-                    // Encontra o cargo inicial do colaborador
                     selectedRole = rolesList.find { it.name == args.collaborator.roleName } // <- Ajuste se o nome do campo for outro
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            // Observador do UPDATE
             viewModel.updateState.collect { state ->
-                // Assumindo que o botão de salvar se chama 'btnConfirmar'
                 when (state) {
                     is UpdateState.Loading -> {
                         binding.btnConfirmar.isEnabled = false
@@ -153,7 +142,6 @@ class EditCollaboratorFragment : Fragment() {
     }
 
     private fun validateAndUpdate() {
-        // Valida se as seleções foram carregadas
         if (selectedGender == null) {
             Toast.makeText(requireContext(), "Aguarde, carregando gêneros...", Toast.LENGTH_SHORT).show()
             return
@@ -165,7 +153,6 @@ class EditCollaboratorFragment : Fragment() {
 
         val oldData = args.collaborator
 
-        // Chama o ViewModel com a assinatura correta
         viewModel.updateCollaborator(
             oldData = oldData,
             newGenderId = selectedGender!!.id,
@@ -174,7 +161,6 @@ class EditCollaboratorFragment : Fragment() {
     }
 
     private fun showGenderSelectionDialog() {
-        // Lógica idêntica ao seu RegisterFragment
         val dialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_gender_dropdown, null)
         val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group_gender)
@@ -228,7 +214,6 @@ class EditCollaboratorFragment : Fragment() {
     }
 
     private fun showRoleSelectionDialog() {
-        // Lógica idêntica ao seu RegisterFragment
         val dialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_role_dropdown, null)
         val recyclerView = view.findViewById<RecyclerView>(R.id.roles)

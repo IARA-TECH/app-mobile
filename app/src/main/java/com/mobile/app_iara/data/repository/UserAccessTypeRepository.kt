@@ -13,4 +13,7 @@ class UserAccessTypeRepository {
 
     suspend fun createUserAccessType(request: UserAccessTypeRequest) =
         userAccessTypeService.createUserAccessType(request)
+
+    suspend fun deleteUserAccessType(accessTypeId: Int, userId: String): Response<UserAccessTypeResponse> =
+        userAccessTypeService.deleteAccessTypeByUserId(accessTypeId, userId)
 }
