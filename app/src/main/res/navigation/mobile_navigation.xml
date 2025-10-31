@@ -18,11 +18,11 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationsFragment"
             app:destination="@id/navigation_notification" />
-      
+
         <action
             android:id="@+id/action_homeFragment_to_abacusList"
             app:destination="@id/abacusListFragment" />
-      
+
         <action
             android:id="@+id/action_homeFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
@@ -130,12 +130,12 @@
             android:id="@+id/action_managementFragment_to_profileFragment"
             app:destination="@id/navigation_profile" />
     </fragment>
-  
+
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
 
         <action
             android:id="@+id/action_profileFragment_to_chatFragment"
@@ -179,7 +179,6 @@
             android:id="@+id/action_spreadSheetsFragment_to_notificationsFragment"
             app:destination="@id/navigation_notification" />
     </fragment>
-
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.mobile.app_iara.ui.chatbot.ChatFragment"
@@ -262,6 +261,10 @@
         android:name="com.mobile.app_iara.ui.abacus.AbacusListFragment"
         android:label="Ábacos"
         tools:layout="@layout/fragment_abacus_list" >
+
+        <argument
+            android:name="factoryId"
+            app:argType="integer" />
 
         <action
             android:id="@+id/action_abacusListFragment_to_notificationsFragment"

@@ -1,17 +1,25 @@
 package com.mobile.app_iara.ui.abacus
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.repository.AbacusRepository
+import com.mobile.app_iara.databinding.DialogDeleteConfirmationBinding
 import com.mobile.app_iara.databinding.FragmentAbacusListBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.util.AbacusMapper
 import com.mobile.app_iara.util.NetworkUtils
+import kotlinx.coroutines.launch
 
 class AbacusListFragment : Fragment() {
 
@@ -19,6 +27,9 @@ class AbacusListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var abacusAdapter: AbacusAdapter
+
+    private val repository = AbacusRepository()
+    private val args: AbacusListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,9 +48,14 @@ class AbacusListFragment : Fragment() {
             activity?.finish()
             return
         }
-
         setupRecyclerView()
-        loadAbacusData()
+
+        val factoryId = args.factoryId
+        loadAbacusData(factoryId)
+
+        binding.included.imgBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
@@ -56,38 +72,74 @@ class AbacusListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.rvAbacusList.layoutManager = LinearLayoutManager(requireContext())
+
+        abacusAdapter = AbacusAdapter(emptyList()) { abacusToDelete ->
+            showDeleteConfirmationDialog(abacusToDelete)
+        }
+        binding.rvAbacusList.adapter = abacusAdapter
     }
 
-    private fun loadAbacusData() {
-        val mockData = listOf(
-            Abacus(
-                title = "Ábaco de Consumo de Ração",
-                description = "Ábaco da área fria",
-                lines = 12,
-                columns = 2,
-                imageUrls = listOf(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/RomanAbacusRecon.jpg/250px-RomanAbacusRecon.jpg",
-                    "https://fundamentalbrinquedos.com.br/wp-content/uploads/2019/06/1056.jpg",
-                    "https://www.trabalhosescolares.net/wp-content/uploads/2014/05/abaco_matematica.jpg",
-                    "https://upload.wikimedia.org/wikipedia/commons/e/ea/Boulier1.JPG"
-                )
-            ),
-            Abacus(
-                title = "Ábaco de Conversão Alimentar (CA)",
-                description = "Ábaco da área fria",
-                lines = 12,
-                columns = 2,
-                imageUrls = listOf(
-                    "https://rihappy.vtexassets.com/arquivos/ids/278709/Abaco-Escolar-de-Madeira---Melissa-e-Doug.jpg?v=635472565012900000",
-                    "https://acdn-us.mitiendanube.com/stores/335/332/products/abaco-tons-terrosos-madeira-21-7f7b2d22765f1b2c5d16763087429243-640-0.jpg",
-                    "https://webpages.ciencias.ulisboa.pt/~ommartins/seminario/abaco/images/schoty.jpg",
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Schoty_abacus.jpg/250px-Schoty_abacus.jpg"
-                )
-            )
-        )
+    private fun showDeleteConfirmationDialog(abacus: Abacus) {
+        val dialogBinding = DialogDeleteConfirmationBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogBinding.root)
+            .create()
 
-        abacusAdapter = AbacusAdapter(mockData)
-        binding.rvAbacusList.adapter = abacusAdapter
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogBinding.btnDeletarDialogDelete.setOnClickListener {
+            performAbacusDeletion(abacus)
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnCancelarDialogDelete.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun performAbacusDeletion(abacus: Abacus) {
+        lifecycleScope.launch {
+            Toast.makeText(requireContext(), "Deletando ${abacus.title}...", Toast.LENGTH_SHORT).show()
+
+            val result = repository.deleteAbacus(abacus.id)
+
+            result.onSuccess {
+                Toast.makeText(requireContext(), "${abacus.title} deletado com sucesso!", Toast.LENGTH_SHORT).show()
+                loadAbacusData(args.factoryId)
+            }
+
+            result.onFailure { error ->
+                Toast.makeText(requireContext(), "Erro ao deletar ${abacus.title}: ${error.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun loadAbacusData(factoryId: Int) {
+        binding.rvAbacusList.visibility = View.GONE
+        binding.textView36.visibility = View.GONE
+        lifecycleScope.launch {
+            val result = repository.getAbacusesByFactory(factoryId)
+
+            result.onSuccess { abacusDataList ->
+                val abacusUiList = AbacusMapper.mapApiListToUiList(abacusDataList)
+                abacusAdapter.updateData(abacusUiList)
+
+                if (abacusUiList.isEmpty()) {
+                    binding.textView36.text = "Nenhum ábaco cadastrado."
+                    binding.textView36.visibility = View.VISIBLE
+                    binding.rvAbacusList.visibility = View.GONE
+                } else {
+                    binding.textView36.visibility = View.GONE
+                    binding.rvAbacusList.visibility = View.VISIBLE
+                }
+            }
+
+            result.onFailure { error ->
+                Toast.makeText(requireContext(), "Erro ao carregar ábacos: ${error.message}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 

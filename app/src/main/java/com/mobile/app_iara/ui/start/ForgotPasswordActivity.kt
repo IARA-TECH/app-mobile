@@ -36,9 +36,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         val emailEditText = findViewById<TextInputEditText>(R.id.emailEsqueceuSenha)
 
         btnVoltar.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         btnVerificarEmail.setOnClickListener {

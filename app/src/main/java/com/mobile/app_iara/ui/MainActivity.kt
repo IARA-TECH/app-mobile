@@ -22,6 +22,7 @@ import android.Manifest
 import android.util.Log
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
+import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
@@ -35,6 +36,7 @@ import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.repository.DailyActiveUsersRepository
 import com.mobile.app_iara.data.repository.UserAccessTypeRepository
 import com.mobile.app_iara.data.repository.UserRepository
+import com.mobile.app_iara.ui.notifications.ClearNotificationsWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -177,6 +179,7 @@ class MainActivity : AppCompatActivity() {
                     scheduleAnalysisReminder()
                     scheduleGoodMorning()
                     scheduleAfternoon()
+                    scheduleDailyClear()
                 }
 
                 shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
@@ -191,6 +194,7 @@ class MainActivity : AppCompatActivity() {
             scheduleAnalysisReminder()
             scheduleGoodMorning()
             scheduleAfternoon()
+            scheduleDailyClear()
         }
     }
 
@@ -278,6 +282,34 @@ class MainActivity : AppCompatActivity() {
             "afternoonWork",
             ExistingPeriodicWorkPolicy.KEEP,
             dailyWorkRequest
+        )
+    }
+
+    private fun scheduleDailyClear() {
+        val currentTime = Calendar.getInstance()
+
+        val scheduledTime = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 1)
+            set(Calendar.SECOND, 0)
+        }
+
+        val initialDelay = scheduledTime.timeInMillis - currentTime.timeInMillis
+
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val dailyClearRequest = PeriodicWorkRequestBuilder<ClearNotificationsWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "dailyNotificationClearWork",
+            ExistingPeriodicWorkPolicy.KEEP,
+            dailyClearRequest
         )
     }
 

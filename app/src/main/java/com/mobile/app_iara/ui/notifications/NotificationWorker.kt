@@ -59,13 +59,19 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
 
     private suspend fun saveNotificationToDatabase(title: String, description: String, link: String?) {
         val dao = AppDatabase.getDatabase(appContext).notificationDAO()
+
+        val now = Date()
+
         val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val currentTimeString = timeFormatter.format(Date())
+        val currentTimeString = timeFormatter.format(now)
+
+        val currentTimestamp = now.time
 
         val notificationItem = NotificationEntity(
             title = title,
             description = description,
             time = currentTimeString,
+            timestamp = currentTimestamp
         )
         dao.insert(notificationItem)
     }
