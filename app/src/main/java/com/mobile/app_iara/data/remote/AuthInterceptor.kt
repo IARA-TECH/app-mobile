@@ -5,7 +5,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 class AuthInterceptor : Interceptor {
-    private val credentials = Credentials.basic("LunaCosta@pinto.org", "123456")
+    private val credentials = Credentials.basic("MarinaCostela@pinto.org", "123456")
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

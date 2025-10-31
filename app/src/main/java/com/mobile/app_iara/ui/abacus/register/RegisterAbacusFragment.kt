@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.abacus.register
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +10,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.databinding.DialogAddColumnBinding
 import com.mobile.app_iara.databinding.FragmentRegisterAbacusBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.util.NetworkUtils
 
 
@@ -27,6 +31,11 @@ class RegisterAbacusFragment : Fragment() {
 
     private lateinit var columnsAdapter: ColumnsAdapter
     private lateinit var linesAdapter: LinesAdapter
+
+    private val repository = AbacusRepository()
+    private val viewModel: RegisterAbacusViewModel by viewModels {
+        RegisterAbacusViewModelFactory(repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -172,21 +181,38 @@ class RegisterAbacusFragment : Fragment() {
             return
         }
 
+        val prefs = requireActivity().getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        val factoryId = prefs.getInt(LoginActivity.KEY_FACTORY_ID, -1)
+
+        if (factoryId == -1) {
+            Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado. Tente logar novamente.", Toast.LENGTH_LONG).show()
+            return
+        }
+
         val newAbacus = Abacus(
             name = abacusName,
             description = abacusDescription,
             lines = linesList,
-            columns = columnsList
+            columns = columnsList,
+            factoryId = factoryId
         )
 
-        Log.d("RegisterAbacus", "--- DADOS FINAIS DO ÁBACO ---")
-        Log.d("RegisterAbacus", "Objeto Completo: $newAbacus")
+        binding.tilAbacusName.error = null
+        binding.tilAbacusDescription.error = null
 
-        Toast.makeText(requireContext(), "Ábaco '${newAbacus.name}' pronto para ser enviado!", Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Enviando ábaco...", Toast.LENGTH_SHORT).show()
 
-        // TODO: Enviar o objeto 'newAbacus' para a API através do seu ViewModel
-
-        findNavController().popBackStack()
+        viewModel.registerAbacus(
+            abacus = newAbacus,
+            onSuccess = {
+                Toast.makeText(requireContext(), "Ábaco '${it.name}' criado com sucesso!", Toast.LENGTH_LONG).show()
+                findNavController().popBackStack()
+            },
+            onFailure = { error ->
+                Log.e("RegisterAbacus", "Erro ao registrar ábaco", error)
+                Toast.makeText(requireContext(), "Erro ao registrar: ${error.message}", Toast.LENGTH_LONG).show()
+            }
+        )
     }
 
     override fun onDestroyView() {

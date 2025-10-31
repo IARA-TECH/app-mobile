@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.abacus
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
 import com.mobile.app_iara.data.repository.AbacusRepository
+import com.mobile.app_iara.databinding.DialogDeleteConfirmationBinding
 import com.mobile.app_iara.databinding.FragmentAbacusListBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.AbacusMapper
@@ -70,8 +72,48 @@ class AbacusListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.rvAbacusList.layoutManager = LinearLayoutManager(requireContext())
-        abacusAdapter = AbacusAdapter(emptyList())
+
+        abacusAdapter = AbacusAdapter(emptyList()) { abacusToDelete ->
+            showDeleteConfirmationDialog(abacusToDelete)
+        }
         binding.rvAbacusList.adapter = abacusAdapter
+    }
+
+    private fun showDeleteConfirmationDialog(abacus: Abacus) {
+        val dialogBinding = DialogDeleteConfirmationBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogBinding.root)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogBinding.btnDeletarDialogDelete.setOnClickListener {
+            performAbacusDeletion(abacus)
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnCancelarDialogDelete.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun performAbacusDeletion(abacus: Abacus) {
+        lifecycleScope.launch {
+            Toast.makeText(requireContext(), "Deletando ${abacus.title}...", Toast.LENGTH_SHORT).show()
+
+            val result = repository.deleteAbacus(abacus.id)
+
+            result.onSuccess {
+                Toast.makeText(requireContext(), "${abacus.title} deletado com sucesso!", Toast.LENGTH_SHORT).show()
+                loadAbacusData(args.factoryId)
+            }
+
+            result.onFailure { error ->
+                Toast.makeText(requireContext(), "Erro ao deletar ${abacus.title}: ${error.message}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun loadAbacusData(factoryId: Int) {

@@ -7,10 +7,12 @@ object AbacusMapper {
 
     fun mapApiToUi(apiData: AbacusData): Abacus {
         return Abacus(
+            id = apiData.id,
             title = apiData.name,
             description = apiData.description,
             lines = apiData.lines.size,
             columns = apiData.columns.size,
+            factoryId = apiData.factoryId
         )
     }
 

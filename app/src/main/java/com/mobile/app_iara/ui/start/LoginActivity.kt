@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.mobile.app_iara.MainActivity
 import com.mobile.app_iara.R
-import com.mobile.app_iara.data.model.request.EmailRequest // Importe o modelo de request
+import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils

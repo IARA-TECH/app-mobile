@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivIcon"
             app:layout_constraintTop_toTopOf="@id/ivIcon"
-            tools:text="Ábaco de Consumo de Ração" />
+            tools:text="Carregando..." />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:textColor="@color/defaultText"
-                    tools:text="Descrição: Ábaco da área fria" />
+                    tools:text="Descrição:" />
 
                 <TextView
                     android:id="@+id/tvLines"
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/defaultText"
-                    tools:text="Linhas: 12" />
+                    tools:text="Linhas:" />
 
                 <TextView
                     android:id="@+id/tvColumns"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/defaultText"
-                    tools:text="Colunas: 2" />
+                    tools:text="Colunas:" />
             </LinearLayout>
 
             <LinearLayout
@@ -84,7 +84,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/imageButtonEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -96,7 +96,7 @@
                     android:layout_height="10dp" />
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/imageButtonDelete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
