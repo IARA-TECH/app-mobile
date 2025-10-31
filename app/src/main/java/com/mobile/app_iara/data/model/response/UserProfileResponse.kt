@@ -19,7 +19,7 @@ data class UserProfileResponse(
     val userManagerName: String?,
 
     @SerializedName("userManagerId")
-    val userManagerId: String?,
+    val userManagerId: String? = null,
 
     @SerializedName("genderName")
     val genderName: String,

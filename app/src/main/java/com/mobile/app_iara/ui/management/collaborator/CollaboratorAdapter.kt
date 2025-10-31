@@ -37,7 +37,7 @@ class CollaboratorAdapter(private val onArrowClicked: (CollaboratorModal) -> Uni
         fun bind(collaborator: CollaboratorModal) {
             nameTextView.text = collaborator.name
             emailTextView.text = collaborator.email
-            roleTextView.text = collaborator.role
+            roleTextView.text = collaborator.roleName
 
             Glide.with(itemView.context)
                 .load(collaborator.urlPhoto)

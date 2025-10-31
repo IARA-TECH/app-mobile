@@ -7,7 +7,6 @@ import com.mobile.app_iara.data.model.request.UpdatePhotoRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -31,6 +30,6 @@ interface UserService {
         @Body request: UserProfileRequest
     ): Response<UserProfileResponse>
 
-    @PATCH("users/{id}")
+    @PUT("users/{id}")
     suspend fun updateCollaborator(@Body request: UserProfileRequest, @Path("id") id: String): Response<UserProfileResponse>
 }

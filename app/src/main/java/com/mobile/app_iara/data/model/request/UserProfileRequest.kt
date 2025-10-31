@@ -8,11 +8,11 @@ class UserProfileRequest (
     @SerializedName("email")
     val email: String,
     @SerializedName("password")
-    val password: String,
+    val password: String? = null,
     @SerializedName("date_of_birth")
     val dateOfBirth: String,
     @SerializedName("user_manager_id")
-    val userManagerId: String,
+    val userManagerId: String? = null,
     @SerializedName("factory_id")
     val factoryId: Int,
     @SerializedName("gender_id")

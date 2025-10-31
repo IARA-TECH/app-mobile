@@ -9,7 +9,6 @@ import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorModal
 import kotlinx.coroutines.launch
-import java.sql.Date
 
 class ManagementViewModel : ViewModel() {
 
@@ -48,10 +47,13 @@ class ManagementViewModel : ViewModel() {
                             id = user.id.toString(),
                             name = user.name,
                             email = user.email,
-                            role = user.accessTypeName,
-                            gender = user.genderName,
+                            roleName = user.accessTypeName,
+                            genderName = user.genderName,
                             urlPhoto = user.userPhotoUrl,
-                            dateBirth = user.dateOfBirth
+                            dateBirth = user.dateOfBirth,
+                            userManagerId = user.userManagerId,
+                            factoryId = user.factoryId,
+                            genderId = user.genderId
                         )
                     }
 
