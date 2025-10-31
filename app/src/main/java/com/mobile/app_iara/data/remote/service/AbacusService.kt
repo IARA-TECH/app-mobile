@@ -17,5 +17,5 @@ interface AbacusService {
     suspend fun deleteAbacus(@Path("id") abacusId: String): Response<Void>
 
     @POST("/iara/api/abacuses")
-    suspend fun createAbacus(@Body abacus: Abacus): retrofit2.Response<Abacus>
+    suspend fun createAbacus(@Body abacus: Abacus): Response<Abacus>
 }
