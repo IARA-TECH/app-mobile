@@ -2,6 +2,8 @@ package com.mobile.app_iara.ui.management
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentManagementBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorAdapter
+import com.mobile.app_iara.ui.management.collaborator.CollaboratorModal
 import com.mobile.app_iara.util.NetworkUtils
 
 class ManagementFragment : Fragment() {
@@ -23,6 +26,9 @@ class ManagementFragment : Fragment() {
 
     private lateinit var collaboratorAdapter: CollaboratorAdapter
     private lateinit var viewModel: ManagementViewModel
+
+    // Lista completa de colaboradores (sem filtro)
+    private var allCollaborators: List<CollaboratorModal> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +47,7 @@ class ManagementFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
         setupClickListeners()
+        setupSearchListener()
 
         viewModel.loadCollaborators()
     }
@@ -56,7 +63,6 @@ class ManagementFragment : Fragment() {
         collaboratorAdapter = CollaboratorAdapter { collaborator ->
             val action = ManagementFragmentDirections
                 .actionManagementFragmentToEditCollaboratorFragment(collaborator)
-
             findNavController().navigate(action)
         }
 
@@ -68,6 +74,7 @@ class ManagementFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.collaborators.observe(viewLifecycleOwner) { collaborators ->
+            allCollaborators = collaborators
             collaboratorAdapter.submitList(collaborators)
         }
 
@@ -75,6 +82,31 @@ class ManagementFragment : Fragment() {
             if (!error.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    private fun setupSearchListener() {
+        binding.inputSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun afterTextChanged(s: Editable?) = Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s?.toString()?.trim()?.lowercase() ?: ""
+                filterCollaborators(query)
+            }
+        })
+    }
+
+    private fun filterCollaborators(query: String) {
+        if (query.isEmpty()) {
+            collaboratorAdapter.submitList(allCollaborators)
+        } else {
+            val filtered = allCollaborators.filter { collaborator ->
+                collaborator.name.lowercase().contains(query) ||
+                        collaborator.email.lowercase().contains(query) ||
+                        collaborator.name.lowercase().contains(query)
+            }
+            collaboratorAdapter.submitList(filtered)
         }
     }
 
