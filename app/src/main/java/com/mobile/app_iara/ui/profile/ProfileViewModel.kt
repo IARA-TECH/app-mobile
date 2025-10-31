@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.profile
 
+import android.app.Application
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -12,7 +13,7 @@ import com.mobile.app_iara.data.model.response.UserProfileResponse
 import com.mobile.app_iara.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel(private val application: Application) : ViewModel() {
 
     private val repository = UserRepository()
 
