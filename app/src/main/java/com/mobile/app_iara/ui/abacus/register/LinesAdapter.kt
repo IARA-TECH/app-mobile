@@ -21,7 +21,7 @@ class LinesAdapter(
     override fun onBindViewHolder(holder: LineViewHolder, position: Int) {
         val line = lines[position]
         holder.binding.tvLineName.text = line.name
-        holder.binding.tvLineType.text = line.type.name
+        holder.binding.tvLineType.text = line.lineType.name
 
         holder.binding.btnDeleteLine.setOnClickListener {
             onDelete(holder.adapterPosition)

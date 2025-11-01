@@ -130,10 +130,10 @@ class EditAbacusFragment : Fragment() {
             val newTypeObject = LineTypeCreateRequest(
                 id = DataUtil.generateUuid(),
                 name = selectedTypeName,
-                createdDate = DataUtil.getCurrentIsoTimestamp()
+                createdAt = DataUtil.getCurrentIsoTimestamp()
             )
 
-            val newLine = LineCreateRequest(name = lineName, type = newTypeObject)
+            val newLine = LineCreateRequest(name = lineName, lineType = newTypeObject)
             lineList.add(newLine)
 
             linesAdapter.notifyItemInserted(lineList.size - 1)
@@ -223,13 +223,13 @@ class EditAbacusFragment : Fragment() {
         binding.etAbacusDescriptionEdit.setText(abacus.description)
 
         val linesToDisplay = abacus.lines.map { lineApi ->
-            val typeApi = lineApi.type
+            val typeApi = lineApi.lineType
             val typeRequest = LineTypeCreateRequest(
                 id = typeApi.id,
                 name = typeApi.name,
-                createdDate = typeApi.createdDate
+                createdAt = typeApi.createdAt
             )
-            LineCreateRequest(name = lineApi.name, type = typeRequest)
+            LineCreateRequest(name = lineApi.name, lineType = typeRequest)
         }
 
         val columnsToDisplay =

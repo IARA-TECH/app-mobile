@@ -130,10 +130,10 @@ class RegisterAbacusFragment : Fragment() {
         val newTypeObject = LineTypeCreateRequest(
             id = DataUtil.generateUuid(),
             name = selectedTypeName,
-            createdDate = DataUtil.getCurrentIsoTimestamp()
+            createdAt = DataUtil.getCurrentIsoTimestamp()
         )
 
-        val newLine = LineCreateRequest(name = lineName, type = newTypeObject)
+        val newLine = LineCreateRequest(name = lineName, lineType = newTypeObject)
         linesList.add(newLine)
 
         linesAdapter.notifyItemInserted(linesList.size - 1)
