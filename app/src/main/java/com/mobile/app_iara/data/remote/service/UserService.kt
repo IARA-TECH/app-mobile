@@ -32,4 +32,7 @@ interface UserService {
 
     @PUT("users/{id}")
     suspend fun updateCollaborator(@Body request: UserProfileRequest, @Path("id") id: String): Response<UserProfileResponse>
+
+    @GET("users")
+    suspend fun getAllUsers(): Response<List<UserProfileResponse>>
 }

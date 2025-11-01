@@ -24,6 +24,22 @@ class UserRepository {
     suspend fun getUserProfileByEmail(request: EmailRequest) =
         userService.getUserProfileByEmail(request)
 
+    suspend fun getAllUsers(): Result<List<UserProfileResponse>> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = userService.getAllUsers()
+                if (response.isSuccessful && response.body() != null) {
+                    Result.success(response.body()!!)
+                } else {
+                    Result.failure(Exception("Erro ao buscar usuários: ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+    }
+
+
     suspend fun uploadUserPhoto(context: Context, userId: String, photoUri: Uri): String? {
         return withContext(Dispatchers.IO) {
             try {

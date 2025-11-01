@@ -5,7 +5,7 @@ data class AbacusPhotoData(
     val factoryId: Int,
     val shiftId: String,
     val abacusId: String,
-    val takenBy: String,
+    val takenBy: String?,
     val takenAt: String,
     val date: String,
     val photoUrlBlob: String,
