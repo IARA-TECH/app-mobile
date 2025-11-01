@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.mobile.app_iara.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
@@ -15,6 +14,8 @@ import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 
 class HomeFragment : Fragment() {
 
@@ -81,8 +82,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.cardAbacus.setOnClickListener {
-            val prefs = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            val idDaFabricaAtual = prefs.getInt(KEY_FACTORY_ID, -1)
+            val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            val idDaFabricaAtual = prefs.getInt("key_factory_id", -1)
 
             if (idDaFabricaAtual != -1) {
                 val action = HomeFragmentDirections.actionHomeFragmentToAbacusList(idDaFabricaAtual)

@@ -10,14 +10,14 @@
       android:pathData="M0,7C0,3.134 3.134,0 7,0H32C35.866,0 39,3.134 39,7V32C39,35.866 35.866,39 32,39H7C3.134,39 0,35.866 0,32V7Z"
       android:fillColor="#E95858"/>
   <path
-      android:pathData="M28,17L26.005,28.346C25.837,29.303 25.006,30 24.035,30H15.965C14.994,30 14.163,29.303 13.995,28.346L12,17"
+      android:pathData="M27.833,17L25.755,28.346C25.58,29.303 24.715,30 23.703,30H15.296C14.285,30 13.42,29.303 13.245,28.346L11.167,17"
       android:strokeLineJoin="round"
       android:strokeWidth="1.5"
       android:fillColor="#00000000"
       android:strokeColor="#ffffff"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M29,14H23.375M11,14H16.625M16.625,14V12C16.625,10.895 17.52,10 18.625,10H21.375C22.48,10 23.375,10.895 23.375,12V14M16.625,14H23.375"
+      android:pathData="M28.875,14H23.016M10.125,14H15.984M15.984,14V12C15.984,10.895 16.917,10 18.068,10H20.932C22.083,10 23.016,10.895 23.016,12V14M15.984,14H23.016"
       android:strokeLineJoin="round"
       android:strokeWidth="1.5"
       android:fillColor="#00000000"

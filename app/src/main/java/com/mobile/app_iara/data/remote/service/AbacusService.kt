@@ -1,5 +1,7 @@
 package com.mobile.app_iara.data.remote.service
 
+import com.mobile.app_iara.data.model.AbacusData
+import com.mobile.app_iara.data.model.request.AbacusCreateRequest
 import com.mobile.app_iara.data.model.response.AbacusResponse
 import com.mobile.app_iara.ui.abacus.register.Abacus
 import retrofit2.http.DELETE
@@ -17,5 +19,5 @@ interface AbacusService {
     suspend fun deleteAbacus(@Path("id") abacusId: String): Response<Void>
 
     @POST("/iara/api/abacuses")
-    suspend fun createAbacus(@Body abacus: Abacus): Response<Abacus>
+    suspend fun createAbacus(@Body abacusRequest: AbacusCreateRequest): Response<AbacusData>
 }

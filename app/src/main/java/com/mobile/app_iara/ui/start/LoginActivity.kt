@@ -1,6 +1,8 @@
 package com.mobile.app_iara.ui.start
 
+import android.content.Context // Adicionado
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,8 +17,10 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+// import androidx.core.content.ContextCompat.startActivity // Removido (Redundante)
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope // Adicionado
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -27,13 +31,18 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.mobile.app_iara.ui.MainActivity
 import com.mobile.app_iara.util.NetworkUtils
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.request.EmailRequest // Adicionado
 import com.mobile.app_iara.data.remote.UserCredentialsHolder
+import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import kotlinx.coroutines.launch // Adicionado
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private val userRepository = UserRepository()
+    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +75,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
+
         val btnGoogle = findViewById<ImageButton>(R.id.btnGoogle)
         val tvEsqueceuSenha = findViewById<TextView>(R.id.textView5)
         val btnVoltar = findViewById<ImageButton>(R.id.btnVoltar)
@@ -78,8 +89,6 @@ class LoginActivity : AppCompatActivity() {
         val primeiroAcesso = findViewById<TextView>(R.id.PrimeiroAcesso)
         val mensagemCampos = findViewById<TextView>(R.id.MensagemCampos)
         val mensagemCredenciais = findViewById<TextView>(R.id.MensagemCredenciais)
-
-        val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
         val errorClearTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -132,18 +141,46 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        UserCredentialsHolder.setCredentials(email, senha)
+                        // --- SUA LÓGICA MANTIDA + LÓGICA DELA INSERIDA ---
+                        lifecycleScope.launch {
+                            try {
+                                val userResponse = userRepository.getUserProfileByEmail(EmailRequest(email))
 
-                        if (checkLogado.isChecked) {
-                            val editor = sharedPrefs.edit()
-                            editor.putBoolean("is_logged_in", true)
-                            editor.putString("email", email)
-                            editor.putString("password", senha)
-                            editor.apply()
+                                if (userResponse.isSuccessful && userResponse.body() != null) {
+                                    // API OK, PEGAR O FACTORY ID
+                                    val factoryId = userResponse.body()!!.factoryId
+
+                                    // SUA LÓGICA ORIGINAL DE SUCESSO (MANTIDA)
+                                    UserCredentialsHolder.setCredentials(email, senha)
+
+                                    if (checkLogado.isChecked) {
+                                        val editor = sharedPrefs.edit()
+                                        editor.putBoolean("is_logged_in", true)
+                                        editor.putString("email", email)
+                                        editor.putString("password", senha)
+                                        editor.putInt("key_factory_id", factoryId) // ID INSERIDO
+                                        editor.apply()
+                                    }
+
+                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                    finish()
+                                    // FIM DA SUA LÓGICA ORIGINAL
+
+                                } else {
+                                    // API FALHOU (Usuário existe no Firebase mas não no seu DB)
+                                    Toast.makeText(this@LoginActivity, "Usuário não encontrado em nossa base de dados.", Toast.LENGTH_LONG).show()
+                                    auth.signOut()
+                                }
+                            } catch (e: Exception) {
+                                // FALHA DE REDE NA API
+                                Toast.makeText(this@LoginActivity, "Falha de conexão: ${e.message}", Toast.LENGTH_LONG).show()
+                                auth.signOut()
+                            }
                         }
-
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish()
+                        // --- FIM DA INSERÇÃO ---
+                    } else {
+                        // SUA LÓGICA DE FALHA NO FIREBASE (MANTIDA)
+                        mensagemCredenciais.visibility = View.VISIBLE
                     }
                 }
         }
@@ -166,22 +203,60 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val sharedPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                    sharedPrefs.edit()
-                        .putBoolean("is_logged_in", true)
-                        .remove("email")
-                        .remove("password")
-                        .apply()
+        try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // --- SUA LÓGICA MANTIDA + LÓGICA DELA INSERIDA ---
+                        val userEmail = auth.currentUser?.email
+                        if (userEmail.isNullOrEmpty()) {
+                            Toast.makeText(this, "Erro: E-mail não encontrado no Firebase.", Toast.LENGTH_SHORT).show()
+                            auth.signOut()
+                            return@addOnCompleteListener
+                        }
 
-                    UserCredentialsHolder.clear()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                        lifecycleScope.launch {
+                            try {
+                                val userResponse = userRepository.getUserProfileByEmail(EmailRequest(userEmail))
+                                if (userResponse.isSuccessful && userResponse.body() != null) {
+                                    // API OK, PEGAR O FACTORY ID
+                                    val factoryId = userResponse.body()!!.factoryId
+
+                                    // SUA LÓGICA ORIGINAL DE SUCESSO (MANTIDA)
+                                    val editor = sharedPrefs.edit() // Usei a var global 'sharedPrefs'
+                                    editor.putBoolean("is_logged_in", true)
+                                        .remove("email")
+                                        .remove("password")
+                                        .putInt("key_factory_id", factoryId) // ID INSERIDO
+                                        .apply()
+
+                                    UserCredentialsHolder.clear()
+                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                    finish()
+                                    // FIM DA SUA LÓGICA ORIGINAL
+
+                                } else {
+                                    // API FALHOU
+                                    Toast.makeText(this@LoginActivity, "Usuário não encontrado em nossa base de dados.", Toast.LENGTH_LONG).show()
+                                    auth.signOut()
+                                }
+                            } catch (e: Exception) {
+                                // FALHA DE REDE NA API
+                                Toast.makeText(this@LoginActivity, "Falha de conexão: ${e.message}", Toast.LENGTH_LONG).show()
+                                auth.signOut()
+                            }
+                        }
+                        // --- FIM DA INSERÇÃO ---
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Usuário não encontrado em nossa base de dados.", Toast.LENGTH_LONG).show()
+                        auth.signOut()
+                    }
                 }
-            }
+        } catch (e: Exception) {
+            Toast.makeText(this@LoginActivity, "Falha de conexão: ${e.message}", Toast.LENGTH_LONG).show()
+            auth.signOut()
+        }
     }
 
     override fun onStart() {

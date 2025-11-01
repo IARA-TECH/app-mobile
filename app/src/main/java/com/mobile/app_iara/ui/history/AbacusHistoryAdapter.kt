@@ -42,7 +42,6 @@ class AbacusHistoryAdapter(
             .error(R.drawable.il_without_image)
             .into(holder.photo)
 
-
         holder.title.text = currentItem.titulo
         holder.timestamp.text = currentItem.timestamp
         holder.takenBy.text = context.getString(R.string.taken_by_format, currentItem.name)

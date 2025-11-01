@@ -5,6 +5,6 @@ data class AbacusData(
     val factoryId: Int,
     val name: String,
     val description: String,
-    val lines: List<String>,
+    val lines: List<Line>,
     val columns: List<ColumnData>
 )
