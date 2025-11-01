@@ -8,6 +8,7 @@ import com.mobile.app_iara.data.remote.service.DailyActiveUsersService
 import com.mobile.app_iara.data.remote.service.FactoryService
 import com.mobile.app_iara.data.remote.service.GenderService
 import com.mobile.app_iara.data.remote.service.NewsService
+import com.mobile.app_iara.data.remote.service.SheetService
 import com.mobile.app_iara.data.remote.service.UserAccessTypeService
 import com.mobile.app_iara.data.remote.service.UserService
 import okhttp3.Credentials
@@ -142,5 +143,9 @@ object RetrofitClient {
 
     val newsService: NewsService by lazy {
         newsRetrofit.create(NewsService::class.java)
+    }
+
+    val sheetService: SheetService by lazy {
+        mongoRetrofit.create(SheetService::class.java)
     }
 }
