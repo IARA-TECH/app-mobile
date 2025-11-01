@@ -48,28 +48,11 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         val emptyApprovals: TextView = view.findViewById(R.id.emptyApprovals)
         val emptyScreen: LinearLayout = view.findViewById(R.id.emptyScreen)
         val btnVoltar: ImageButton = view.findViewById(R.id.btnVoltar101)
+        val titleApprovals: TextView? = view.findViewById(R.id.textView43)
 
         btnVoltar.setOnClickListener {
             findNavController().popBackStack()
         }
-
-        adapterApprovals = ApprovalAdapter(emptyList()) { photo ->
-            showApprovalDialog(photo)
-        }
-        recyclerApprovals.adapter = adapterApprovals
-        recyclerApprovals.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel.pendingApprovals.observe(viewLifecycleOwner, Observer { approvalList ->
-            if (approvalList.isNullOrEmpty()) {
-                recyclerApprovals.visibility = View.GONE
-                emptyApprovals.visibility = View.VISIBLE
-            } else {
-                recyclerApprovals.visibility = View.VISIBLE
-                emptyApprovals.visibility = View.GONE
-                adapterApprovals.updateList(approvalList)
-            }
-            checkEmptyState()
-        })
 
         val prefs = requireActivity().getSharedPreferences(
             "user_prefs",
@@ -77,11 +60,41 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         )
 
         val factoryId = prefs.getInt("key_factory_id", -1)
+        val userRoles = prefs.getStringSet("key_user_roles", emptySet()) ?: emptySet()
 
-        if (factoryId != -1) {
-            viewModel.fetchPendingApprovals(factoryId)
+        val hasApprovalPermission = userRoles.contains("Supervisor") || userRoles.contains("Administrador")
+
+        if (hasApprovalPermission) {
+            titleApprovals?.visibility = View.VISIBLE
+
+            adapterApprovals = ApprovalAdapter(emptyList()) { photo ->
+                showApprovalDialog(photo)
+            }
+            recyclerApprovals.adapter = adapterApprovals
+            recyclerApprovals.layoutManager = LinearLayoutManager(requireContext())
+
+            viewModel.pendingApprovals.observe(viewLifecycleOwner, Observer { approvalList ->
+                if (approvalList.isNullOrEmpty()) {
+                    recyclerApprovals.visibility = View.GONE
+                    emptyApprovals.visibility = View.VISIBLE
+                } else {
+                    recyclerApprovals.visibility = View.VISIBLE
+                    emptyApprovals.visibility = View.GONE
+                    adapterApprovals.updateList(approvalList)
+                }
+                checkEmptyState()
+            })
+
+            if (factoryId != -1) {
+                viewModel.fetchPendingApprovals(factoryId)
+            } else {
+                Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado.", Toast.LENGTH_LONG).show()
+            }
+
         } else {
-            Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado.", Toast.LENGTH_LONG).show()
+            titleApprovals?.visibility = View.GONE
+            recyclerApprovals.visibility = View.GONE
+            emptyApprovals.visibility = View.GONE
         }
 
         adapterNotifications = NotificationAdapter(emptyList())
@@ -99,21 +112,13 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             }
             checkEmptyState()
         })
-
-        viewModel.pendingApprovals.observe(viewLifecycleOwner, Observer { approvalList ->
-            if (approvalList.isNullOrEmpty()) {
-                recyclerApprovals.visibility = View.GONE
-                emptyApprovals.visibility = View.VISIBLE
-            } else {
-                recyclerApprovals.visibility = View.VISIBLE
-                emptyApprovals.visibility = View.GONE
-                adapterApprovals.updateList(approvalList)
-            }
-            checkEmptyState()
-        })
     }
 
     private fun showApprovalDialog(photo: AbacusPhotoData) {
+        val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val factoryId = prefs.getInt("key_factory_id", -1)
+        val userName = prefs.getString("key_user_name", null)
+
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_photo_confirmation)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -122,15 +127,22 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         val btnConfirmar: Button = dialog.findViewById(R.id.btnConfirmarDialog)
         val linkPlanilha: TextView = dialog.findViewById(R.id.avisoDialogPhoto)
 
+        if (factoryId == -1 || userName == null) {
+            Toast.makeText(requireContext(), "Erro: Informações do usuário não encontradas.", Toast.LENGTH_LONG).show()
+            return
+        }
+
         linkPlanilha.setOnClickListener {
 
         }
 
         btnNegar.setOnClickListener {
+            viewModel.denyPhoto(photo.id, factoryId)
             dialog.dismiss()
         }
 
         btnConfirmar.setOnClickListener {
+            viewModel.approvePhoto(photo.id, userName, factoryId)
             dialog.dismiss()
         }
 
@@ -138,9 +150,18 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
     }
 
     private fun checkEmptyState() {
-        val approvalsEmpty = viewModel.pendingApprovals.value.isNullOrEmpty()
-        val notificationsEmpty = viewModel.notifications.value.isNullOrEmpty()
+        val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val userRoles = prefs.getStringSet("key_user_roles", emptySet()) ?: emptySet()
+        val hasApprovalPermission = userRoles.contains("Supervisor") || userRoles.contains("Administrador")
 
+        val approvalsEmpty: Boolean
+        if (hasApprovalPermission) {
+            approvalsEmpty = viewModel.pendingApprovals.value.isNullOrEmpty()
+        } else {
+            approvalsEmpty = true
+        }
+
+        val notificationsEmpty = viewModel.notifications.value.isNullOrEmpty()
         val emptyScreen: LinearLayout? = view?.findViewById(R.id.emptyScreen)
 
         if (approvalsEmpty && notificationsEmpty) {

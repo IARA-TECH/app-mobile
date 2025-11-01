@@ -149,6 +149,8 @@ class LoginActivity : AppCompatActivity() {
 
                                 if (userResponse.isSuccessful && userResponse.body() != null) {
                                     val factoryId = userResponse.body()!!.factoryId
+                                    val userName = userResponse.body()!!.name
+                                    val userRoles = userResponse.body()!!.userAccessTypeNames
 
                                     if (checkLogado.isChecked) {
                                         val editor = sharedPrefs.edit()
@@ -156,6 +158,9 @@ class LoginActivity : AppCompatActivity() {
                                         editor.putString("email", email)
                                         editor.putString("password", senha)
                                         editor.putInt("key_factory_id", factoryId)
+                                        editor.putString("key_user_name", userName)
+                                        editor.putStringSet("key_user_roles", userRoles.toSet())
+
                                         editor.apply()
                                     }
 
@@ -213,12 +218,17 @@ class LoginActivity : AppCompatActivity() {
                                 val userResponse = userRepository.getUserProfileByEmail(EmailRequest(userEmail))
                                 if (userResponse.isSuccessful && userResponse.body() != null) {
                                     val factoryId = userResponse.body()!!.factoryId
+                                    val userName = userResponse.body()!!.name
+                                    val userRoles = userResponse.body()!!.userAccessTypeNames
 
                                     val editor = sharedPrefs.edit()
                                     editor.putBoolean("is_logged_in", true)
                                         .remove("email")
                                         .remove("password")
                                         .putInt("key_factory_id", factoryId)
+                                        .putString("key_user_name", userName)
+                                        .putStringSet("key_user_roles", userRoles.toSet())
+
                                         .apply()
 
                                     UserCredentialsHolder.clear()

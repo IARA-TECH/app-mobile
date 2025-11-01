@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.mobile.app_iara.data.local.AppDatabase
 import com.mobile.app_iara.data.model.AbacusPhotoData
 import com.mobile.app_iara.data.repository.AbacusPhotoRepository
+import com.mobile.app_iara.util.Event
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -26,6 +27,9 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
+    private val _toastEvent = MutableLiveData<Event<String>>()
+    val toastEvent: LiveData<Event<String>> = _toastEvent
+
     init {
         val dao = AppDatabase.getDatabase(application).notificationDAO()
         repository = NotificationRepository(dao)
@@ -40,7 +44,31 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
             result.onSuccess { photoList ->
                 _pendingApprovals.postValue(photoList)
             }.onFailure { exception ->
-                _error.postValue(exception.message)
+                _toastEvent.postValue(Event(exception.message ?: "Erro ao buscar aprovações"))
+            }
+        }
+    }
+
+    fun approvePhoto(photoId: String, validatorName: String, factoryId: Int) {
+        viewModelScope.launch {
+            val result = abacusPhotoRepository.approvePhoto(photoId, validatorName)
+            result.onSuccess {
+                _toastEvent.postValue(Event("Foto aprovada com sucesso!"))
+                fetchPendingApprovals(factoryId)
+            }.onFailure {
+                _toastEvent.postValue(Event("Erro ao aprovar: ${it.message}"))
+            }
+        }
+    }
+
+    fun denyPhoto(photoId: String, factoryId: Int) {
+        viewModelScope.launch {
+            val result = abacusPhotoRepository.denyPhoto(photoId)
+            result.onSuccess {
+                _toastEvent.postValue(Event("Foto negada com sucesso."))
+                fetchPendingApprovals(factoryId)
+            }.onFailure {
+                _toastEvent.postValue(Event("Erro ao negar: ${it.message}"))
             }
         }
     }
