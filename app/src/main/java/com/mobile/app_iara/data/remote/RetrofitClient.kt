@@ -3,6 +3,7 @@ package com.mobile.app_iara.data.remote
 import com.mobile.app_iara.data.remote.service.AbacusPhotoService
 import com.mobile.app_iara.data.remote.service.AbacusService
 import com.mobile.app_iara.data.remote.service.AccessTypeService
+import com.mobile.app_iara.data.remote.service.ChabotService
 import com.mobile.app_iara.data.remote.service.DailyActiveUsersService
 import com.mobile.app_iara.data.remote.service.FactoryService
 import com.mobile.app_iara.data.remote.service.GenderService
@@ -21,6 +22,8 @@ object RetrofitClient {
 
     private const val SQL_BASE_URL = "https://iara-api-sql.onrender.com/api/v1/"
     private const val MONGO_BASE_URL = "https://iara-api-mongo.onrender.com/"
+    private const val CHATBOT_BASE_URL = "https://iara-api-chatbot.onrender.com/"
+    private const val NEWS_BASE_URL = "https://iara-api-web-scraping.onrender.com/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -53,14 +56,28 @@ object RetrofitClient {
         .addInterceptor(authInterceptor)
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(40, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
     private val mongoOkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
-        .connectTimeout(60, TimeUnit.SECONDS)
-        .readTimeout(60, TimeUnit.SECONDS)
-        .writeTimeout(60, TimeUnit.SECONDS)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .build()
+
+    private val chabotOkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .build()
+
+    private val newsOkHttp = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .connectTimeout(50, TimeUnit.SECONDS)
+        .readTimeout(50, TimeUnit.SECONDS)
+        .writeTimeout(50, TimeUnit.SECONDS)
         .build()
 
     private val sqlRetrofit = Retrofit.Builder()
@@ -72,6 +89,18 @@ object RetrofitClient {
     private val mongoRetrofit = Retrofit.Builder()
         .baseUrl(MONGO_BASE_URL)
         .client(mongoOkHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val chatbotRetrofit = Retrofit.Builder()
+        .baseUrl(CHATBOT_BASE_URL)
+        .client(chabotOkHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val newsRetrofit = Retrofit.Builder()
+        .baseUrl(NEWS_BASE_URL)
+        .client(chabotOkHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -107,8 +136,11 @@ object RetrofitClient {
         mongoRetrofit.create(AbacusPhotoService::class.java)
     }
 
-    val newsService: NewsService by lazy {
-        mongoRetrofit.create(NewsService::class.java)
+    val chabotService: ChabotService by lazy {
+        chatbotRetrofit.create(ChabotService::class.java)
     }
 
+    val newsService: NewsService by lazy {
+        newsRetrofit.create(NewsService::class.java)
+    }
 }

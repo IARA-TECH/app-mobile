@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +17,10 @@ import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
 
 class FaqFragment : Fragment() {
+
+    private val newsViewModel: NewsViewModel by viewModels()
+
+    private lateinit var adapterPopulares: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,16 +48,15 @@ class FaqFragment : Fragment() {
         }
 
         recyclerViewPopulares.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewDuvidas.layoutManager = LinearLayoutManager(requireContext())
 
-        val listaPopulares = listOf(
-            FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
-            FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit..."),
-            FaqPopularQuestion("1. LoremIpsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit...Lorem ipsum dolor sit amet, consectetur adipiscing elit...")
-        )
-
-        val adapterPopulares = FaqPopularQuestionAdapter(listaPopulares)
+        adapterPopulares = NewsAdapter(emptyList())
         recyclerViewPopulares.adapter = adapterPopulares
+
+        observeViewModel()
+
+        newsViewModel.fetchNews(listOf("indústria avícola", "inovação industrial", "automatização de linha de produção"))
+
+        recyclerViewDuvidas.layoutManager = LinearLayoutManager(requireContext())
 
         val listaDuvidas = listOf(
             FaqQuestion("O que é o IARA?", "O IARA é um aplicativo desenvolvido para automatizar o registro de dados em matadouros de frangos. Ele utiliza a câmera do seu celular para \"ler\" as informações de um ábaco, transformando essa foto em planilhas e análises de forma automática, eliminando o registro manual."),
@@ -66,5 +71,15 @@ class FaqFragment : Fragment() {
 
         val adapterDuvidas = FaqQuestionAdapter(listaDuvidas)
         recyclerViewDuvidas.adapter = adapterDuvidas
+    }
+
+    private fun observeViewModel() {
+        newsViewModel.news.observe(viewLifecycleOwner) { listaDeNoticias ->
+            adapterPopulares.updateData(listaDeNoticias)
+        }
+
+        newsViewModel.error.observe(viewLifecycleOwner) { errorMsg ->
+            Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+        }
     }
 }

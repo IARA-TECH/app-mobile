@@ -9,12 +9,12 @@ import com.mobile.app_iara.data.model.request.SessionRequest
 import com.mobile.app_iara.data.model.response.AuthResponse
 import com.mobile.app_iara.data.model.response.MessageResponse
 import com.mobile.app_iara.data.model.response.SessionResponse
-import com.mobile.app_iara.data.remote.RetrofitChatbotClient
+import com.mobile.app_iara.data.remote.RetrofitClient
 import retrofit2.Response
 
 class ChatbotRepository(private val context: Context) {
 
-    private val chatbotService = RetrofitChatbotClient.chabotService
+    private val chatbotService = RetrofitClient.chabotService
 
     suspend fun authUser(request: AuthRequest): Response<AuthResponse> =
         chatbotService.authUser(request)
