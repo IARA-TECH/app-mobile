@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.abacus.register.RegisterAbacusFragment">
+    tools:context=".ui.abacus.edit.EditAbacusFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <include
-            android:id="@+id/included"
+            android:id="@+id/includedEdit"
             layout="@layout/secondary_toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -21,45 +21,45 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivHeaderIcon"
+            android:id="@+id/ivHeaderIconEdit"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/ic_abacus_black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/included"
+            app:layout_constraintTop_toBottomOf="@+id/includedEdit"
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Cadastrar ábaco"
+            android:text="Editar ábaco"
             android:textColor="@color/defaultText"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/ivHeaderIcon"
-            app:layout_constraintStart_toEndOf="@id/ivHeaderIcon"
-            app:layout_constraintTop_toTopOf="@id/ivHeaderIcon" />
+            app:layout_constraintBottom_toBottomOf="@id/ivHeaderIconEdit"
+            app:layout_constraintStart_toEndOf="@id/ivHeaderIconEdit"
+            app:layout_constraintTop_toTopOf="@id/ivHeaderIconEdit" />
 
         <TextView
-            android:id="@+id/tvSubtitle"
+            android:id="@+id/tvSubtitleEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="Preencha os dados do novo ábaco para concluir o cadastro"
+            android:text="Edite os dados do ábaco e salve as alterações"
             android:textColor="@color/lightText"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivHeaderIcon" />
+            app:layout_constraintTop_toBottomOf="@id/ivHeaderIconEdit" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilAbacusName"
+            android:id="@+id/tilAbacusNameEdit"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginStart="16dp"
@@ -71,10 +71,10 @@
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitleEdit">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etAbacusName"
+                android:id="@+id/etAbacusNameEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -85,7 +85,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilAbacusDescription"
+            android:id="@+id/tilAbacusDescriptionEdit"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginStart="16dp"
@@ -98,10 +98,10 @@
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilAbacusName">
+            app:layout_constraintTop_toBottomOf="@id/tilAbacusNameEdit">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etAbacusDescription"
+                android:id="@+id/etAbacusDescriptionEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -113,7 +113,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/labelColumns"
+            android:id="@+id/labelColumnsEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -122,10 +122,10 @@
             android:textColor="@color/defaultText"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilAbacusDescription" />
+            app:layout_constraintTop_toBottomOf="@id/tilAbacusDescriptionEdit" />
 
         <Button
-            android:id="@+id/btnAddColumn"
+            android:id="@+id/btnAddColumnEdit"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,12 +134,12 @@
             android:textColor="@color/primaryBlue"
             app:icon="@drawable/ic_add_circle"
             app:iconTint="@color/primaryBlue"
-            app:layout_constraintBottom_toBottomOf="@id/labelColumns"
+            app:layout_constraintBottom_toBottomOf="@id/labelColumnsEdit"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/labelColumns" />
+            app:layout_constraintTop_toTopOf="@id/labelColumnsEdit" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvColumns"
+            android:id="@+id/rvColumnsEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -147,12 +147,12 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelColumns"
+            app:layout_constraintTop_toBottomOf="@id/labelColumnsEdit"
             tools:itemCount="1"
             tools:listitem="@layout/item_column" />
 
         <TextView
-            android:id="@+id/labelLines"
+            android:id="@+id/labelLinesEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -161,10 +161,10 @@
             android:textColor="@color/defaultText"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvColumns" />
+            app:layout_constraintTop_toBottomOf="@id/rvColumnsEdit" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilLine"
+            android:id="@+id/tilLineEdit"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginStart="16dp"
@@ -180,10 +180,10 @@
             app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelLines">
+            app:layout_constraintTop_toBottomOf="@id/labelLinesEdit">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etLine"
+                android:id="@+id/etLineEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -194,7 +194,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
-            android:id="@+id/rgLineType"
+            android:id="@+id/rgLineTypeEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -203,42 +203,43 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilLine">
+            app:layout_constraintTop_toBottomOf="@id/tilLineEdit">
 
             <RadioButton
-                android:id="@+id/rbTypeGranja"
+                android:id="@+id/rbTypeGranjaEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Condena pela granja" />
 
             <RadioButton
-                android:id="@+id/rbTypeTecnica"
+                android:id="@+id/rbTypeTecnicaEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Falha técnica" />
+
         </RadioGroup>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvLines"
+            android:id="@+id/rvLinesEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="10dp"
-            app:layout_constraintTop_toBottomOf="@id/rgLineType"
-            app:layout_constraintBottom_toTopOf="@+id/buttonContainer"
+            app:layout_constraintBottom_toTopOf="@+id/buttonContainerEdit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilLineEdit"
             app:layout_constraintVertical_bias="0.007"
             tools:itemCount="2"
             tools:listitem="@layout/item_line" />
 
         <LinearLayout
-            android:id="@+id/buttonContainer"
+            android:id="@+id/buttonContainerEdit"
             android:layout_width="wrap_content"
             android:layout_height="67dp"
             android:layout_marginStart="16dp"
@@ -250,7 +251,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCancel"
+                android:id="@+id/btnCancelEdit"
                 android:layout_width="175dp"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/transparent"
@@ -269,13 +270,13 @@
                 android:layout_height="match_parent" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnConfirm"
+                android:id="@+id/btnSaveEdit"
                 android:layout_width="175dp"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/primaryBlue"
                 android:fontFamily="@font/rfdewibold"
                 android:stateListAnimator="@null"
-                android:text="Confirmar"
+                android:text="Salvar"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="17sp"

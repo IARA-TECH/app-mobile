@@ -8,7 +8,8 @@ import com.mobile.app_iara.databinding.ItemAbacusCardBinding
 
 class AbacusAdapter(
     private var abacusList: List<Abacus>,
-    private val onDeleteClick: (abacus: Abacus) -> Unit
+    private val onDeleteClick: (abacus: Abacus) -> Unit,
+    private val onEditClick: (abacus: Abacus) -> Unit
 ) : RecyclerView.Adapter<AbacusAdapter.AbacusViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbacusViewHolder {
@@ -26,6 +27,10 @@ class AbacusAdapter(
 
         holder.binding.imageButtonDelete.setOnClickListener {
             onDeleteClick(abacus)
+        }
+
+        holder.binding.imageButtonEdit.setOnClickListener {
+            onEditClick(abacus)
         }
     }
 

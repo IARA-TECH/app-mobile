@@ -2,18 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/tvLineName"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Nome da Linha"
-        android:textColor="@color/defaultText"
-        android:textSize="16sp" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvLineName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/defaultText"
+            android:textSize="16sp"
+            tools:text="Nome da Linha" />
+
+        <TextView
+            android:id="@+id/tvLineType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightText"
+            android:textSize="12sp"
+            tools:text="Condena pela granja" />
+
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/btnDeleteLine"

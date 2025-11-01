@@ -282,12 +282,38 @@
         <action
             android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
             app:destination="@id/registerAbacusFragment" />
+
+        <action
+            android:id="@+id/action_abacusListFragment_to_editAbacusFragment"
+            app:destination="@id/editAbacusFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/registerAbacusFragment"
         android:name="com.mobile.app_iara.ui.abacus.register.RegisterAbacusFragment"
         android:label="Cadastrar Ábaco"
-        tools:layout="@layout/fragment_register_abacus" />
+        tools:layout="@layout/fragment_register_abacus">
+
+        <action
+            android:id="@+id/action_registerAbacusFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editAbacusFragment"
+        android:name="com.mobile.app_iara.ui.abacus.edit.EditAbacusFragment"
+        android:label="Editar Ábaco"
+        tools:layout="@layout/fragment_edit_abacus" >
+
+        <argument
+            android:name="abacusId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/action_editAbacusFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+    </fragment>
 
 </navigation>

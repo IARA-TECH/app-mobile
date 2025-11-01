@@ -73,9 +73,17 @@ class AbacusListFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.rvAbacusList.layoutManager = LinearLayoutManager(requireContext())
 
-        abacusAdapter = AbacusAdapter(emptyList()) { abacusToDelete ->
-            showDeleteConfirmationDialog(abacusToDelete)
-        }
+        abacusAdapter = AbacusAdapter(
+            emptyList(),
+            onDeleteClick = { abacusToDelete ->
+                showDeleteConfirmationDialog(abacusToDelete)
+            },
+            onEditClick = { abacusToEdit ->
+                val action = AbacusListFragmentDirections
+                    .actionAbacusListFragmentToEditAbacusFragment(abacusToEdit.id)
+                findNavController().navigate(action)
+            }
+        )
         binding.rvAbacusList.adapter = abacusAdapter
     }
 

@@ -13,13 +13,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobile.app_iara.R
 import com.mobile.app_iara.data.model.ColumnData
+import com.mobile.app_iara.data.model.request.AbacusCreateRequest
+import com.mobile.app_iara.data.model.request.ColumnCreateRequest
 import com.mobile.app_iara.data.model.request.LineCreateRequest
+import com.mobile.app_iara.data.model.request.LineTypeCreateRequest
 import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.databinding.DialogAddColumnBinding
 import com.mobile.app_iara.databinding.FragmentRegisterAbacusBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.start.LoginActivity
+import com.mobile.app_iara.util.DataUtil
 import com.mobile.app_iara.util.NetworkUtils
 
 
@@ -28,7 +33,7 @@ class RegisterAbacusFragment : Fragment() {
     private var _binding: FragmentRegisterAbacusBinding? = null
     private val binding get() = _binding!!
 
-    private val columnsList = mutableListOf<ColumnData>()
+    private val columnsList = mutableListOf<ColumnCreateRequest>()
     private val linesList = mutableListOf<LineCreateRequest>()
 
     private lateinit var columnsAdapter: ColumnsAdapter
@@ -63,6 +68,10 @@ class RegisterAbacusFragment : Fragment() {
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.included.iconNotificationToolbar.setOnClickListener {
+            findNavController().navigate(R.id.action_registerAbacusFragment_to_notificationsFragment)
+        }
     }
 
     private fun setupRecyclerViews() {
@@ -83,7 +92,7 @@ class RegisterAbacusFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnAddColumn.setOnClickListener {
-            showAddColumnDialog(
+            showAddColumnDialog()
         }
 
         binding.tilLine.setEndIconOnClickListener {
@@ -101,29 +110,41 @@ class RegisterAbacusFragment : Fragment() {
 
     private fun addLine() {
         val lineName = binding.etLine.text.toString().trim()
-        if (lineName.isNotEmpty()) {
-            val newLine = LineCreateRequest(name = lineName)
-            linesList.add(newLine)
 
-            linesAdapter.notifyItemInserted(linesList.size - 1)
-            binding.rvLines.scrollToPosition(linesList.size - 1)
-            binding.etLine.text?.clear()
-        } else {
-            Toast.makeText(requireContext(), "O nome da linha não pode ser vazio.", Toast.LENGTH_SHORT).show()
+        val selectedTypeName = when (binding.rgLineType.checkedRadioButtonId) {
+            binding.rbTypeGranja.id -> DataUtil.TYPE_CONDENA_GRANJA_NAME
+            binding.rbTypeTecnica.id -> DataUtil.TYPE_FALHA_TECNICA_NAME
+            else -> null
         }
+
+        if (lineName.isEmpty()) {
+            Toast.makeText(requireContext(), "O nome da linha não pode ser vazio.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (selectedTypeName == null) {
+            Toast.makeText(requireContext(), "Selecione um tipo para a linha.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val newTypeObject = LineTypeCreateRequest(
+            id = DataUtil.generateUuid(),
+            name = selectedTypeName,
+            createdDate = DataUtil.getCurrentIsoTimestamp()
+        )
+
+        val newLine = LineCreateRequest(name = lineName, type = newTypeObject)
+        linesList.add(newLine)
+
+        linesAdapter.notifyItemInserted(linesList.size - 1)
+        binding.rvLines.scrollToPosition(linesList.size - 1)
+
+        binding.etLine.text?.clear()
+        binding.rgLineType.clearCheck()
     }
 
     private fun showAddColumnDialog() {
         val dialogBinding = DialogAddColumnBinding.inflate(LayoutInflater.from(requireContext()))
-        val subColumnsInDialog = mutableListOf<SubColumn>()
-
-        val subColumnsAdapter = SubColumnsAdapter(subColumnsInDialog) { position ->
-            subColumnsInDialog.removeAt(position)
-            dialogBinding.rvSubColumns.adapter?.notifyItemRemoved(position)
-            dialogBinding.rvSubColumns.adapter?.notifyItemRangeChanged(position, subColumnsInDialog.size)
-        }
-        dialogBinding.rvSubColumns.layoutManager = LinearLayoutManager(requireContext())
-        dialogBinding.rvSubColumns.adapter = subColumnsAdapter
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogBinding.root)
@@ -132,31 +153,26 @@ class RegisterAbacusFragment : Fragment() {
 
         dialog.window?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
 
-        dialogBinding.btnAddSubColumn.setOnClickListener {
+        dialogBinding.btnDialogSave.setOnClickListener {
+            val columnName = dialogBinding.etDialogColumnName.text.toString().trim()
             val color = dialogBinding.etSubColumnColor.text.toString().trim()
             val valueStr = dialogBinding.etSubColumnValue.text.toString().trim()
 
-            if (color.isNotEmpty() && valueStr.isNotEmpty()) {
-                val subColumn = SubColumn(color, valueStr.toInt())
-                subColumnsInDialog.add(subColumn)
-                subColumnsAdapter.notifyItemInserted(subColumnsInDialog.size - 1)
-                dialogBinding.etSubColumnColor.text?.clear()
-                dialogBinding.etSubColumnValue.text?.clear()
-            } else {
-                Toast.makeText(requireContext(), "Preencha cor e valor da sub-coluna.", Toast.LENGTH_SHORT).show()
-            }
-        }
+            if (columnName.isNotEmpty() && color.isNotEmpty() && valueStr.isNotEmpty()) {
+                try {
+                    val value = valueStr.toInt()
+                    val newColumn = ColumnCreateRequest(name = columnName, color = color, value = value)
 
-        dialogBinding.btnDialogSave.setOnClickListener {
-            val columnName = dialogBinding.etDialogColumnName.text.toString().trim()
-            if (columnName.isNotEmpty() && subColumnsInDialog.isNotEmpty()) {
-                val newColumn = AbacusColumn(columnName, subColumnsInDialog)
-                columnsList.add(newColumn)
-                columnsAdapter.notifyItemInserted(columnsList.size - 1)
-                binding.rvColumns.scrollToPosition(columnsList.size - 1)
-                dialog.dismiss()
+                    columnsList.add(newColumn)
+                    columnsAdapter.notifyItemInserted(columnsList.size - 1)
+                    binding.rvColumns.scrollToPosition(columnsList.size - 1)
+                    dialog.dismiss()
+
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(requireContext(), "O valor deve ser um número.", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                Toast.makeText(requireContext(), "Preencha o nome e adicione ao menos uma sub-coluna.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Preencha o nome, cor e valor.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -191,7 +207,7 @@ class RegisterAbacusFragment : Fragment() {
             return
         }
 
-        val newAbacus = Abacus(
+        val newAbacus = AbacusCreateRequest(
             name = abacusName,
             description = abacusDescription,
             lines = linesList,
@@ -206,8 +222,8 @@ class RegisterAbacusFragment : Fragment() {
 
         viewModel.registerAbacus(
             abacus = newAbacus,
-            onSuccess = {
-                Toast.makeText(requireContext(), "Ábaco '${it.name}' criado com sucesso!", Toast.LENGTH_LONG).show()
+            onSuccess = { abacusData ->
+                Toast.makeText(requireContext(), "Ábaco '${abacusData.name}' criado com sucesso!", Toast.LENGTH_LONG).show()
                 findNavController().popBackStack()
             },
             onFailure = { error ->

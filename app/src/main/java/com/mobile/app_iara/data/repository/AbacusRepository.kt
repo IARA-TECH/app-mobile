@@ -1,8 +1,8 @@
 package com.mobile.app_iara.data.repository
 
 import com.mobile.app_iara.data.model.AbacusData
+import com.mobile.app_iara.data.model.request.AbacusCreateRequest
 import com.mobile.app_iara.data.remote.RetrofitClient
-import com.mobile.app_iara.ui.abacus.register.Abacus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -14,7 +14,7 @@ class AbacusRepository {
             try {
                 val response = abacusService.getAllAbacuses()
 
-                val filteredList = response.data.filter { abacus ->
+                val filteredList = response.data.filter { abacus: AbacusData ->
                     abacus.factoryId == factoryId
                 }
 
@@ -41,16 +41,34 @@ class AbacusRepository {
         }
     }
 
-    suspend fun registerAbacus(abacus: Abacus): Result<Abacus> {
-        return try {
-            val response = abacusService.createAbacus(abacus)
-            if (response.isSuccessful && response.body() != null) {
-                Result.success(response.body()!!)
-            } else {
-                Result.failure(Exception("Erro ao cadastrar ábaco: ${response.code()}"))
+    suspend fun registerAbacus(abacus: AbacusCreateRequest): Result<AbacusData> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = abacusService.createAbacus(abacus)
+
+                if (response.isSuccessful && response.body() != null) {
+                    Result.success(response.body()!!.data)
+                } else {
+                    Result.failure(Exception("Erro ao cadastrar ábaco: Código ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
             }
-        } catch (e: Exception) {
-            Result.failure(e)
+        }
+    }
+
+    suspend fun updateAbacus(abacusId: String, request: AbacusCreateRequest): Result<AbacusData> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = abacusService.updateAbacus(abacusId, request)
+                if (response.isSuccessful && response.body() != null) {
+                    Result.success(response.body()!!)
+                } else {
+                    Result.failure(Exception("Erro ao atualizar ábaco: ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
         }
     }
 }
