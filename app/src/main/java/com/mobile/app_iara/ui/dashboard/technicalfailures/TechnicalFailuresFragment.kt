@@ -19,7 +19,7 @@ import com.mobile.app_iara.databinding.FragmentTechnicalFailuresBinding
 import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
 import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 
 class TechnicalFailuresFragment : Fragment() {
 

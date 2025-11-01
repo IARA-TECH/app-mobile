@@ -9,6 +9,7 @@ import com.mobile.app_iara.R
 
 private const val VIEW_TYPE_USER = 1
 private const val VIEW_TYPE_BOT = 2
+private const val VIEW_TYPE_TYPING = 3
 
 class ChatAdapter(private val messages: List<ChatMessage>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -23,7 +24,6 @@ class ChatAdapter(private val messages: List<ChatMessage>) :
         }
     }
 
-
     class BotMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageText: TextView = view.findViewById(R.id.tvMessage)
         val timestampText: TextView = view.findViewById(R.id.tvTimestamp)
@@ -34,28 +34,63 @@ class ChatAdapter(private val messages: List<ChatMessage>) :
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (messages[position].sender == Sender.USER) {
-            VIEW_TYPE_USER
-        } else {
-            VIEW_TYPE_BOT
+    class TypingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val dot1: View = view.findViewById(R.id.dot1)
+        private val dot2: View = view.findViewById(R.id.dot2)
+        private val dot3: View = view.findViewById(R.id.dot3)
+
+        fun bind() {
+            dot1.startAnimation(
+                android.view.animation.AnimationUtils.loadAnimation(
+                    itemView.context,
+                    R.anim.typing_animation
+                ).apply { startOffset = 0 }
+            )
+
+            dot2.startAnimation(
+                android.view.animation.AnimationUtils.loadAnimation(
+                    itemView.context,
+                    R.anim.typing_animation
+                ).apply { startOffset = 200 }
+            )
+
+            dot3.startAnimation(
+                android.view.animation.AnimationUtils.loadAnimation(
+                    itemView.context,
+                    R.anim.typing_animation
+                ).apply { startOffset = 400 }
+            )
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return when (messages[position].sender) {
+            Sender.USER -> VIEW_TYPE_USER
+            Sender.BOT -> VIEW_TYPE_BOT
+            Sender.TYPING -> VIEW_TYPE_TYPING
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_USER) {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_chat_user, parent, false)
-            UserMessageViewHolder(view)
-        }
-        else {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_chat_bot, parent, false)
-            BotMessageViewHolder(view)
+        return when (viewType) {
+            VIEW_TYPE_USER -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_user, parent, false)
+                UserMessageViewHolder(view)
+            }
+            VIEW_TYPE_BOT -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_bot, parent, false)
+                BotMessageViewHolder(view)
+            }
+            VIEW_TYPE_TYPING -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_message_typing, parent, false)
+                TypingViewHolder(view)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
         }
     }
-
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
@@ -66,6 +101,9 @@ class ChatAdapter(private val messages: List<ChatMessage>) :
             }
             VIEW_TYPE_BOT -> {
                 (holder as BotMessageViewHolder).bind(message)
+            }
+            VIEW_TYPE_TYPING -> {
+                (holder as TypingViewHolder).bind()
             }
         }
     }

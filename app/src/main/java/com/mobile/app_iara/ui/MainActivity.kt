@@ -1,4 +1,4 @@
-package com.mobile.app_iara
+package com.mobile.app_iara.ui
 
 import NotificationWorker
 import android.app.NotificationChannel
@@ -19,18 +19,35 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.app_iara.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 import android.Manifest
+import android.util.Log
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavOptions
+import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_DESC
 import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_TITLE
 import java.util.Calendar
+import com.google.firebase.auth.FirebaseAuth
+import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.request.DailyActiveUsersRequest
+import com.mobile.app_iara.data.model.request.EmailRequest
+import com.mobile.app_iara.data.repository.DailyActiveUsersRepository
+import com.mobile.app_iara.data.repository.UserAccessTypeRepository
+import com.mobile.app_iara.data.repository.UserRepository
+import com.mobile.app_iara.ui.notifications.ClearNotificationsWorker
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val userRepository = UserRepository()
+    private val accessTypeRepository = UserAccessTypeRepository()
+    private val dailyActiveUsersRepository = DailyActiveUsersRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,20 +60,17 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_management, R.id.navigation_profile)
+            setOf(
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_management,
+                R.id.navigation_profile
+            )
         )
 
         val bottomNav: BottomNavigationView = binding.navView
 
-        val tipoUser = "j"
-
-        if (tipoUser == "comum") {
-            bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
-        } else {
-            for (i in 0 until bottomNav.menu.size()) {
-                bottomNav.menu.getItem(i).isVisible = true
-            }
-        }
+        loadUserAccessAndConfigureNav(bottomNav)
 
         bottomNav.setOnItemSelectedListener { item ->
             if (navController.currentDestination?.id == item.itemId) {
@@ -79,8 +93,71 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNav.menu.findItem(destination.id)?.isChecked = true
         }
+
         createNotificationChannel(this)
         askNotificationPermission()
+    }
+
+    private fun loadUserAccessAndConfigureNav(bottomNav: BottomNavigationView) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val email = FirebaseAuth.getInstance().currentUser?.email
+                if (email.isNullOrEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                    }
+                    return@launch
+                }
+
+                val userResponse = userRepository.getUserProfileByEmail(EmailRequest(email))
+                if (!userResponse.isSuccessful || userResponse.body() == null) {
+                    withContext(Dispatchers.Main) {
+                        bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                    }
+                    return@launch
+                }
+
+                val userId = userResponse.body()!!.id
+
+                val accessResponse = accessTypeRepository.getUserAccessType(userId)
+
+                registerDailyActiveUser(userId)
+
+                withContext(Dispatchers.Main) {
+                    if (accessResponse.isSuccessful && accessResponse.body() != null) {
+                        val accessTypes = accessResponse.body()!!
+                        val hasManagementAccess = accessTypes.any {
+                            it.accessTypeName.equals("Administrador", ignoreCase = true) ||
+                                    it.accessTypeName.equals("Supervisor", ignoreCase = true)
+                        }
+
+                        if (hasManagementAccess) {
+                            for (i in 0 until bottomNav.menu.size()) {
+                                bottomNav.menu.getItem(i).isVisible = true
+                            }
+                        } else {
+                            bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                        }
+                    } else {
+                        bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    bottomNav.menu.findItem(R.id.navigation_management)?.isVisible = false
+                }
+            }
+        }
+    }
+
+    private suspend fun registerDailyActiveUser(userId: String) {
+        try {
+            val request = DailyActiveUsersRequest(userId = userId)
+            dailyActiveUsersRepository.registerDailyActiveUsers(request)
+            Log.i("MainActivity_DAU", "Usuário ativo registrado com sucesso.")
+        } catch (e: Exception) {
+            Log.e("MainActivity_DAU", "Falha ao registrar usuário ativo (não crítico)", e)
+        }
     }
 
     private val requestPermissionLauncher =
@@ -102,6 +179,7 @@ class MainActivity : AppCompatActivity() {
                     scheduleAnalysisReminder()
                     scheduleGoodMorning()
                     scheduleAfternoon()
+                    scheduleDailyClear()
                 }
 
                 shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
@@ -116,6 +194,7 @@ class MainActivity : AppCompatActivity() {
             scheduleAnalysisReminder()
             scheduleGoodMorning()
             scheduleAfternoon()
+            scheduleDailyClear()
         }
     }
 
@@ -206,6 +285,34 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun scheduleDailyClear() {
+        val currentTime = Calendar.getInstance()
+
+        val scheduledTime = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 1)
+            set(Calendar.SECOND, 0)
+        }
+
+        val initialDelay = scheduledTime.timeInMillis - currentTime.timeInMillis
+
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val dailyClearRequest = PeriodicWorkRequestBuilder<ClearNotificationsWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "dailyNotificationClearWork",
+            ExistingPeriodicWorkPolicy.KEEP,
+            dailyClearRequest
+        )
+    }
+
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Lembretes Diários"
@@ -220,4 +327,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-

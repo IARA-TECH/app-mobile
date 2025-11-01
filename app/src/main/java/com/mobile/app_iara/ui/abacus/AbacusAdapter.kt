@@ -5,8 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.databinding.ItemAbacusCardBinding
 
-class AbacusAdapter(private val abacusList: List<Abacus>) :
-    RecyclerView.Adapter<AbacusAdapter.AbacusViewHolder>() {
+
+class AbacusAdapter(
+    private var abacusList: List<Abacus>,
+    private val onDeleteClick: (abacus: Abacus) -> Unit,
+    private val onEditClick: (abacus: Abacus) -> Unit
+) : RecyclerView.Adapter<AbacusAdapter.AbacusViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbacusViewHolder {
         val binding = ItemAbacusCardBinding.inflate(
@@ -18,12 +22,26 @@ class AbacusAdapter(private val abacusList: List<Abacus>) :
     }
 
     override fun onBindViewHolder(holder: AbacusViewHolder, position: Int) {
-        holder.bind(abacusList[position])
+        val abacus = abacusList[position]
+        holder.bind(abacus)
+
+        holder.binding.imageButtonDelete.setOnClickListener {
+            onDeleteClick(abacus)
+        }
+
+        holder.binding.imageButtonEdit.setOnClickListener {
+            onEditClick(abacus)
+        }
     }
 
     override fun getItemCount(): Int = abacusList.size
 
-    inner class AbacusViewHolder(private val binding: ItemAbacusCardBinding) :
+    fun updateData(newList: List<Abacus>) {
+        this.abacusList = newList
+        notifyDataSetChanged()
+    }
+
+    inner class AbacusViewHolder(val binding: ItemAbacusCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(abacus: Abacus) {
@@ -31,9 +49,6 @@ class AbacusAdapter(private val abacusList: List<Abacus>) :
             binding.tvDescription.text = "Descrição: ${abacus.description}"
             binding.tvLines.text = "Linhas: ${abacus.lines}"
             binding.tvColumns.text = "Colunas: ${abacus.columns}"
-
-            val imageAdapter = ImageAdapter(abacus.imageUrls)
-            binding.rvImages.adapter = imageAdapter
         }
     }
 }

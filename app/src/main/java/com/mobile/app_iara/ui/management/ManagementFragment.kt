@@ -7,16 +7,18 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentManagementBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorAdapter
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorModal
-import java.text.Normalizer
-import com.mobile.app_iara.utils.NetworkUtils
+import com.mobile.app_iara.util.NetworkUtils
 
 class ManagementFragment : Fragment() {
 
@@ -24,16 +26,9 @@ class ManagementFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var collaboratorAdapter: CollaboratorAdapter
+    private lateinit var viewModel: ManagementViewModel
 
-    private val listaOriginal = listOf(
-        CollaboratorModal(id="1", name="Mariana Costa", email="mariana.costa@seara.com", role="Gerente de Produção", urlPhoto=null),
-        CollaboratorModal(id="2", name="Carlos Emanuel", email="carlos.emanuel@seara.com", role="Colaborador", urlPhoto=null),
-        CollaboratorModal(id="3", name="Lucas Silva", email="lucas.silva@seara.com", role="Colaborador", urlPhoto=null),
-        CollaboratorModal(id="4", name="Luiza Mariano", email="luiza.mariano@seara.com", role="Médica Veterinária", urlPhoto=null),
-        CollaboratorModal(id="5", name="Fernanda Souza", email="fernanda.souza@seara.com", role="Colaborador", urlPhoto=null),
-        CollaboratorModal(id="6", name="Matheus Cardoso", email="matheus.cardoso@seara.com", role="Colaborador", urlPhoto=null),
-        CollaboratorModal(id="7", name="Amanda Oliveira", email="amanda.oliveira@seara.com", role="Colaborador", urlPhoto=null)
-    )
+    private var allCollaborators: List<CollaboratorModal> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +42,19 @@ class ManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this)[ManagementViewModel::class.java]
+
+        viewModel.loadUserProfileData()
+
+        setupRecyclerView()
+        setupObservers()
+        setupClickListeners()
+        setupSearchListener()
+
+        viewModel.loadCollaborators()
+    }
+
+    private fun setupRecyclerView() {
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
@@ -55,10 +63,8 @@ class ManagementFragment : Fragment() {
         }
 
         collaboratorAdapter = CollaboratorAdapter { collaborator ->
-
             val action = ManagementFragmentDirections
-                .actionManagementFragmentToEditCollaboratorFragment(collaborator.id)
-
+                .actionManagementFragmentToEditCollaboratorFragment(collaborator)
             findNavController().navigate(action)
         }
 
@@ -66,25 +72,58 @@ class ManagementFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = collaboratorAdapter
         }
+    }
 
+    private fun setupObservers() {
+        viewModel.collaborators.observe(viewLifecycleOwner) { collaborators ->
+            allCollaborators = collaborators
+            collaboratorAdapter.submitList(collaborators)
+        }
+
+        viewModel.userPhotoUrl.observe(viewLifecycleOwner) { photoUrl ->
+            if (!photoUrl.isNullOrEmpty()) {
+                Glide.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.ic_profile_circle)
+                    .error(R.drawable.ic_profile_circle)
+                    .circleCrop()
+                    .into(binding.included.imgPerfilToolbar)
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (!error.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun setupSearchListener() {
         binding.inputSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun afterTextChanged(s: Editable?) = Unit
 
-            override fun afterTextChanged(s: Editable?) {
-                val query = s.toString().removeAccents().lowercase()
-
-                if (query.isNotBlank()) {
-                    val filteredList = listaOriginal.filter { collaborator ->
-                        collaborator.name.removeAccents().lowercase().contains(query)
-                    }
-                    collaboratorAdapter.submitList(filteredList)
-                } else {
-                    collaboratorAdapter.submitList(listaOriginal)
-                }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s?.toString()?.trim()?.lowercase() ?: ""
+                filterCollaborators(query)
             }
         })
+    }
 
+    private fun filterCollaborators(query: String) {
+        if (query.isEmpty()) {
+            collaboratorAdapter.submitList(allCollaborators)
+        } else {
+            val filtered = allCollaborators.filter { collaborator ->
+                collaborator.name.lowercase().contains(query) ||
+                        collaborator.email.lowercase().contains(query) ||
+                        collaborator.name.lowercase().contains(query)
+            }
+            collaboratorAdapter.submitList(filtered)
+        }
+    }
+
+    private fun setupClickListeners() {
         binding.imageButtonAddCollaborator.setOnClickListener {
             findNavController().navigate(R.id.action_managementFragment_to_registerCollaboratorFragment)
         }
@@ -96,14 +135,6 @@ class ManagementFragment : Fragment() {
         binding.included.iconNotificationToolbar.setOnClickListener {
             findNavController().navigate(R.id.action_managementFragment_to_notificationsFragment)
         }
-
-        collaboratorAdapter.submitList(listaOriginal)
-    }
-
-    fun String.removeAccents(): String {
-        val normalizedString = Normalizer.normalize(this, Normalizer.Form.NFD)
-        val regex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
-        return regex.replace(normalizedString, "")
     }
 
     override fun onDestroyView() {

@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 
 class AbacusHistoryAdapter(
-    private val historyList: List<AbacusHistory>
+    private var historyList: List<AbacusHistory>
 ) : RecyclerView.Adapter<AbacusHistoryAdapter.HistoryViewHolder>() {
 
 
@@ -39,12 +39,17 @@ class AbacusHistoryAdapter(
         Glide.with(context)
             .load(currentItem.urlPhoto)
             .placeholder(R.drawable.il_without_image)
+            .error(R.drawable.il_without_image)
             .into(holder.photo)
-
 
         holder.title.text = currentItem.titulo
         holder.timestamp.text = currentItem.timestamp
         holder.takenBy.text = context.getString(R.string.taken_by_format, currentItem.name)
         holder.approvedBy.text = context.getString(R.string.approved_by_format, currentItem.approve)
+    }
+
+    fun updateData(newList: List<AbacusHistory>) {
+        this.historyList = newList
+        notifyDataSetChanged()
     }
 }

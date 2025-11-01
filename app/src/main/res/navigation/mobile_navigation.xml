@@ -18,11 +18,11 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationsFragment"
             app:destination="@id/navigation_notification" />
-      
+
         <action
             android:id="@+id/action_homeFragment_to_abacusList"
             app:destination="@id/abacusListFragment" />
-      
+
         <action
             android:id="@+id/action_homeFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
@@ -130,12 +130,12 @@
             android:id="@+id/action_managementFragment_to_profileFragment"
             app:destination="@id/navigation_profile" />
     </fragment>
-  
+
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
 
         <action
             android:id="@+id/action_profileFragment_to_chatFragment"
@@ -148,6 +148,14 @@
         <action
             android:id="@+id/action_profileFragment_to_faqFragment"
             app:destination="@id/navigation_faq" />
+
+        <action
+            android:id="@+id/action_profile_to_configuracao"
+            app:destination="@id/configurationFragment" />
+
+        <action
+            android:id="@+id/action_profile_to_fabrica"
+            app:destination="@id/factoryFragment"/>
     </fragment>
 
     <fragment
@@ -171,7 +179,6 @@
             android:id="@+id/action_spreadSheetsFragment_to_notificationsFragment"
             app:destination="@id/navigation_notification" />
     </fragment>
-
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.mobile.app_iara.ui.chatbot.ChatFragment"
@@ -235,8 +242,8 @@
         tools:layout="@layout/fragment_edit_collaborator" >
 
         <argument
-            android:name="collaboratorId"
-            app:argType="string" />
+            android:name="collaborator"
+            app:argType="com.mobile.app_iara.ui.management.collaborator.CollaboratorModal" />
 
         <action
             android:id="@+id/action_editCollaboratorFragment_to_emailCollaboratorFragment"
@@ -255,6 +262,10 @@
         android:label="Ábacos"
         tools:layout="@layout/fragment_abacus_list" >
 
+        <argument
+            android:name="factoryId"
+            app:argType="integer" />
+
         <action
             android:id="@+id/action_abacusListFragment_to_notificationsFragment"
             app:destination="@id/navigation_notification" />
@@ -262,12 +273,50 @@
         <action
             android:id="@+id/action_abacusListFragment_to_registerAbacusFragment"
             app:destination="@id/registerAbacusFragment" />
+
+        <action
+            android:id="@+id/action_abacusListFragment_to_editAbacusFragment"
+            app:destination="@id/editAbacusFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/configurationFragment"
+        android:name="com.mobile.app_iara.ui.profile.configuration.ConfigurationFragment"
+        android:label="fragment_configuration"
+        tools:layout="@layout/fragment_configuration" />
+
+    <fragment
+        android:id="@+id/factoryFragment"
+        android:name="com.mobile.app_iara.ui.profile.factory.FactoryFragment"
+        android:label="fragment_fabrica"
+        tools:layout="@layout/fragment_factory" />
 
     <fragment
         android:id="@+id/registerAbacusFragment"
         android:name="com.mobile.app_iara.ui.abacus.register.RegisterAbacusFragment"
         android:label="Cadastrar Ábaco"
-        tools:layout="@layout/fragment_register_abacus" />
+        tools:layout="@layout/fragment_register_abacus">
+
+        <action
+            android:id="@+id/action_registerAbacusFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editAbacusFragment"
+        android:name="com.mobile.app_iara.ui.abacus.edit.EditAbacusFragment"
+        android:label="Editar Ábaco"
+        tools:layout="@layout/fragment_edit_abacus" >
+
+        <argument
+            android:name="abacusId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/action_editAbacusFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notification" />
+    </fragment>
 
 </navigation>

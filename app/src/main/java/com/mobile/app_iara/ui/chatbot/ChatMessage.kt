@@ -7,5 +7,5 @@ data class ChatMessage(
 )
 
 enum class Sender {
-    USER, BOT
+    USER, BOT, TYPING
 }

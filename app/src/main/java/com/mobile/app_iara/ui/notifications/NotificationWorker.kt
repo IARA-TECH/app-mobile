@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkerParameters
-import com.mobile.app_iara.AppDatabase
-import com.mobile.app_iara.MainActivity
+import com.mobile.app_iara.data.local.AppDatabase
+import com.mobile.app_iara.ui.MainActivity
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.notifications.NotificationEntity
 import java.text.SimpleDateFormat
@@ -59,13 +59,19 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
 
     private suspend fun saveNotificationToDatabase(title: String, description: String, link: String?) {
         val dao = AppDatabase.getDatabase(appContext).notificationDAO()
+
+        val now = Date()
+
         val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val currentTimeString = timeFormatter.format(Date())
+        val currentTimeString = timeFormatter.format(now)
+
+        val currentTimestamp = now.time
 
         val notificationItem = NotificationEntity(
             title = title,
             description = description,
             time = currentTimeString,
+            timestamp = currentTimestamp
         )
         dao.insert(notificationItem)
     }

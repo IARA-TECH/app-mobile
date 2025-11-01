@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.mobile.app_iara.MainActivity
+import com.mobile.app_iara.ui.MainActivity
 import com.mobile.app_iara.R
 
 class OnboardingActivity : AppCompatActivity() {

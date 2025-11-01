@@ -9,46 +9,5 @@
     <RadioGroup
         android:id="@+id/radio_group_gender"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radio_female"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/custom_radio_selector"
-            android:layoutDirection="rtl"
-            android:text="Feminino"
-            android:textSize="16sp" />
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radio_male"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/custom_radio_selector"
-            android:layoutDirection="rtl"
-            android:text="Masculino"
-            android:textSize="16sp" />
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radio_others"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/custom_radio_selector"
-            android:layoutDirection="rtl"
-            android:text="Outros"
-            android:textSize="16sp" />
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radio_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:button="@drawable/custom_radio_selector"
-            android:layoutDirection="rtl"
-            android:text="Prefiro não informar"
-            android:textSize="16sp" />
-    </RadioGroup>
+        android:layout_height="wrap_content"/>
 </LinearLayout>
