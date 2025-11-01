@@ -30,7 +30,7 @@ class NewsAdapter(
         val noticia = noticias[position]
 
         holder.titulo.text = noticia.titulo
-        holder.descricao.text = noticia.lide ?: "Sem descrição disponível"
+        holder.descricao.text = noticia.fonte
 
         Glide.with(holder.itemView.context)
             .load(noticia.imagem)
