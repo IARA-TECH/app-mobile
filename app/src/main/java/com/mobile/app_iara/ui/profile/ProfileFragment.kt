@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.profile
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.remote.UserCredentialsHolder
 import com.mobile.app_iara.databinding.FragmentProfileBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.start.LoginActivity
@@ -115,6 +117,11 @@ class ProfileFragment : Fragment() {
 
         dialogView.findViewById<Button>(R.id.btnSairDialog).setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+            UserCredentialsHolder.clear()
+
+            val sharedPrefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            sharedPrefs.edit().clear().apply()
+
             val intent = Intent(requireContext(), LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

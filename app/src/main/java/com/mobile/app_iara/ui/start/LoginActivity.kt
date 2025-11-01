@@ -1,6 +1,5 @@
 package com.mobile.app_iara.ui.start
 
-import android.content.Context // Adicionado
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -17,10 +16,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-// import androidx.core.content.ContextCompat.startActivity // Removido (Redundante)
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope // Adicionado
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -31,11 +29,11 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.mobile.app_iara.ui.MainActivity
 import com.mobile.app_iara.util.NetworkUtils
 import com.mobile.app_iara.R
-import com.mobile.app_iara.data.model.request.EmailRequest // Adicionado
+import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.remote.UserCredentialsHolder
 import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import kotlinx.coroutines.launch // Adicionado
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
@@ -53,6 +51,8 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        UserCredentialsHolder.clear()
 
         auth = FirebaseAuth.getInstance()
 
@@ -141,45 +141,38 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // --- SUA LÓGICA MANTIDA + LÓGICA DELA INSERIDA ---
+                        UserCredentialsHolder.setCredentials(email, senha)
+
                         lifecycleScope.launch {
                             try {
                                 val userResponse = userRepository.getUserProfileByEmail(EmailRequest(email))
 
                                 if (userResponse.isSuccessful && userResponse.body() != null) {
-                                    // API OK, PEGAR O FACTORY ID
                                     val factoryId = userResponse.body()!!.factoryId
-
-                                    // SUA LÓGICA ORIGINAL DE SUCESSO (MANTIDA)
-                                    UserCredentialsHolder.setCredentials(email, senha)
 
                                     if (checkLogado.isChecked) {
                                         val editor = sharedPrefs.edit()
                                         editor.putBoolean("is_logged_in", true)
                                         editor.putString("email", email)
                                         editor.putString("password", senha)
-                                        editor.putInt("key_factory_id", factoryId) // ID INSERIDO
+                                        editor.putInt("key_factory_id", factoryId)
                                         editor.apply()
                                     }
 
                                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                     finish()
-                                    // FIM DA SUA LÓGICA ORIGINAL
-
                                 } else {
-                                    // API FALHOU (Usuário existe no Firebase mas não no seu DB)
                                     Toast.makeText(this@LoginActivity, "Usuário não encontrado em nossa base de dados.", Toast.LENGTH_LONG).show()
                                     auth.signOut()
+                                    UserCredentialsHolder.clear()
                                 }
                             } catch (e: Exception) {
-                                // FALHA DE REDE NA API
                                 Toast.makeText(this@LoginActivity, "Falha de conexão: ${e.message}", Toast.LENGTH_LONG).show()
                                 auth.signOut()
+                                UserCredentialsHolder.clear()
                             }
                         }
-                        // --- FIM DA INSERÇÃO ---
                     } else {
-                        // SUA LÓGICA DE FALHA NO FIREBASE (MANTIDA)
                         mensagemCredenciais.visibility = View.VISIBLE
                     }
                 }
@@ -208,7 +201,6 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // --- SUA LÓGICA MANTIDA + LÓGICA DELA INSERIDA ---
                         val userEmail = auth.currentUser?.email
                         if (userEmail.isNullOrEmpty()) {
                             Toast.makeText(this, "Erro: E-mail não encontrado no Firebase.", Toast.LENGTH_SHORT).show()
@@ -220,34 +212,28 @@ class LoginActivity : AppCompatActivity() {
                             try {
                                 val userResponse = userRepository.getUserProfileByEmail(EmailRequest(userEmail))
                                 if (userResponse.isSuccessful && userResponse.body() != null) {
-                                    // API OK, PEGAR O FACTORY ID
                                     val factoryId = userResponse.body()!!.factoryId
 
-                                    // SUA LÓGICA ORIGINAL DE SUCESSO (MANTIDA)
-                                    val editor = sharedPrefs.edit() // Usei a var global 'sharedPrefs'
+                                    val editor = sharedPrefs.edit()
                                     editor.putBoolean("is_logged_in", true)
                                         .remove("email")
                                         .remove("password")
-                                        .putInt("key_factory_id", factoryId) // ID INSERIDO
+                                        .putInt("key_factory_id", factoryId)
                                         .apply()
 
                                     UserCredentialsHolder.clear()
                                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                     finish()
-                                    // FIM DA SUA LÓGICA ORIGINAL
 
                                 } else {
-                                    // API FALHOU
                                     Toast.makeText(this@LoginActivity, "Usuário não encontrado em nossa base de dados.", Toast.LENGTH_LONG).show()
                                     auth.signOut()
                                 }
                             } catch (e: Exception) {
-                                // FALHA DE REDE NA API
                                 Toast.makeText(this@LoginActivity, "Falha de conexão: ${e.message}", Toast.LENGTH_LONG).show()
                                 auth.signOut()
                             }
                         }
-                        // --- FIM DA INSERÇÃO ---
                     } else {
                         Toast.makeText(this@LoginActivity, "Usuário não encontrado em nossa base de dados.", Toast.LENGTH_LONG).show()
                         auth.signOut()
