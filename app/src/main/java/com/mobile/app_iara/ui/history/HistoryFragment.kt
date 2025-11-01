@@ -19,6 +19,7 @@ import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.databinding.FragmentHistoryBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.spreadsheets.SpreadSheetsWebActivity
 import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.util.NetworkUtils
 import kotlinx.coroutines.async
@@ -64,7 +65,10 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        historyAdapter = AbacusHistoryAdapter(emptyList())
+        historyAdapter = AbacusHistoryAdapter(emptyList()) { historyItem ->
+            openSheetUrl(historyItem.sheetUrl)
+        }
+
         binding.historyRecyclerView.apply {
             adapter = historyAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -94,31 +98,30 @@ class HistoryFragment : Fragment() {
 
         lifecycleScope.launch {
             val photosResultDeferred = async { photoRepository.getValidatedPhotosByFactory(factoryId) }
-            val abacusesResultDeferred = async { abacusRepository.getAbacusesByFactory(factoryId) }
             val usersResultDeferred = async { userRepository.getAllUsers() }
 
             val photosResult = photosResultDeferred.await()
-            val abacusesResult = abacusesResultDeferred.await()
             val usersResult = usersResultDeferred.await()
 
-            if (photosResult.isSuccess && abacusesResult.isSuccess && usersResult.isSuccess) {
+            if (photosResult.isSuccess && usersResult.isSuccess) {
 
                 val photoList = photosResult.getOrThrow()
-                val abacusList = abacusesResult.getOrThrow()
                 val userList = usersResult.getOrThrow()
 
                 if (photoList.isEmpty()) {
+                    binding.historyRecyclerView.isVisible = false
+                    binding.textView44.isVisible = true
                 } else {
-                    val abacusNameMap = abacusList.associateBy({ it.id }, { it.name })
                     val userNameMap = userList.associateBy({ it.id }, { it.name })
 
-                    val historyList = photoList.map { mapApiToUi(it, abacusNameMap, userNameMap) }
+                    val historyList = photoList.map { mapApiToUi(it, userNameMap) }
+
+                    binding.textView44.isVisible = false
                     historyAdapter.updateData(historyList)
                     binding.historyRecyclerView.isVisible = true
                 }
             } else {
                 val exception = photosResult.exceptionOrNull()
-                    ?: abacusesResult.exceptionOrNull()
                     ?: usersResult.exceptionOrNull()
 
                 val errorText = if (exception is SocketTimeoutException) {
@@ -127,18 +130,30 @@ class HistoryFragment : Fragment() {
                     exception?.message ?: "Erro desconhecido ao carregar dados."
                 }
 
+                binding.historyRecyclerView.isVisible = false
+                binding.textView44.text = "Falha ao carregar dados"
+                binding.textView44.isVisible = true
+
                 Toast.makeText(requireContext(), "Erro: $errorText", Toast.LENGTH_LONG).show()
             }
         }
     }
 
+    private fun openSheetUrl(url: String) {
+        if (url.isBlank()) {
+            Toast.makeText(requireContext(), "Link da planilha não disponível", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val intent = Intent(requireContext(), SpreadSheetsWebActivity::class.java)
+        intent.putExtra(SpreadSheetsWebActivity.EXTRA_URL, url)
+        startActivity(intent)
+    }
+
     private fun mapApiToUi(
         photo: AbacusPhotoData,
-        abacusNameMap: Map<String, String>,
         userNameMap: Map<String, String>
     ): AbacusHistory {
-
-        val abacusName = abacusNameMap[photo.abacusId] ?: photo.shiftName
+        val abacusName = photo.abacus.name
         val takenByName = userNameMap[photo.takenBy] ?: photo.takenBy ?: "Usuário Desconhecido"
 
         val validatedByName = if (photo.validatedBy != null) {
@@ -152,7 +167,8 @@ class HistoryFragment : Fragment() {
             titulo = abacusName,
             name = takenByName,
             approve = validatedByName,
-            timestamp = formatTimestamp(photo.takenAt)
+            timestamp = formatTimestamp(photo.takenAt),
+            sheetUrl = photo.sheetUrlBlob
         )
     }
 

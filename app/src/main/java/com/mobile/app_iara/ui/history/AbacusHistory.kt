@@ -5,5 +5,6 @@ data class AbacusHistory(
     val titulo: String,
     val name: String,
     val approve: String,
-    val timestamp: String
+    val timestamp: String,
+    val sheetUrl: String
 )
