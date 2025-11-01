@@ -10,7 +10,8 @@ import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 
 class AbacusHistoryAdapter(
-    private var historyList: List<AbacusHistory>
+    private var historyList: List<AbacusHistory>,
+    private val onItemClicked: (AbacusHistory) -> Unit
 ) : RecyclerView.Adapter<AbacusHistoryAdapter.HistoryViewHolder>() {
 
 
@@ -46,6 +47,10 @@ class AbacusHistoryAdapter(
         holder.timestamp.text = currentItem.timestamp
         holder.takenBy.text = context.getString(R.string.taken_by_format, currentItem.name)
         holder.approvedBy.text = context.getString(R.string.approved_by_format, currentItem.approve)
+
+        holder.itemView.setOnClickListener {
+            onItemClicked(currentItem)
+        }
     }
 
     fun updateData(newList: List<AbacusHistory>) {
