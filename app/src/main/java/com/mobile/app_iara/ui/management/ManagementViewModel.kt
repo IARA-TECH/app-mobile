@@ -60,7 +60,7 @@ class ManagementViewModel(private val application: Application) : AndroidViewMod
                             id = user.id.toString(),
                             name = user.name,
                             email = user.email,
-                            roleName = user.accessTypeName,
+                            roleName = user.userAccessTypeNames.joinToString(", "),
                             genderName = user.genderName,
                             urlPhoto = user.userPhotoUrl,
                             dateBirth = user.dateOfBirth,
