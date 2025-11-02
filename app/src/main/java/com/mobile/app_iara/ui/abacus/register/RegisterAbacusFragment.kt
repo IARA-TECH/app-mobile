@@ -218,19 +218,28 @@ class RegisterAbacusFragment : Fragment() {
         binding.tilAbacusName.error = null
         binding.tilAbacusDescription.error = null
 
-        Toast.makeText(requireContext(), "Enviando ábaco...", Toast.LENGTH_SHORT).show()
-
         viewModel.registerAbacus(
             abacus = newAbacus,
             onSuccess = { abacusData ->
-                Toast.makeText(requireContext(), "Ábaco '${abacusData.name}' criado com sucesso!", Toast.LENGTH_LONG).show()
-                findNavController().popBackStack()
+                showSuccessDialog()
             },
             onFailure = { error ->
-                Log.e("RegisterAbacus", "Erro ao registrar ábaco", error)
-                Toast.makeText(requireContext(), "Erro ao registrar: ${error.message}", Toast.LENGTH_LONG).show()
+                showErrorDialog()
             }
         )
+    }
+
+    private fun showSuccessDialog() {
+        val successSheet = RegisterAbacusSuccessSheet {
+            findNavController().popBackStack()
+        }
+        successSheet.isCancelable = false
+        successSheet.show(childFragmentManager, "RegisterSuccessSheet")
+    }
+
+    private fun showErrorDialog() {
+        val errorSheet = RegisterAbacusErrorSheet()
+        errorSheet.show(childFragmentManager, "RegisterErrorSheet")
     }
 
     override fun onDestroyView() {
