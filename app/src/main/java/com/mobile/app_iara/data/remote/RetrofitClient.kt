@@ -5,6 +5,7 @@ import com.mobile.app_iara.data.remote.service.AbacusService
 import com.mobile.app_iara.data.remote.service.AccessTypeService
 import com.mobile.app_iara.data.remote.service.ChabotService
 import com.mobile.app_iara.data.remote.service.DailyActiveUsersService
+import com.mobile.app_iara.data.remote.service.DashboardService
 import com.mobile.app_iara.data.remote.service.FactoryService
 import com.mobile.app_iara.data.remote.service.GenderService
 import com.mobile.app_iara.data.remote.service.NewsService
@@ -147,5 +148,9 @@ object RetrofitClient {
 
     val sheetService: SheetService by lazy {
         mongoRetrofit.create(SheetService::class.java)
+    }
+
+    val dashboardService: DashboardService by lazy {
+        mongoRetrofit.create(DashboardService::class.java)
     }
 }

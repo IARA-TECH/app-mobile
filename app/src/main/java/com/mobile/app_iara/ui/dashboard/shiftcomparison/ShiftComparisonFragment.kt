@@ -1,13 +1,17 @@
 package com.mobile.app_iara.ui.dashboard.shiftcomparison
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -16,6 +20,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.response.MonthlyEvolution
+import com.mobile.app_iara.data.model.response.QuantityPerShift
 import com.mobile.app_iara.databinding.FragmentShiftComparisonBinding
 import com.mobile.app_iara.databinding.ItemShiftQuantityBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
@@ -26,6 +32,12 @@ class ShiftComparisonFragment : Fragment() {
     private var _binding: FragmentShiftComparisonBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: ShiftComparisonViewModel by viewModels {
+        ShiftComparisonViewModelFactory()
+    }
+
+    private lateinit var sharedPrefs: SharedPreferences
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentShiftComparisonBinding.inflate(inflater, container, false)
         return binding.root
@@ -33,8 +45,6 @@ class ShiftComparisonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupQuantityList()
-        setupMultiLineChart()
 
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
@@ -43,6 +53,19 @@ class ShiftComparisonFragment : Fragment() {
             return
         }
 
+        sharedPrefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        setupClickListeners()
+        observeViewModel()
+
+        val factoryId = sharedPrefs.getInt("key_factory_id", -1)
+        if (factoryId != -1) {
+            viewModel.fetchShiftData(factoryId)
+        } else {
+            Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupClickListeners() {
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -52,10 +75,29 @@ class ShiftComparisonFragment : Fragment() {
         }
     }
 
-    private fun setupQuantityList() {
-        setupQuantityItem(binding.itemNoturno, "Turno noturno", 45, R.color.night)
-        setupQuantityItem(binding.itemVespertino, "Turno vespertino", 23, R.color.afternoon)
-        setupQuantityItem(binding.itemMatutino, "Turno matutino", 12, R.color.morning)
+    private fun observeViewModel() {
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        viewModel.shiftData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                setupQuantityList(data.quantityPerShift)
+                setupMultiLineChart(data.monthlyEvolution)
+            }
+        }
+    }
+
+    private fun setupQuantityList(quantityData: List<QuantityPerShift>) {
+        val nightQuantity = quantityData.find { it.shift == "Night" }?.quantity ?: 0
+        val afternoonQuantity = quantityData.find { it.shift == "Afternoon" }?.quantity ?: 0
+        val morningQuantity = quantityData.find { it.shift == "Morning" }?.quantity ?: 0
+
+        setupQuantityItem(binding.itemNoturno, "Turno noturno", nightQuantity, R.color.night)
+        setupQuantityItem(binding.itemVespertino, "Turno vespertino", afternoonQuantity, R.color.afternoon)
+        setupQuantityItem(binding.itemMatutino, "Turno matutino", morningQuantity, R.color.morning)
     }
 
     private fun setupQuantityItem(itemBinding: ItemShiftQuantityBinding, name: String, quantity: Int, colorRes: Int) {
@@ -64,21 +106,22 @@ class ShiftComparisonFragment : Fragment() {
         itemBinding.viewColor.background.setTint(ContextCompat.getColor(requireContext(), colorRes))
     }
 
-    private fun setupMultiLineChart() {
-        val labels = listOf("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez")
+    private fun setupMultiLineChart(evolutionData: MonthlyEvolution) {
+        val labels = evolutionData.periods
 
-        // DADOS PARA CADA TURNO
-        val entriesMatutino = ArrayList<Entry>().apply {
-            add(Entry(0f, 2f)); add(Entry(1f, 22f)); add(Entry(2f, 10f)); add(Entry(3f, 50f))
-            add(Entry(4f, 20f)); add(Entry(5f, 22f)); add(Entry(6f, 30f)); add(Entry(7f, 40f))
+        val entriesMatutino = ArrayList<Entry>()
+        evolutionData.morning.forEachIndexed { index, value ->
+            entriesMatutino.add(Entry(index.toFloat(), value))
         }
-        val entriesVespertino = ArrayList<Entry>().apply {
-            add(Entry(0f, 5f)); add(Entry(1f, 10f)); add(Entry(2f, 30f)); add(Entry(3f, 22f))
-            add(Entry(4f, 18f)); add(Entry(5f, 25f)); add(Entry(6f, 5f)); add(Entry(7f, 0f))
+
+        val entriesVespertino = ArrayList<Entry>()
+        evolutionData.afternoon.forEachIndexed { index, value ->
+            entriesVespertino.add(Entry(index.toFloat(), value))
         }
-        val entriesNoturno = ArrayList<Entry>().apply {
-            add(Entry(0f, 10f)); add(Entry(1f, 5f)); add(Entry(2f, 25f)); add(Entry(3f, 15f))
-            add(Entry(4f, 25f)); add(Entry(5f, 15f)); add(Entry(6f, 20f)); add(Entry(7f, 30f))
+
+        val entriesNoturno = ArrayList<Entry>()
+        evolutionData.night.forEachIndexed { index, value ->
+            entriesNoturno.add(Entry(index.toFloat(), value))
         }
 
         val dataSetMatutino = createDataSet(entriesMatutino, "Matutino", R.color.morning)
