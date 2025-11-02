@@ -25,6 +25,7 @@ import com.mobile.app_iara.data.model.response.QuantityPerShift
 import com.mobile.app_iara.databinding.FragmentShiftComparisonBinding
 import com.mobile.app_iara.databinding.ItemShiftQuantityBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 import com.mobile.app_iara.util.NetworkUtils
 
 class ShiftComparisonFragment : Fragment() {
@@ -45,6 +46,12 @@ class ShiftComparisonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
 
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
@@ -76,7 +83,16 @@ class ShiftComparisonFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.loadingContainer.visibility = View.VISIBLE
+            } else {
+                binding.loadingContainer.visibility = View.GONE
+            }
+        }
+
         viewModel.error.observe(viewLifecycleOwner) { error ->
+            binding.loadingContainer.visibility = View.GONE
             if (error != null) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
             }

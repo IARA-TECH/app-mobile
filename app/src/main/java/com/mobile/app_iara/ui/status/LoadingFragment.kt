@@ -94,7 +94,6 @@ class LoadingFragment : Fragment() {
     private fun updateLoadingText() {
         tvLoadingText.text = loadingPhrases[currentPhraseIndex]
 
-        // Adiciona uma animação simples de fade
         tvLoadingText.alpha = 0f
         tvLoadingText.animate()
             .alpha(1f)
