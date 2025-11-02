@@ -27,6 +27,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.Intent
+import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
 import com.mobile.app_iara.R
 import com.mobile.app_iara.data.repository.AbacusPhotoRepository
@@ -92,6 +93,7 @@ class CameraActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_camera)
 
         previewView = findViewById(R.id.previewView)

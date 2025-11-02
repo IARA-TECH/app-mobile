@@ -1,10 +1,12 @@
 package com.mobile.app_iara.ui.abacus.onboarding
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.app_iara.ui.MainActivity
 import com.mobile.app_iara.R
@@ -43,6 +45,7 @@ class OnboardingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_onboarding)
 
         titulo = findViewById(R.id.textView6)
@@ -60,6 +63,7 @@ class OnboardingActivity : AppCompatActivity() {
                 pagina++
                 updatePage()
             } else {
+                setResult(Activity.RESULT_OK)
                 finish()
             }
         }

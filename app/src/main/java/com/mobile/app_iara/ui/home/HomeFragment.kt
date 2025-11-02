@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.home
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +16,9 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
 import android.widget.Toast
-import androidx.fragment.app.viewModels
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.mobile.app_iara.ui.abacus.onboarding.OnboardingActivity
 import com.mobile.app_iara.ui.camera.CameraActivity
 
 class HomeFragment : Fragment() {
@@ -23,6 +26,19 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
+    private lateinit var onboardingLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        onboardingLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                navigateToSelectAbacus()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,19 +99,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnScan.setOnClickListener {
-            val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            val idDaFabricaAtual = prefs.getInt("key_factory_id", -1)
-
-            if (idDaFabricaAtual == -1) {
-                Toast.makeText(requireContext(), "ID da fábrica não encontrado", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val action = HomeFragmentDirections.actionHomeFragmentToSelectAbacus(
-                factoryId = idDaFabricaAtual
-            )
-
-            findNavController().navigate(action)
+            val intent = Intent(requireContext(), OnboardingActivity::class.java)
+            onboardingLauncher.launch(intent)
         }
 
         binding.cardAbacus.setOnClickListener {
@@ -122,6 +127,24 @@ class HomeFragment : Fragment() {
         }
         binding.included.iconNotificationToolbar.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_notificationsFragment)
+        }
+    }
+
+    private fun navigateToSelectAbacus() {
+        val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val idDaFabricaAtual = prefs.getInt("key_factory_id", -1)
+
+        if (idDaFabricaAtual == -1) {
+            Toast.makeText(requireContext(), "ID da fábrica não encontrado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val action = HomeFragmentDirections.actionHomeFragmentToSelectAbacus(
+            factoryId = idDaFabricaAtual
+        )
+
+        if (isAdded) {
+            findNavController().navigate(action)
         }
     }
 
