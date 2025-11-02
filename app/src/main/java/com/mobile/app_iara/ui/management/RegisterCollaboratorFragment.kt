@@ -148,17 +148,18 @@ class RegisterCollaboratorFragment : Fragment() {
     }
 
     private fun validateAndRegister() {
+        binding.mensagemCredenciais2.visibility = View.GONE
         val name = binding.editTextNomeCadastroColaborador.text.toString().trim()
         val email = binding.editTextEmailColaboradorCadastro.text.toString().trim()
         val dateOfBirth = binding.editTextDataNascimentoColaboradorCadastro.text.toString().trim()
 
         when {
             name.isEmpty() -> {
-                Toast.makeText(requireContext(), "Preencha o nome", Toast.LENGTH_SHORT).show()
+                binding.mensagemCredenciais2.visibility = View.VISIBLE
                 return
             }
             email.isEmpty() -> {
-                Toast.makeText(requireContext(), "Preencha o email", Toast.LENGTH_SHORT).show()
+                binding.mensagemCredenciais2.visibility = View.VISIBLE
                 return
             }
             !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
@@ -166,15 +167,15 @@ class RegisterCollaboratorFragment : Fragment() {
                 return
             }
             dateOfBirth.isEmpty() -> {
-                Toast.makeText(requireContext(), "Preencha a data de nascimento", Toast.LENGTH_SHORT).show()
+                binding.mensagemCredenciais2.visibility = View.VISIBLE
                 return
             }
             selectedGender == null -> {
-                Toast.makeText(requireContext(), "Selecione o gênero", Toast.LENGTH_SHORT).show()
+                binding.mensagemCredenciais2.visibility = View.VISIBLE
                 return
             }
             selectedRole == null -> {
-                Toast.makeText(requireContext(), "Selecione o cargo", Toast.LENGTH_SHORT).show()
+                binding.mensagemCredenciais2.visibility = View.VISIBLE
                 return
             }
         }

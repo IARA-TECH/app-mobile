@@ -101,6 +101,7 @@ class EditAbacusFragment : Fragment() {
 
     private fun setupListeners() {
         binding.btnCancelEdit.setOnClickListener {
+            binding.mensagemCredenciais3.visibility = View.GONE
             findNavController().navigateUp()
         }
 
@@ -245,21 +246,24 @@ class EditAbacusFragment : Fragment() {
     }
 
     private fun saveChanges() {
+        binding.mensagemCredenciais3.visibility = View.GONE
         val name = binding.etAbacusNameEdit.text.toString().trim()
         val description = binding.etAbacusDescriptionEdit.text.toString().trim()
 
         if (name.isEmpty()) {
-            binding.etAbacusNameEdit.error = "Nome é obrigatório"
+            binding.mensagemCredenciais3.visibility = View.VISIBLE
+            return
+        }
+        if (description.isEmpty()) {
+            binding.mensagemCredenciais3.visibility = View.VISIBLE
             return
         }
         if (lineList.isEmpty()) {
-            Toast.makeText(requireContext(), "Adicione pelo menos uma linha.", Toast.LENGTH_SHORT)
-                .show()
+            binding.mensagemCredenciais3.visibility = View.VISIBLE
             return
         }
         if (columnList.isEmpty()) {
-            Toast.makeText(requireContext(), "Adicione pelo menos uma coluna.", Toast.LENGTH_SHORT)
-                .show()
+            binding.mensagemCredenciais3.visibility = View.VISIBLE
             return
         }
 

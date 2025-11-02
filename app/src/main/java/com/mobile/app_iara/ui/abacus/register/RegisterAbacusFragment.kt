@@ -104,6 +104,7 @@ class RegisterAbacusFragment : Fragment() {
         }
 
         binding.btnCancel.setOnClickListener {
+            binding.mensagemCredenciais.visibility = View.GONE
             findNavController().popBackStack()
         }
     }
@@ -184,18 +185,17 @@ class RegisterAbacusFragment : Fragment() {
     }
 
     private fun collectDataAndRegister() {
+        binding.mensagemCredenciais.visibility = View.GONE
         val abacusName = binding.etAbacusName.text.toString().trim()
         val abacusDescription = binding.etAbacusDescription.text.toString().trim()
 
         if (abacusName.isEmpty() || abacusDescription.isEmpty()) {
-            binding.tilAbacusName.error = if (abacusName.isEmpty()) "Campo obrigatório" else null
-            binding.tilAbacusDescription.error = if (abacusDescription.isEmpty()) "Campo obrigatório" else null
-            Toast.makeText(requireContext(), "Preencha o nome e a descrição.", Toast.LENGTH_SHORT).show()
+            binding.mensagemCredenciais.visibility = View.VISIBLE
             return
         }
 
         if (columnsList.isEmpty() || linesList.isEmpty()) {
-            Toast.makeText(requireContext(), "Adicione pelo menos uma coluna e uma linha.", Toast.LENGTH_SHORT).show()
+            binding.mensagemCredenciais.visibility = View.VISIBLE
             return
         }
 
