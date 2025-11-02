@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.mobile.app_iara.ui.dashboard.DashboardFragment"
+        android:name="com.mobile.app_iara.ui.dashboard.ui.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" >
 
@@ -72,7 +72,7 @@
 
     <fragment
         android:id="@+id/navigation_notification"
-        android:name="com.mobile.app_iara.ui.notifications.NotificationsFragment"
+        android:name="com.mobile.app_iara.ui.notifications.ui.NotificationsFragment"
         android:label="Notificacao"
         tools:layout="@layout/fragment_notifications" />
 
@@ -114,7 +114,7 @@
 
     <fragment
         android:id="@+id/navigation_management"
-        android:name="com.mobile.app_iara.ui.management.ManagementFragment"
+        android:name="com.mobile.app_iara.ui.management.ui.ManagementFragment"
         android:label="fragment_management"
         tools:layout="@layout/fragment_management">
 
@@ -137,7 +137,7 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.mobile.app_iara.ui.profile.ProfileFragment"
+        android:name="com.mobile.app_iara.ui.profile.ui.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
 
@@ -235,19 +235,19 @@
 
     <fragment
         android:id="@+id/registerCollaboratorFragment"
-        android:name="com.mobile.app_iara.ui.management.RegisterCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.register.RegisterCollaboratorFragment"
         android:label="fragment_register_collaborator"
         tools:layout="@layout/fragment_register_collaborator" />
 
     <fragment
         android:id="@+id/editCollaboratorFragment"
-        android:name="com.mobile.app_iara.ui.management.EditCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.edit.EditCollaboratorFragment"
         android:label="fragment_edit_collaborator"
         tools:layout="@layout/fragment_edit_collaborator" >
 
         <argument
             android:name="collaborator"
-            app:argType="com.mobile.app_iara.ui.management.collaborator.CollaboratorModal" />
+            app:argType="com.mobile.app_iara.data.model.CollaboratorData" />
     </fragment>
 
     <fragment
@@ -315,7 +315,7 @@
 
     <fragment
         android:id="@+id/selectAbacusFragment"
-        android:name="com.mobile.app_iara.ui.abacus.SelectAbacusFragment"
+        android:name="com.mobile.app_iara.ui.abacus.select.SelectAbacusFragment"
         android:label="Select Abacus"
         tools:layout="@layout/fragment_select_abacus" >
 

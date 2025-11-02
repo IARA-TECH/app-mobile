@@ -19,7 +19,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.mobile.app_iara.ui.abacus.onboarding.OnboardingActivity
-import com.mobile.app_iara.ui.camera.CameraActivity
 
 class HomeFragment : Fragment() {
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-// IMPORTAÇÃO ADICIONADA
+import com.mobile.app_iara.data.model.SpreadSheets
 import com.mobile.app_iara.data.repository.AbacusPhotoRepository
 import com.mobile.app_iara.data.repository.SpreadsheetRepository
 import com.mobile.app_iara.util.DataUtil

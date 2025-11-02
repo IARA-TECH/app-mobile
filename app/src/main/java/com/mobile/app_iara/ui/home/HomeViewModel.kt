@@ -1,6 +1,6 @@
 package com.mobile.app_iara.ui.home
 
-import android.app.Application // 1. Importar Application
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData

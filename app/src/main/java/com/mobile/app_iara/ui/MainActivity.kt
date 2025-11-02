@@ -1,6 +1,6 @@
 package com.mobile.app_iara.ui
 
-import NotificationWorker
+import com.mobile.app_iara.ui.notifications.worker.NotificationWorker
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -26,8 +26,8 @@ import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
-import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_DESC
-import com.mobile.app_iara.ui.notifications.KEY_NOTIFICATION_TITLE
+import com.mobile.app_iara.ui.notifications.worker.KEY_NOTIFICATION_DESC
+import com.mobile.app_iara.ui.notifications.worker.KEY_NOTIFICATION_TITLE
 import java.util.Calendar
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
@@ -36,7 +36,7 @@ import com.mobile.app_iara.data.model.request.EmailRequest
 import com.mobile.app_iara.data.repository.DailyActiveUsersRepository
 import com.mobile.app_iara.data.repository.UserAccessTypeRepository
 import com.mobile.app_iara.data.repository.UserRepository
-import com.mobile.app_iara.ui.notifications.ClearNotificationsWorker
+import com.mobile.app_iara.ui.notifications.worker.ClearNotificationsWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
