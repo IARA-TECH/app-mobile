@@ -145,7 +145,7 @@ class AbacusConfirmationActivity : AppCompatActivity() {
                     is ConfirmationState.Success -> {
                         btnConfirmar.isEnabled = true
                         Log.d("Confirmation", "Foto: ${state.data.photoUrl}, Planilha: ${state.data.sheetUrl}")
-                        finish()
+                        showSuccessSheet()
                     }
                     is ConfirmationState.Error -> {
                         btnConfirmar.isEnabled = true
@@ -188,6 +188,12 @@ class AbacusConfirmationActivity : AppCompatActivity() {
         }
 
         return parsedLines
+    }
+
+    private fun showSuccessSheet() {
+        val successSheet = SpreadsheetSuccessSheet()
+        successSheet.isCancelable = false
+        successSheet.show(supportFragmentManager, "SuccessSheet")
     }
 
 }
