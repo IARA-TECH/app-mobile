@@ -83,8 +83,20 @@ class UserRepository {
         }
     }
 
-    suspend fun getUsersByFactory(factoryId: Int): Response<List<UserProfileResponse>> {
-        return userService.getUsersByFactory(factoryId)
+    suspend fun getUsersByFactory(factoryId: Int): Result<List<UserProfileResponse>> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = userService.getUsersByFactory(factoryId)
+
+                if (response.isSuccessful && response.body() != null) {
+                    Result.success(response.body()!!)
+                } else {
+                    Result.failure(Exception("Erro ao buscar usuários por fábrica: ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
     }
 
     suspend fun registerCollaborator(request: UserProfileRequest): Response<UserProfileResponse> =

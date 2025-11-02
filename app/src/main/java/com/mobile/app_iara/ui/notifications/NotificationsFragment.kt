@@ -73,6 +73,10 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             recyclerApprovals.adapter = adapterApprovals
             recyclerApprovals.layoutManager = LinearLayoutManager(requireContext())
 
+            viewModel.userMap.observe(viewLifecycleOwner, Observer { userMap ->
+                adapterApprovals.updateUserMap(userMap)
+            })
+
             viewModel.pendingApprovals.observe(viewLifecycleOwner, Observer { approvalList ->
                 if (approvalList.isNullOrEmpty()) {
                     recyclerApprovals.visibility = View.GONE
@@ -86,6 +90,8 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             })
 
             if (factoryId != -1) {
+                viewModel.fetchUserMap(factoryId)
+
                 viewModel.fetchPendingApprovals(factoryId)
             } else {
                 Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado.", Toast.LENGTH_LONG).show()
