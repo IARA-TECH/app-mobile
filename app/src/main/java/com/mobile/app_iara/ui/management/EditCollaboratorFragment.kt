@@ -26,6 +26,7 @@ import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
 import kotlinx.coroutines.launch
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.status.LoadingApiFragment // NOVO: Import
 
 class EditCollaboratorFragment : Fragment() {
 
@@ -49,6 +50,12 @@ class EditCollaboratorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
+
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
@@ -63,11 +70,12 @@ class EditCollaboratorFragment : Fragment() {
         binding.textView272.text = collaborator.genderName
         binding.textView274.text = collaborator.dateBirth
 
-        viewModel.loadGenders()
-        viewModel.loadUserAccessTypes()
-
         setupClickListeners()
         setupObservers()
+
+        binding.loadingContainer.visibility = View.VISIBLE
+        viewModel.loadGenders()
+        viewModel.loadUserAccessTypes()
     }
 
     private fun setupClickListeners() {
@@ -103,6 +111,7 @@ class EditCollaboratorFragment : Fragment() {
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.genders.collect { gendersList ->
+                binding.loadingContainer.visibility = View.GONE
                 if (gendersList.isNotEmpty() && selectedGender == null) {
                     selectedGender = gendersList.find { it.name == args.collaborator.genderName }
                 }
@@ -111,8 +120,9 @@ class EditCollaboratorFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.roles.collect { rolesList ->
+                binding.loadingContainer.visibility = View.GONE
                 if (rolesList.isNotEmpty() && selectedRole == null) {
-                    selectedRole = rolesList.find { it.name == args.collaborator.roleName } // <- Ajuste se o nome do campo for outro
+                    selectedRole = rolesList.find { it.name == args.collaborator.roleName }
                 }
             }
         }
@@ -121,14 +131,17 @@ class EditCollaboratorFragment : Fragment() {
             viewModel.updateState.collect { state ->
                 when (state) {
                     is UpdateState.Loading -> {
+                        binding.loadingContainer.visibility = View.VISIBLE
                         binding.btnConfirmar.isEnabled = false
                     }
                     is UpdateState.Success -> {
+                        binding.loadingContainer.visibility = View.GONE
                         Toast.makeText(requireContext(), "Atualizado com sucesso!", Toast.LENGTH_SHORT).show()
                         viewModel.resetUpdateState()
                         findNavController().popBackStack()
                     }
                     is UpdateState.Error -> {
+                        binding.loadingContainer.visibility = View.GONE
                         Toast.makeText(requireContext(), "Erro: ${state.message}", Toast.LENGTH_LONG).show()
                         binding.btnConfirmar.isEnabled = true
                         viewModel.resetUpdateState()
@@ -144,10 +157,12 @@ class EditCollaboratorFragment : Fragment() {
     private fun validateAndUpdate() {
         if (selectedGender == null) {
             Toast.makeText(requireContext(), "Aguarde, carregando gêneros...", Toast.LENGTH_SHORT).show()
+            viewModel.loadGenders()
             return
         }
         if (selectedRole == null) {
             Toast.makeText(requireContext(), "Aguarde, carregando cargos...", Toast.LENGTH_SHORT).show()
+            viewModel.loadUserAccessTypes()
             return
         }
 
@@ -228,7 +243,7 @@ class EditCollaboratorFragment : Fragment() {
                 val roles = rolesList.map { accessType ->
                     Role(
                         id = accessType.id,
-                        name = accessType.name ?: "Sem nome",
+                        name = accessType.name,
                         isSelected = selectedRole?.id == accessType.id
                     )
                 }

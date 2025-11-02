@@ -27,6 +27,7 @@ import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 
 class HistoryFragment : Fragment() {
 
@@ -49,6 +50,12 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
 
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
@@ -91,6 +98,8 @@ class HistoryFragment : Fragment() {
         }
 
         binding.historyRecyclerView.isVisible = false
+        binding.loadingContainer.visibility = View.VISIBLE
+        binding.textView44.isVisible = false
 
         lifecycleScope.launch {
             val photosResultDeferred = async { photoRepository.getValidatedPhotosByFactory(factoryId) }
@@ -98,6 +107,8 @@ class HistoryFragment : Fragment() {
 
             val photosResult = photosResultDeferred.await()
             val usersResult = usersResultDeferred.await()
+
+            binding.loadingContainer.visibility = View.GONE
 
             if (photosResult.isSuccess && usersResult.isSuccess) {
 

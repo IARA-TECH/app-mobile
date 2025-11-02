@@ -20,12 +20,9 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.data.model.AbacusPhotoData
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import android.content.Context
 import android.widget.Toast
-import com.mobile.app_iara.ui.start.LoginActivity
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 
 class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
 
@@ -33,8 +30,16 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
     private lateinit var adapterNotifications: NotificationAdapter
     private lateinit var adapterApprovals: ApprovalAdapter
 
+    private var loadingContainer: View? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
 
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
@@ -42,6 +47,8 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             activity?.finish()
             return
         }
+
+        loadingContainer = view.findViewById(R.id.loading_container)
 
         val recyclerNotifications: RecyclerView = view.findViewById(R.id.recyclerNotifications)
         val recyclerApprovals: RecyclerView = view.findViewById(R.id.recyclerApprovals)
@@ -64,6 +71,8 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
 
         val hasApprovalPermission = userRoles.contains("Supervisor") || userRoles.contains("Administrador")
 
+        loadingContainer?.visibility = View.VISIBLE
+
         if (hasApprovalPermission) {
             titleApprovals?.visibility = View.VISIBLE
 
@@ -75,6 +84,12 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
 
             viewModel.userMap.observe(viewLifecycleOwner, Observer { userMap ->
                 adapterApprovals.updateUserMap(userMap)
+            })
+
+            viewModel.isApprovalDataReady.observe(viewLifecycleOwner, Observer { isReady ->
+                if (isReady) {
+                    loadingContainer?.visibility = View.GONE
+                }
             })
 
             viewModel.pendingApprovals.observe(viewLifecycleOwner, Observer { approvalList ->
@@ -91,9 +106,9 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
 
             if (factoryId != -1) {
                 viewModel.fetchUserMap(factoryId)
-
                 viewModel.fetchPendingApprovals(factoryId)
             } else {
+                loadingContainer?.visibility = View.GONE
                 Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado.", Toast.LENGTH_LONG).show()
             }
 
@@ -108,11 +123,13 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         recyclerNotifications.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.notifications.observe(viewLifecycleOwner, Observer { notificationList ->
+            if (!hasApprovalPermission) {
+                loadingContainer?.visibility = View.GONE
+            }
+
             if (notificationList.isNullOrEmpty()) {
-                emptyScreen.visibility = View.VISIBLE
                 recyclerNotifications.visibility = View.GONE
             } else {
-                emptyScreen.visibility = View.GONE
                 recyclerNotifications.visibility = View.VISIBLE
                 adapterNotifications.updateList(notificationList)
             }
@@ -138,16 +155,14 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             return
         }
 
-        linkPlanilha.setOnClickListener {
-
-        }
-
         btnNegar.setOnClickListener {
+            loadingContainer?.visibility = View.VISIBLE
             viewModel.denyPhoto(photo.id, factoryId)
             dialog.dismiss()
         }
 
         btnConfirmar.setOnClickListener {
+            loadingContainer?.visibility = View.VISIBLE
             viewModel.approvePhoto(photo.id, userName, factoryId)
             dialog.dismiss()
         }

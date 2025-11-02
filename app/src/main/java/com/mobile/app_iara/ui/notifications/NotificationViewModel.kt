@@ -3,6 +3,7 @@ package com.mobile.app_iara.ui.notifications
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mobile.app_iara.data.local.AppDatabase
@@ -33,6 +34,29 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
 
     private val _toastEvent = MutableLiveData<Event<String>>()
     val toastEvent: LiveData<Event<String>> = _toastEvent
+
+    private val _isApprovalDataReady = MediatorLiveData<Boolean>().apply {
+        value = false
+        var mapReady = false
+        var approvalsReady = false
+
+        fun update() {
+            if (mapReady && approvalsReady) {
+                value = true
+            }
+        }
+
+        addSource(_userMap) {
+            mapReady = true
+            update()
+        }
+        addSource(_pendingApprovals) {
+            approvalsReady = true
+            update()
+        }
+    }
+    val isApprovalDataReady: LiveData<Boolean> = _isApprovalDataReady
+
 
     init {
         val dao = AppDatabase.getDatabase(application).notificationDAO()
@@ -65,6 +89,7 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
                 _pendingApprovals.postValue(photoList)
             }.onFailure { exception ->
                 _toastEvent.postValue(Event(exception.message ?: "Erro ao buscar aprovações"))
+                _pendingApprovals.postValue(emptyList())
             }
         }
     }

@@ -18,6 +18,7 @@ import com.mobile.app_iara.databinding.FragmentManagementBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorAdapter
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorModal
+import com.mobile.app_iara.ui.status.LoadingApiFragment // NOVO: Import
 import com.mobile.app_iara.util.NetworkUtils
 
 class ManagementFragment : Fragment() {
@@ -42,6 +43,12 @@ class ManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
+
         viewModel = ViewModelProvider(this)[ManagementViewModel::class.java]
 
         viewModel.loadUserProfileData()
@@ -51,6 +58,7 @@ class ManagementFragment : Fragment() {
         setupClickListeners()
         setupSearchListener()
 
+        binding.loadingContainer.visibility = View.VISIBLE
         viewModel.loadCollaborators()
     }
 
@@ -76,6 +84,7 @@ class ManagementFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.collaborators.observe(viewLifecycleOwner) { collaborators ->
+            binding.loadingContainer.visibility = View.GONE
             allCollaborators = collaborators
             collaboratorAdapter.submitList(collaborators)
         }
@@ -92,6 +101,7 @@ class ManagementFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
+            binding.loadingContainer.visibility = View.GONE
             if (!error.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
             }
