@@ -38,6 +38,9 @@ class AdminActivity : AppCompatActivity() {
     private fun setupWebView() {
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.webViewClient = WebViewClient()
+        binding.webView.settings.loadWithOverviewMode = true
+        binding.webView.settings.useWideViewPort = true
+        binding.webView.settings.domStorageEnabled = true
     }
 
     private fun setupBackButton() {
