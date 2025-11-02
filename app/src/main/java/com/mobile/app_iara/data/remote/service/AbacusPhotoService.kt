@@ -7,7 +7,7 @@ import com.mobile.app_iara.data.model.response.AbacusConfirmResponse
 import com.mobile.app_iara.data.model.response.AbacusPhotoResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
-import retrofit2.ResponseBody
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.PUT
