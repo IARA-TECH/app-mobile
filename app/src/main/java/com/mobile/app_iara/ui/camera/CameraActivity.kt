@@ -31,6 +31,7 @@ import androidx.lifecycle.lifecycleScope
 import com.mobile.app_iara.R
 import com.mobile.app_iara.data.repository.AbacusPhotoRepository
 import com.mobile.app_iara.ui.abacus.confirmation.AbacusConfirmationActivity
+import com.mobile.app_iara.ui.status.LoadingFragment
 import org.tensorflow.lite.Interpreter
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -57,6 +58,8 @@ class CameraActivity: AppCompatActivity() {
     private lateinit var flashButton: ImageButton
     private lateinit var addFileButton: ImageButton
     private lateinit var tvDetectionLabel: TextView
+    private var loadingFragment: LoadingFragment? = null
+
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -426,6 +429,8 @@ class CameraActivity: AppCompatActivity() {
                     val savedUri = Uri.fromFile(photoFile)
                     Log.d("CameraActivity", "Foto salva: $savedUri")
 
+                    showLoadingFragment()
+
                     lifecycleScope.launch {
                         Toast.makeText(this@CameraActivity, "Analisando ábaco...", Toast.LENGTH_SHORT).show()
 
@@ -434,6 +439,8 @@ class CameraActivity: AppCompatActivity() {
                             colors = abacusColors,
                             values = abacusValues
                         )
+
+                        hideLoadingFragment()
 
                         result.onSuccess { csvData ->
                             Log.d("CameraActivity", "CSV Recebido: $csvData")
@@ -490,6 +497,8 @@ class CameraActivity: AppCompatActivity() {
 
     override fun onDestroy() {
         isDestroyed.set(true)
+        loadingFragment?.stopLoading()
+        loadingFragment = null
 
         try {
             imageAnalysis?.clearAnalyzer()
@@ -515,6 +524,26 @@ class CameraActivity: AppCompatActivity() {
             Log.e("CameraOverlay", "Erro no onDestroy: ${e.message}", e)
         } finally {
             super.onDestroy()
+        }
+    }
+
+    private fun showLoadingFragment() {
+        if (loadingFragment == null) {
+            loadingFragment = LoadingFragment.newInstance()
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(android.R.id.content, loadingFragment!!)
+            .addToBackStack(null)
+            .commitAllowingStateLoss()
+    }
+
+    private fun hideLoadingFragment() {
+        loadingFragment?.let {
+            supportFragmentManager.beginTransaction()
+                .remove(it)
+                .commitAllowingStateLoss()
+            loadingFragment = null
         }
     }
 
