@@ -1,13 +1,17 @@
 package com.mobile.app_iara.ui.dashboard.dashboardcomparison
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.components.XAxis
@@ -16,6 +20,8 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.response.MonthlyRanking
+import com.mobile.app_iara.data.model.response.Totals
 import com.mobile.app_iara.databinding.FragmentDashboardComparisonBinding
 import com.mobile.app_iara.databinding.ItemShiftQuantityBinding
 import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
@@ -27,6 +33,12 @@ class DashboardComparisonFragment : Fragment() {
 
     private var _binding: FragmentDashboardComparisonBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: DashboardComparisonViewModel by viewModels {
+        DashboardComparisonViewModelFactory()
+    }
+
+    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDashboardComparisonBinding.inflate(inflater, container, false)
@@ -43,10 +55,21 @@ class DashboardComparisonFragment : Fragment() {
             return
         }
 
-        setupGroupedBarChart()
-        setupRankingList()
-        setupQuantitySummary()
+        sharedPrefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
+        setupClickListeners()
+
+        observeViewModel()
+
+        val factoryId = sharedPrefs.getInt("key_factory_id", -1)
+        if (factoryId != -1) {
+            viewModel.fetchComparisonData(factoryId)
+        } else {
+            Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupClickListeners() {
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -56,18 +79,37 @@ class DashboardComparisonFragment : Fragment() {
         }
     }
 
-    private fun setupGroupedBarChart() {
-        val numGroups = 6
-        val labels = arrayOf("Jan", "Fev", "Mar", "Abr", "Mai", "Jun")
-
-        val entries1 = ArrayList<BarEntry>().apply {
-            add(BarEntry(0f, 60f)); add(BarEntry(1f, 30f)); add(BarEntry(2f, 55f))
-            add(BarEntry(3f, 68f)); add(BarEntry(4f, 22f)); add(BarEntry(5f, 59f))
+    private fun observeViewModel() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
         }
 
-        val entries2 = ArrayList<BarEntry>().apply {
-            add(BarEntry(0f, 95f)); add(BarEntry(1f, 70f)); add(BarEntry(2f, 105f))
-            add(BarEntry(3f, 38f)); add(BarEntry(4f, 0f)); add(BarEntry(5f, 89f))
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        viewModel.comparisonData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                setupGroupedBarChart(data.periods, data.technicalFailures, data.farmCondemnations)
+                setupRankingList(data.monthlyRanking)
+                setupQuantitySummary(data.totals)
+            }
+        }
+    }
+
+    private fun setupGroupedBarChart(periods: List<String>, failures: List<Float>, condemnations: List<Float>) {
+        val numGroups = periods.size
+        val labels = periods.toTypedArray()
+
+        val entries1 = ArrayList<BarEntry>()
+        failures.forEachIndexed { index, value ->
+            entries1.add(BarEntry(index.toFloat(), value))
+        }
+
+        val entries2 = ArrayList<BarEntry>()
+        condemnations.forEachIndexed { index, value ->
+            entries2.add(BarEntry(index.toFloat(), value))
         }
 
         val dataSet1 = BarDataSet(entries1, "Falhas técnicas").apply {
@@ -117,20 +159,19 @@ class DashboardComparisonFragment : Fragment() {
         }
     }
 
-    private fun setupRankingList() {
-        val items = listOf(
-            RankingItem(1, "Março", 145),
-            RankingItem(2, "Outubro", 65),
-            RankingItem(3, "Abril", 40)
-        )
+    private fun setupRankingList(rankingData: List<MonthlyRanking>) {
+        val items = rankingData.mapIndexed { index, ranking ->
+            RankingItem(index + 1, ranking.month, ranking.total)
+        }
+
         binding.rvRankingMonths.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRankingMonths.adapter = RankingAdapter(items)
         binding.rvRankingMonths.isNestedScrollingEnabled = false
     }
 
-    private fun setupQuantitySummary() {
-        setupQuantityItem(binding.itemGranja, "Granja", 465, R.color.morning)
-        setupQuantityItem(binding.itemFalhasTecnicas, "Falhas técnicas", 251, R.color.night)
+    private fun setupQuantitySummary(totals: Totals) {
+        setupQuantityItem(binding.itemGranja, "Granja", totals.totalFarmCondemnations, R.color.morning)
+        setupQuantityItem(binding.itemFalhasTecnicas, "Falhas técnicas", totals.totalTechnicalFailures, R.color.night)
     }
 
     private fun setupQuantityItem(itemBinding: ItemShiftQuantityBinding, name: String, quantity: Int, colorRes: Int) {
