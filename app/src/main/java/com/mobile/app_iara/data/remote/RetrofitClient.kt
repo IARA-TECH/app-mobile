@@ -61,9 +61,9 @@ object RetrofitClient {
 
     private val mongoOkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(60, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)
+        .writeTimeout(60, TimeUnit.SECONDS)
         .build()
 
     private val chabotOkHttpClient = OkHttpClient.Builder()
@@ -100,7 +100,7 @@ object RetrofitClient {
 
     private val newsRetrofit = Retrofit.Builder()
         .baseUrl(NEWS_BASE_URL)
-        .client(chabotOkHttpClient)
+        .client(newsOkHttp)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

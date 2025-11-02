@@ -4,27 +4,33 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/infoCategoria"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:text="Categoria"
+        android:textAlignment="textStart"
+        android:textColor="@color/defaultText"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/infoTitulo"
-        android:layout_width="34dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:layout_weight="2"
         android:text="TituloInformacao"
         android:textAlignment="textStart"
         android:textColor="@color/defaultText"
         android:textSize="14sp" />
 
-    <View
-        android:id="@+id/circulo"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/shape_abacus_circle" />
-
     <TextView
         android:id="@+id/infoNumero"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_weight="1"
@@ -32,4 +38,5 @@
         android:textAlignment="center"
         android:textColor="@color/defaultText"
         android:textSize="14sp" />
+
 </LinearLayout>

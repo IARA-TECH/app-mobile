@@ -85,18 +85,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/rfdewibold"
-                    android:text="TítuloCondena"
+                    android:text="Condenas"
                     android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/pag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/rfdewisemibold"
-                    android:text="n de x"
-                    android:textAlignment="textEnd"
-                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -112,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/rfdewisemibold"
-                    android:text="Linha"
+                    android:text="Categoria"
                     android:textAlignment="center"
                     android:textColor="@color/primaryBlue"
                     android:textSize="16sp" />
@@ -123,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/rfdewisemibold"
-                    android:text="Coluna"
+                    android:text="Linha"
                     android:textAlignment="center"
                     android:textColor="@color/primaryBlue"
                     android:textSize="16sp" />

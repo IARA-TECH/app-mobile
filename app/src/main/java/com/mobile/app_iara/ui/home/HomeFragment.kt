@@ -16,6 +16,7 @@ import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.mobile.app_iara.ui.camera.CameraActivity
 
 class HomeFragment : Fragment() {
 
@@ -79,6 +80,22 @@ class HomeFragment : Fragment() {
 
         binding.cardHistory.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_history)
+        }
+
+        binding.btnScan.setOnClickListener {
+            val prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            val idDaFabricaAtual = prefs.getInt("key_factory_id", -1)
+
+            if (idDaFabricaAtual == -1) {
+                Toast.makeText(requireContext(), "ID da fábrica não encontrado", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val action = HomeFragmentDirections.actionHomeFragmentToSelectAbacus(
+                factoryId = idDaFabricaAtual
+            )
+
+            findNavController().navigate(action)
         }
 
         binding.cardAbacus.setOnClickListener {
