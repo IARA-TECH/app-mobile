@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.ActivityAdminBinding
-import com.mobile.app_iara.databinding.ActivitySpreadSheetsWebBinding
 
 class AdminActivity : AppCompatActivity() {
     private lateinit var webView: WebView

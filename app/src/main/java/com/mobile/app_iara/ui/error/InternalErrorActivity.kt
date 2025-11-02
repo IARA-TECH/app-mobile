@@ -1,9 +1,9 @@
 package com.mobile.app_iara.ui.error
 
-import android.app.Activity // Importe isso
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Button
-import androidx.activity.OnBackPressedCallback // Importe isso
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat

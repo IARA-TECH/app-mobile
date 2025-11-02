@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.CollaboratorData
 
-class CollaboratorAdapter(private val onArrowClicked: (CollaboratorModal) -> Unit) : ListAdapter<CollaboratorModal, CollaboratorAdapter.CollaboratorViewHolder>(DiffCallback) {
+class CollaboratorAdapter(private val onArrowClicked: (CollaboratorData) -> Unit) : ListAdapter<CollaboratorData, CollaboratorAdapter.CollaboratorViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollaboratorViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -26,7 +27,7 @@ class CollaboratorAdapter(private val onArrowClicked: (CollaboratorModal) -> Uni
 
     class CollaboratorViewHolder(
         itemView: View,
-        private val onArrowClicked: (CollaboratorModal) -> Unit
+        private val onArrowClicked: (CollaboratorData) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
         private val profileImageView: ImageView = itemView.findViewById(R.id.profile_image)
         private val nameTextView: TextView = itemView.findViewById(R.id.name_textview)
@@ -34,7 +35,7 @@ class CollaboratorAdapter(private val onArrowClicked: (CollaboratorModal) -> Uni
         private val roleTextView: TextView = itemView.findViewById(R.id.role_textview)
         private val arrowButton: ImageView = itemView.findViewById(R.id.arrow_button)
 
-        fun bind(collaborator: CollaboratorModal) {
+        fun bind(collaborator: CollaboratorData) {
             nameTextView.text = collaborator.name
             emailTextView.text = collaborator.email
             roleTextView.text = collaborator.roleName
@@ -53,12 +54,12 @@ class CollaboratorAdapter(private val onArrowClicked: (CollaboratorModal) -> Uni
     }
 
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<CollaboratorModal>() {
-            override fun areItemsTheSame(oldItem: CollaboratorModal, newItem: CollaboratorModal): Boolean {
+        private val DiffCallback = object : DiffUtil.ItemCallback<CollaboratorData>() {
+            override fun areItemsTheSame(oldItem: CollaboratorData, newItem: CollaboratorData): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: CollaboratorModal, newItem: CollaboratorModal): Boolean {
+            override fun areContentsTheSame(oldItem: CollaboratorData, newItem: CollaboratorData): Boolean {
                 return oldItem == newItem
             }
         }

@@ -1,6 +1,5 @@
 package com.mobile.app_iara.ui.spreadsheets
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
+import com.mobile.app_iara.data.model.SpreadSheets
 
 class SpreadSheetsAdapter :
     ListAdapter<SpreadSheets, SpreadSheetsAdapter.SpreadSheetsViewHolder>(DiffCallback) {
