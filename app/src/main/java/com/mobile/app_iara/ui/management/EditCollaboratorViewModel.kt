@@ -28,6 +28,9 @@ class EditCollaboratorViewModel : ViewModel() {
     private val _genders = MutableStateFlow<List<GenderResponse>>(emptyList())
     val genders: StateFlow<List<GenderResponse>> = _genders
 
+    private val _deactivationState = MutableStateFlow<DeactivationState>(DeactivationState.Idle)
+    val deactivationState: StateFlow<DeactivationState> = _deactivationState
+
     private val _roles = MutableStateFlow<List<AccessTypeResponse>>(emptyList())
     val roles: StateFlow<List<AccessTypeResponse>> = _roles
 
@@ -53,6 +56,23 @@ class EditCollaboratorViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 _updateState.value = UpdateState.Error("Erro ao carregar cargos: ${e.message}")
+            }
+        }
+    }
+
+    fun deactivateCollaborator(userId: String) {
+        viewModelScope.launch {
+            _deactivationState.value = DeactivationState.Loading
+            try {
+                val response = userRepository.deactivateUser(userId)
+
+                if (response.isSuccessful) {
+                    _deactivationState.value = DeactivationState.Success
+                } else {
+                    _deactivationState.value = DeactivationState.Error("Falha ao desativar: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                _deactivationState.value = DeactivationState.Error("Erro ao desativar: ${e.message}")
             }
         }
     }
@@ -104,6 +124,7 @@ class EditCollaboratorViewModel : ViewModel() {
     }
 
     fun resetUpdateState() { _updateState.value = UpdateState.Idle }
+    fun resetDeactivationState() { _deactivationState.value = DeactivationState.Idle }
 }
 
 sealed class UpdateState {
@@ -111,4 +132,11 @@ sealed class UpdateState {
     object Loading : UpdateState()
     object Success : UpdateState()
     data class Error(val message: String) : UpdateState()
+}
+
+sealed class DeactivationState {
+    object Idle : DeactivationState()
+    object Loading : DeactivationState()
+    object Success : DeactivationState()
+    data class Error(val message: String) : DeactivationState()
 }
