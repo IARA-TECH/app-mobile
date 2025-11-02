@@ -25,7 +25,7 @@ import com.mobile.app_iara.databinding.FragmentTechnicalFailuresBinding
 import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
 import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.ui.status.LoadingApiFragment // NOVO: Import
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 import com.mobile.app_iara.util.NetworkUtils
 
 class TechnicalFailuresFragment : Fragment() {
@@ -50,7 +50,6 @@ class TechnicalFailuresFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // NOVO: Adiciona o fragment de loading
         if (savedInstanceState == null) {
             childFragmentManager.beginTransaction()
                 .add(R.id.loading_container, LoadingApiFragment.newInstance())
@@ -114,7 +113,6 @@ class TechnicalFailuresFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // NOVO: Observador para o isLoading
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 binding.loadingContainer.visibility = View.VISIBLE
@@ -123,9 +121,8 @@ class TechnicalFailuresFragment : Fragment() {
             }
         }
 
-        // NOVO: Observador para o erro
         viewModel.error.observe(viewLifecycleOwner) { error ->
-            binding.loadingContainer.visibility = View.GONE // NOVO: Esconde em caso de erro
+            binding.loadingContainer.visibility = View.GONE
             if (error != null) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
             }
