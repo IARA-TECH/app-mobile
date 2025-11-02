@@ -1,10 +1,8 @@
 package com.mobile.app_iara.ui.abacus.confirmation
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
+
 
 class AbacusConfirmationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,12 +56,14 @@ class AbacusConfirmationActivity : AppCompatActivity() {
         val adapter = AbacusConfirmationAdapter(dataList)
         recyclerView.adapter = adapter
     }
+
     private fun parseCsvData(csvData: String): List<Line> {
         val parsedLines = mutableListOf<Line>()
         try {
             val lines = csvData.split("\n")
                 .filter { it.isNotBlank() }
                 .drop(1)
+
             for (line in lines) {
                 val parts = line.split(",")
 
