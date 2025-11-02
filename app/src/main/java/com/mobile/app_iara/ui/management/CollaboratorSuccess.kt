@@ -25,7 +25,7 @@ class CollaboratorSuccess(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnVoltar = view.findViewById<Button>(R.id.btn_voltar)
+        val btnVoltar = view.findViewById<Button>(R.id.btn_try_again)
         val lottieView = view.findViewById<LottieAnimationView>(R.id.lottie_success)
         lottieView.setMaxProgress(0.71f)
 

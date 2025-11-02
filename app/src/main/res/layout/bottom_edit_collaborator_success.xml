@@ -14,19 +14,18 @@
         android:padding="24dp">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_error"
+            android:id="@+id/lottie_success"
             android:layout_width="150dp"
             android:layout_height="150dp"
             app:lottie_autoPlay="true"
             app:lottie_loop="false"
-            app:lottie_rawRes="@raw/error" />
+            app:lottie_rawRes="@raw/success" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Erro ao registrar colaborador"
-            android:textColor="@android:color/black"
+            android:text="Colaborador Atualizado" android:textColor="@android:color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -35,8 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Não foi possível registrar colaborador"
-            android:textColor="@android:color/darker_gray"
+            android:text="Os dados foram salvos com sucesso." android:textColor="@android:color/darker_gray"
             android:textSize="16sp" />
 
         <Button
@@ -46,7 +44,7 @@
             android:layout_marginTop="24dp"
             android:backgroundTint="@color/primaryBlue"
             android:fontFamily="@font/rfdewibold"
-            android:text="Tentar novamente"
+            android:text="Voltar"
             android:textAllCaps="false"
             android:textColor="@color/backgroundWhite"
             android:textSize="16sp"

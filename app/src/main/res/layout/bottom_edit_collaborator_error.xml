@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Erro ao registrar colaborador"
+            android:text="Erro ao atualizar colaborador"
             android:textColor="@android:color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Não foi possível registrar colaborador"
+            android:text="Não foi possível atualizar colaborador"
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp" />
 

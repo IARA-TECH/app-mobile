@@ -124,13 +124,12 @@ class EditCollaboratorFragment : Fragment() {
                         binding.btnConfirmar.isEnabled = false
                     }
                     is UpdateState.Success -> {
-                        Toast.makeText(requireContext(), "Atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+                        showSuccessDialog()
                         viewModel.resetUpdateState()
-                        findNavController().popBackStack()
                     }
                     is UpdateState.Error -> {
-                        Toast.makeText(requireContext(), "Erro: ${state.message}", Toast.LENGTH_LONG).show()
                         binding.btnConfirmar.isEnabled = true
+                        showErrorDialog()
                         viewModel.resetUpdateState()
                     }
                     is UpdateState.Idle -> {
@@ -139,6 +138,20 @@ class EditCollaboratorFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showSuccessDialog() {
+        val successSheet = EditCollaboratorSuccess {
+            findNavController().popBackStack()
+        }
+        successSheet.isCancelable = false
+        successSheet.show(childFragmentManager, "EditSuccessSheet")
+    }
+
+    private fun showErrorDialog() {
+        val errorSheet = EditCollaboratorError()
+        errorSheet.isCancelable = true
+        errorSheet.show(childFragmentManager, "EditErrorSheet")
     }
 
     private fun validateAndUpdate() {

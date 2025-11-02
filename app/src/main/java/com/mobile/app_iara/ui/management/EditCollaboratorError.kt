@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.abacus.register
+package com.mobile.app_iara.ui.management
 
 import android.graphics.Color
 import android.os.Bundle
@@ -11,30 +11,26 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.app_iara.R
 
-class RegisterAbacusSuccessSheet(
-    private val onVoltarClick: () -> Unit
-) : BottomSheetDialogFragment() {
+class EditCollaboratorError : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottom_abacus_register_success, container, false)
+        return inflater.inflate(R.layout.bottom_edit_collaborator_error, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnVoltar = view.findViewById<Button>(R.id.btn_try_again)
-        val lottieView = view.findViewById<LottieAnimationView>(R.id.lottie_success)
+        val btnTryAgain = view.findViewById<Button>(R.id.btn_try_again)
+        val lottieView = view.findViewById<LottieAnimationView>(R.id.lottie_error)
         lottieView.setMaxProgress(0.71f)
 
-        btnVoltar.setOnClickListener {
-            onVoltarClick()
+        btnTryAgain.setOnClickListener {
             dismiss()
         }
 
-        // Deixa o fundo transparente (copiado do seu outro sheet)
         dialog?.setOnShowListener {
             val d = it as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)

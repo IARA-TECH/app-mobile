@@ -40,7 +40,7 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/btn_voltar"
+            android:id="@+id/btn_try_again"
             android:layout_width="match_parent"
             android:layout_height="53dp"
             android:layout_marginTop="24dp"
