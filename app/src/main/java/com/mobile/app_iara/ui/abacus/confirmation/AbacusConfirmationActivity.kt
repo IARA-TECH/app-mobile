@@ -144,10 +144,8 @@ class AbacusConfirmationActivity : AppCompatActivity() {
                     }
                     is ConfirmationState.Success -> {
                         btnConfirmar.isEnabled = true
-                        Toast.makeText(this@AbacusConfirmationActivity, "Upload com sucesso!", Toast.LENGTH_LONG).show()
                         Log.d("Confirmation", "Foto: ${state.data.photoUrl}, Planilha: ${state.data.sheetUrl}")
-                        // TODO: Navegar para a tela de sucesso ou voltar para a Home
-                        finish() // Por enquanto, só fecha a tela
+                        finish()
                     }
                     is ConfirmationState.Error -> {
                         btnConfirmar.isEnabled = true

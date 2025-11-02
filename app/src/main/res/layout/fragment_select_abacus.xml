@@ -36,7 +36,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/rfdewiregular"
-        android:text="Visualize todos os ábacos cadastrados"
+        android:text="Selecione um ábaco para tirar foto"
         android:textColor="@color/lightText"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/rvAbacusList"
