@@ -20,6 +20,7 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.data.remote.UserCredentialsHolder
 import com.mobile.app_iara.databinding.FragmentProfileBinding
 import com.mobile.app_iara.ui.admin.AdminActivity
+import com.mobile.app_iara.ui.error.InternalErrorActivity
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.util.NetworkUtils
@@ -76,8 +77,15 @@ class ProfileFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            val intent = Intent(requireContext(), InternalErrorActivity::class.java)
+            errorActivityLauncher.launch(intent)
         }
+    }
+
+    private val errorActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        findNavController().navigateUp()
     }
 
     private fun setupButtonClickListeners() {

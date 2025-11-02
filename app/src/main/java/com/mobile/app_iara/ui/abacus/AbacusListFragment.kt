@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.abacus
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,6 +18,7 @@ import com.mobile.app_iara.R
 import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.databinding.DialogDeleteConfirmationBinding
 import com.mobile.app_iara.databinding.FragmentAbacusListBinding
+import com.mobile.app_iara.ui.error.InternalErrorActivity
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.AbacusMapper
 import com.mobile.app_iara.util.NetworkUtils
@@ -113,19 +116,16 @@ class AbacusListFragment : Fragment() {
     private fun performAbacusDeletion(abacus: Abacus) {
         lifecycleScope.launch {
             Toast.makeText(requireContext(), "Deletando ${abacus.title}...", Toast.LENGTH_SHORT).show()
-            binding.loadingContainer.visibility = View.VISIBLE // NOVO: Mostrar loading
+            binding.loadingContainer.visibility = View.VISIBLE
 
             val result = repository.deleteAbacus(abacus.id)
 
             result.onSuccess {
-                Toast.makeText(requireContext(), "${abacus.title} deletado com sucesso!", Toast.LENGTH_SHORT).show()
-                // O loadAbacusData() vai ser chamado e vai esconder o loading
                 loadAbacusData(args.factoryId)
             }
 
-            result.onFailure { error ->
+            result.onFailure {
                 binding.loadingContainer.visibility = View.GONE
-                Toast.makeText(requireContext(), "Erro ao deletar ${abacus.title}: ${error.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -154,14 +154,18 @@ class AbacusListFragment : Fragment() {
                 }
             }
 
-            result.onFailure { error ->
-                Toast.makeText(requireContext(), "Erro ao carregar ábacos: ${error.message}", Toast.LENGTH_LONG).show()
-                binding.textView36.text = "Falha ao carregar ábacos."
-                binding.textView36.visibility = View.VISIBLE
+            result.onFailure {
+                val intent = Intent(requireContext(), InternalErrorActivity::class.java)
+                errorActivityLauncher.launch(intent)
             }
         }
     }
 
+    private val errorActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        findNavController().navigateUp()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
