@@ -28,6 +28,7 @@ import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
 import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 
 class DashboardComparisonFragment : Fragment() {
 
@@ -48,6 +49,12 @@ class DashboardComparisonFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
+
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
@@ -56,9 +63,7 @@ class DashboardComparisonFragment : Fragment() {
         }
 
         sharedPrefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-
         setupClickListeners()
-
         observeViewModel()
 
         val factoryId = sharedPrefs.getInt("key_factory_id", -1)
@@ -81,9 +86,15 @@ class DashboardComparisonFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.loadingContainer.visibility = View.VISIBLE
+            } else {
+                binding.loadingContainer.visibility = View.GONE
+            }
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
+            binding.loadingContainer.visibility = View.GONE
             if (error != null) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
             }

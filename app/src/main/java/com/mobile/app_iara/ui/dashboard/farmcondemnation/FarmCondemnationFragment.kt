@@ -24,6 +24,7 @@ import com.mobile.app_iara.databinding.FragmentFarmCondemnationBinding
 import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
 import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.status.LoadingApiFragment // NOVO: Import
 import com.mobile.app_iara.util.NetworkUtils
 
 class FarmCondemnationFragment : Fragment() {
@@ -44,6 +45,13 @@ class FarmCondemnationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // NOVO: Adiciona o fragment de loading
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
 
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
@@ -102,7 +110,16 @@ class FarmCondemnationFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.loadingContainer.visibility = View.VISIBLE
+            } else {
+                binding.loadingContainer.visibility = View.GONE
+            }
+        }
+
         viewModel.error.observe(viewLifecycleOwner) { error ->
+            binding.loadingContainer.visibility = View.GONE // NOVO: Esconde em caso de erro
             if (error != null) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
             }
