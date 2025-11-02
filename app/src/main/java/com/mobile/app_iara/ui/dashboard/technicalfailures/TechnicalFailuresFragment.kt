@@ -179,7 +179,11 @@ class TechnicalFailuresFragment : Fragment() {
 
     private fun setupRankingList(rankingData: List<TechnicalRankingData>) {
         val rankingItems = rankingData.mapIndexed { index, data ->
-            RankingItem(index + 1, data.name, data.total)
+            RankingItem(
+                position = index + 1,
+                description = data.name,
+                count = data.total
+            )
         }
 
         binding.rvRanking.layoutManager = LinearLayoutManager(requireContext())
