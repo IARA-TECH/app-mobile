@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.app_iara.R
 
-class RegisterAbacusErrorSheet : BottomSheetDialogFragment() {
+class RegisterAbacusError : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

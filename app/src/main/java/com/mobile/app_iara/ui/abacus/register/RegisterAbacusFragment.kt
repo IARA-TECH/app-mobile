@@ -3,7 +3,6 @@ package com.mobile.app_iara.ui.abacus.register
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
-import com.mobile.app_iara.data.model.ColumnData
 import com.mobile.app_iara.data.model.request.AbacusCreateRequest
 import com.mobile.app_iara.data.model.request.ColumnCreateRequest
 import com.mobile.app_iara.data.model.request.LineCreateRequest
@@ -23,7 +21,6 @@ import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.databinding.DialogAddColumnBinding
 import com.mobile.app_iara.databinding.FragmentRegisterAbacusBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.util.DataUtil
 import com.mobile.app_iara.util.NetworkUtils
 
@@ -230,7 +227,7 @@ class RegisterAbacusFragment : Fragment() {
     }
 
     private fun showSuccessDialog() {
-        val successSheet = RegisterAbacusSuccessSheet {
+        val successSheet = RegisterAbacusSuccess {
             findNavController().popBackStack()
         }
         successSheet.isCancelable = false
@@ -238,7 +235,7 @@ class RegisterAbacusFragment : Fragment() {
     }
 
     private fun showErrorDialog() {
-        val errorSheet = RegisterAbacusErrorSheet()
+        val errorSheet = RegisterAbacusError()
         errorSheet.show(childFragmentManager, "RegisterErrorSheet")
     }
 

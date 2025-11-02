@@ -11,7 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.app_iara.R
 
-class RegisterAbacusSuccessSheet(
+class RegisterAbacusSuccess(
     private val onVoltarClick: () -> Unit
 ) : BottomSheetDialogFragment() {
 
@@ -34,7 +34,6 @@ class RegisterAbacusSuccessSheet(
             dismiss()
         }
 
-        // Deixa o fundo transparente (copiado do seu outro sheet)
         dialog?.setOnShowListener {
             val d = it as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
