@@ -5,9 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -36,6 +34,7 @@ class AbacusConfirmationActivity : AppCompatActivity() {
     private var csvData: String? = null
     private var abacusId: String? = null
     private var factoryId: Int = -1
+    private var dataList: MutableList<Line> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,14 +67,11 @@ class AbacusConfirmationActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val dataList: List<Line>
-
         if (csvData != null && csvData!!.isNotBlank()) {
             Log.d("Confirmation", "Processando CSV: $csvData")
             dataList = parseCsvData(csvData!!)
         } else {
             Log.w("Confirmation", "Dados CSV nulos ou vazios, usando lista de erro.")
-            dataList = getErrorList()
         }
 
         Log.d("Confirmation", "Itens processados para o adapter: ${dataList.size}")
@@ -107,6 +103,12 @@ class AbacusConfirmationActivity : AppCompatActivity() {
             return
         }
 
+        val finalCsv = regenerateCsvForUpload(dataList)
+        if (finalCsv.isBlank()) {
+            Toast.makeText(this, "Erro: Não há dados para enviar.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         viewModel.confirmUpload(
             context = applicationContext,
             factoryId = factoryId,
@@ -114,8 +116,20 @@ class AbacusConfirmationActivity : AppCompatActivity() {
             takenBy = takenBy,
             abacusId = abacusId!!,
             imageUriString = imageUriString!!,
-            csvData = csvData!!
+            csvData = finalCsv!!
         )
+    }
+
+    private fun regenerateCsvForUpload(list: List<Line>): String {
+        val builder = StringBuilder()
+
+        builder.append("Tipo da condena,Categoria,Quantidade de miçangas MOVIDAS\n")
+
+        list.forEach { line ->
+            builder.append("${line.category},${line.title},${line.value}\n")
+        }
+
+        return builder.toString().trim()
     }
 
     private fun observeViewModelState() {
@@ -144,7 +158,7 @@ class AbacusConfirmationActivity : AppCompatActivity() {
         }
     }
 
-    private fun parseCsvData(csvData: String): List<Line> {
+    private fun parseCsvData(csvData: String): MutableList<Line> {
         val parsedLines = mutableListOf<Line>()
         try {
             val lines = csvData.split("\n")
@@ -173,16 +187,9 @@ class AbacusConfirmationActivity : AppCompatActivity() {
 
         if (parsedLines.isEmpty()) {
             Log.w("parseCsvData", "Nenhuma linha de dados encontrada.")
-            return getErrorList("Nenhuma linha de dados encontrada")
         }
 
         return parsedLines
     }
 
-    private fun getErrorList(message: String = "Erro ao processar CSV"): List<Line> {
-        return listOf(
-            Line("Erro", message, 0),
-            Line("Erro", "Verifique a API ou a foto", 0)
-        )
-    }
 }

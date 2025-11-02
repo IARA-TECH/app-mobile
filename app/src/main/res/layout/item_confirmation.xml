@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="16dp">
@@ -11,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
-        android:text="Categoria"
+        tools:text="Categoria"
         android:textAlignment="textStart"
         android:textColor="@color/defaultText"
         android:textSize="14sp"
@@ -23,20 +24,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_weight="2"
-        android:text="TituloInformacao"
+        tools:text="TituloInformacao"
         android:textAlignment="textStart"
         android:textColor="@color/defaultText"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/infoNumero"
+    <EditText
+        android:id="@+id/infoNumeroEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_weight="1"
-        android:text="12"
+        tools:text="12"
         android:textAlignment="center"
         android:textColor="@color/defaultText"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:inputType="number"
+        android:imeOptions="actionDone" />
 
 </LinearLayout>

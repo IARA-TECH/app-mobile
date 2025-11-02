@@ -432,8 +432,6 @@ class CameraActivity: AppCompatActivity() {
                     showLoadingFragment()
 
                     lifecycleScope.launch {
-                        Toast.makeText(this@CameraActivity, "Analisando ábaco...", Toast.LENGTH_SHORT).show()
-
                         val result = abacusPhotoRepository.analyzeAbacusAndGetCsv(
                             imageFile = photoFile,
                             colors = abacusColors,
