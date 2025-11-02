@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mobile.app_iara.R
 import com.mobile.app_iara.data.remote.UserCredentialsHolder
 import com.mobile.app_iara.databinding.FragmentProfileBinding
+import com.mobile.app_iara.ui.admin.AdminActivity
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.util.NetworkUtils
@@ -100,6 +101,12 @@ class ProfileFragment : Fragment() {
         }
         binding.btnChatbot.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_chatFragment)
+        }
+        binding.imageButtonAdmin.setOnClickListener{
+            Intent (requireContext(), AdminActivity::class.java).apply {
+                putExtra(AdminActivity.EXTRA_URL, "https://iara-area-restrita.vercel.app/")
+                startActivity(this)
+            }
         }
     }
 

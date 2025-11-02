@@ -26,7 +26,7 @@ import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
 import kotlinx.coroutines.launch
 import com.mobile.app_iara.R
-import com.mobile.app_iara.ui.status.LoadingApiFragment // NOVO: Import
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 
 class EditCollaboratorFragment : Fragment() {
 
@@ -136,14 +136,13 @@ class EditCollaboratorFragment : Fragment() {
                     }
                     is UpdateState.Success -> {
                         binding.loadingContainer.visibility = View.GONE
-                        Toast.makeText(requireContext(), "Atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+                        showSuccessDialog()
                         viewModel.resetUpdateState()
-                        findNavController().popBackStack()
                     }
                     is UpdateState.Error -> {
                         binding.loadingContainer.visibility = View.GONE
-                        Toast.makeText(requireContext(), "Erro: ${state.message}", Toast.LENGTH_LONG).show()
                         binding.btnConfirmar.isEnabled = true
+                        showErrorDialog()
                         viewModel.resetUpdateState()
                     }
                     is UpdateState.Idle -> {
@@ -152,6 +151,20 @@ class EditCollaboratorFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showSuccessDialog() {
+        val successSheet = EditCollaboratorSuccess {
+            findNavController().popBackStack()
+        }
+        successSheet.isCancelable = false
+        successSheet.show(childFragmentManager, "EditSuccessSheet")
+    }
+
+    private fun showErrorDialog() {
+        val errorSheet = EditCollaboratorError()
+        errorSheet.isCancelable = true
+        errorSheet.show(childFragmentManager, "EditErrorSheet")
     }
 
     private fun validateAndUpdate() {
