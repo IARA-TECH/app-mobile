@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
@@ -21,8 +23,9 @@ class SpreadSheetsFragment : Fragment() {
     private var _binding: FragmentSpreadSheetsBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: SpreadsheetViewModel by viewModels()
     private lateinit var spreadSheetsAdapter: SpreadSheetsAdapter
-    private val listaOriginalPlanilhas = createSpreadSheetsDummyData()
+    private var listaOriginalPlanilhas: List<SpreadSheets> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,23 +46,36 @@ class SpreadSheetsFragment : Fragment() {
             return
         }
 
-        binding.inputSearchSpreadsheet.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        setupRecyclerView()
+        setupClickListeners()
+        setupSearchFilter()
 
-            override fun afterTextChanged(s: Editable?) {
-                val query = s.toString().removeAccents().lowercase()
+        observeViewModel()
 
-                val filteredList = listaOriginalPlanilhas.filter { spreadsheet ->
-                    spreadsheet.title.removeAccents().lowercase().contains(query)
+        viewModel.fetchSpreadsheets()
+    }
+
+    private fun observeViewModel() {
+        viewModel.uiState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is SpreadsheetUiState.Loading -> {
+                    binding.spreadSheetsRecyclerView.visibility = View.GONE
                 }
+                is SpreadsheetUiState.Success -> {
 
-                spreadSheetsAdapter.submitList(filteredList)
+                    if (state.spreadsheets.isEmpty()) {
+                        binding.spreadSheetsRecyclerView.visibility = View.GONE
+                    } else {
+                        binding.spreadSheetsRecyclerView.visibility = View.VISIBLE
+                        listaOriginalPlanilhas = state.spreadsheets
+                        spreadSheetsAdapter.submitList(listaOriginalPlanilhas)
+                    }
+                }
+                is SpreadsheetUiState.Error -> {
+                    binding.spreadSheetsRecyclerView.visibility = View.GONE
+                }
             }
         })
-
-        setupClickListeners()
-        spreadSheetsAdapter.submitList(listaOriginalPlanilhas)
     }
 
     fun String.removeAccents(): String {
@@ -88,34 +104,20 @@ class SpreadSheetsFragment : Fragment() {
         }
     }
 
-    private fun createSpreadSheetsDummyData(): List<SpreadSheets> {
-        return listOf(
-            SpreadSheets(
-                title = "Ábaco post-mortem - Lote A1",
-                date = "02/10/2025",
-                urlSpreadSheet = "url example"
-            ),
-            SpreadSheets(
-                title = "Relatório de Perda - Silo 3",
-                date = "29/09/2025",
-                urlSpreadSheet = "url example"
-            ),
-            SpreadSheets(
-                title = "Análise de Mortalidade - Aviário 5",
-                date = "25/09/2025",
-                urlSpreadSheet = "url example"
-            ),
-            SpreadSheets(
-                title = "Inspeção de Qualidade - Lote B7",
-                date = "18/09/2025",
-                urlSpreadSheet = "url example"
-            ),
-            SpreadSheets(
-                title = "Relatório de Desempenho - Setor Norte",
-                date = "15/09/2025",
-                urlSpreadSheet = "url example"
-            )
-        )
+    private fun setupSearchFilter() {
+        binding.inputSearchSpreadsheet.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString().removeAccents().lowercase()
+
+                val filteredList = listaOriginalPlanilhas.filter { spreadsheet ->
+                    spreadsheet.title.removeAccents().lowercase().contains(query)
+                }
+                spreadSheetsAdapter.submitList(filteredList)
+            }
+        })
     }
 
     override fun onDestroyView() {

@@ -149,6 +149,8 @@ class LoginActivity : AppCompatActivity() {
 
                                 if (userResponse.isSuccessful && userResponse.body() != null) {
                                     val factoryId = userResponse.body()!!.factoryId
+                                    val userName = userResponse.body()!!.name
+                                    val userRoles = userResponse.body()!!.userAccessTypeNames
                                     val userId = userResponse.body()!!.id
 
                                     if (checkLogado.isChecked) {
@@ -157,6 +159,8 @@ class LoginActivity : AppCompatActivity() {
                                         editor.putString("email", email)
                                         editor.putString("password", senha)
                                         editor.putInt("key_factory_id", factoryId)
+                                        editor.putString("key_user_name", userName)
+                                        editor.putStringSet("key_user_roles", userRoles.toSet())
                                         editor.putString("user_id", userId)
                                         editor.apply()
                                     }
@@ -215,6 +219,8 @@ class LoginActivity : AppCompatActivity() {
                                 val userResponse = userRepository.getUserProfileByEmail(EmailRequest(userEmail))
                                 if (userResponse.isSuccessful && userResponse.body() != null) {
                                     val factoryId = userResponse.body()!!.factoryId
+                                    val userName = userResponse.body()!!.name
+                                    val userRoles = userResponse.body()!!.userAccessTypeNames
 
                                     val editor = sharedPrefs.edit()
                                     editor.putBoolean("is_logged_in", true)
@@ -222,6 +228,8 @@ class LoginActivity : AppCompatActivity() {
                                         .remove("password")
                                         .putInt("key_factory_id", factoryId)
                                         .putString("user_id", userResponse.body()!!.id)
+                                        .putString("key_user_name", userName)
+                                        .putStringSet("key_user_roles", userRoles.toSet())
                                         .apply()
 
                                     UserCredentialsHolder.clear()

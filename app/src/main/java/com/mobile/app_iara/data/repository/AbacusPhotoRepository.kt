@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.mobile.app_iara.data.model.AbacusPhotoData
+import com.mobile.app_iara.data.model.request.ValidationRequest
 import com.mobile.app_iara.data.model.response.AbacusConfirmData
 import com.mobile.app_iara.data.remote.RetrofitClient
 import com.mobile.app_iara.data.remote.service.AbacusPhotoService
@@ -15,6 +16,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.ResponseBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.Calendar
@@ -191,6 +193,39 @@ class AbacusPhotoRepository {
 
             } catch (e: Exception) {
                 Log.e("AbacusRepository", "Exceção na confirmação", e)
+                Result.failure(e)
+            }
+        }
+    }
+
+    suspend fun approvePhoto(photoId: String, validatorName: String): Result<AbacusPhotoData> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val request = ValidationRequest(validatedBy = validatorName)
+                val response = abacusPhotoService.validateAbacusPhoto(photoId, request)
+
+                if (response.isSuccessful && response.body() != null) {
+                    Result.success(response.body()!!)
+                } else {
+                    Result.failure(Exception("Erro ao aprovar foto: ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+    }
+
+    suspend fun denyPhoto(photoId: String): Result<ResponseBody> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = abacusPhotoService.denyAbacusPhoto(photoId)
+
+                if (response.isSuccessful && response.body() != null) {
+                    Result.success(response.body()!!)
+                } else {
+                    Result.failure(Exception("Erro ao negar foto: ${response.code()}"))
+                }
+            } catch (e: Exception) {
                 Result.failure(e)
             }
         }

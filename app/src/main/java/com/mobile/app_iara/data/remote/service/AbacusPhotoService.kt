@@ -1,15 +1,21 @@
 package com.mobile.app_iara.data.remote.service
 
+import com.mobile.app_iara.data.model.AbacusPhotoData
+import com.mobile.app_iara.data.model.request.ValidationRequest
 import com.mobile.app_iara.data.model.response.AbacusAnalysisResponse
 import com.mobile.app_iara.data.model.response.AbacusConfirmResponse
 import com.mobile.app_iara.data.model.response.AbacusPhotoResponse
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AbacusPhotoService {
@@ -36,4 +42,15 @@ interface AbacusPhotoService {
         @Part file: MultipartBody.Part,
         @Part csv: MultipartBody.Part
     ): Response<AbacusConfirmResponse>
+
+    @PATCH("/iara/api/abacus-photos/validation/{id}")
+    suspend fun validateAbacusPhoto(
+        @Path("id") photoId: String,
+        @Body validationRequest: ValidationRequest
+    ): Response<AbacusPhotoData>
+
+    @DELETE("/iara/api/abacus-photos/{id}")
+    suspend fun denyAbacusPhoto(
+        @Path("id") photoId: String
+    ): Response<ResponseBody>
 }

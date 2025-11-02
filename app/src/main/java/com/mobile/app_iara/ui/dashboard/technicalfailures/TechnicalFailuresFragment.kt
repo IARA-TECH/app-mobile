@@ -1,12 +1,16 @@
 package com.mobile.app_iara.ui.dashboard.technicalfailures
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.components.XAxis
@@ -15,6 +19,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.response.EvolutionData
+import com.mobile.app_iara.data.model.response.TechnicalRankingData
 import com.mobile.app_iara.databinding.FragmentTechnicalFailuresBinding
 import com.mobile.app_iara.ui.dashboard.ranking.RankingAdapter
 import com.mobile.app_iara.ui.dashboard.ranking.RankingItem
@@ -25,6 +31,12 @@ class TechnicalFailuresFragment : Fragment() {
 
     private var _binding: FragmentTechnicalFailuresBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: TechnicalFailuresViewModel by viewModels {
+        TechnicalFailuresViewModelFactory()
+    }
+
+    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,9 +56,46 @@ class TechnicalFailuresFragment : Fragment() {
             return
         }
 
-        setupLineChart()
-        setupRankingList()
+        sharedPrefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        setupClickListeners()
+        observeViewModel()
 
+        val factoryId = sharedPrefs.getInt("key_factory_id", -1)
+        if (factoryId != -1) {
+            viewModel.fetchTechnicalFailures(factoryId)
+        } else {
+            Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupCards(total: Int, rate: Double, comparison: Double) {
+        binding.totalCondemnations.text = total.toString()
+
+        binding.occurrenceRate.text = "${String.format("%.1f", rate).replace('.', ',')}%"
+
+        val comparisonText: String
+        val comparisonColor: Int
+
+        when {
+            comparison > 0 -> {
+                comparisonText = "+${String.format("%.0f", comparison)}%"
+                comparisonColor = ContextCompat.getColor(requireContext(), R.color.alertRed)
+            }
+            comparison < 0 -> {
+                comparisonText = "${String.format("%.0f", comparison)}%"
+                comparisonColor = ContextCompat.getColor(requireContext(), R.color.successGreen)
+            }
+            else -> {
+                comparisonText = "0%"
+                comparisonColor = ContextCompat.getColor(requireContext(), R.color.defaultText)
+            }
+        }
+
+        binding.comparison.text = comparisonText
+        binding.comparison.setTextColor(comparisonColor)
+    }
+
+    private fun setupClickListeners() {
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -56,15 +105,32 @@ class TechnicalFailuresFragment : Fragment() {
         }
     }
 
-    private fun setupLineChart() {
+    private fun observeViewModel() {
+        viewModel.failuresData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                setupCards(
+                    data.total,
+                    data.averageRate,
+                    data.previousComparison
+                )
+
+                if (data.monthlyEvolution != null) {
+                    setupLineChart(data.monthlyEvolution)
+                }
+
+                if (data.ranking != null) {
+                    setupRankingList(data.ranking)
+                }
+            }
+        }
+    }
+
+    private fun setupLineChart(evolutionData: EvolutionData) {
         val entries = ArrayList<Entry>()
-        entries.add(Entry(0f, 25f))
-        entries.add(Entry(1f, 28f))
-        entries.add(Entry(2f, 35f))
-        entries.add(Entry(3f, 30f))
-        entries.add(Entry(4f, 28f))
-        entries.add(Entry(5f, 29f))
-        entries.add(Entry(6f, 26f))
+
+        evolutionData.values.forEachIndexed { index, value ->
+            entries.add(Entry(index.toFloat(), value))
+        }
 
         val dataSet = LineDataSet(entries, "Falhas").apply {
             mode = LineDataSet.Mode.CUBIC_BEZIER
@@ -79,7 +145,7 @@ class TechnicalFailuresFragment : Fragment() {
             highLightColor = ContextCompat.getColor(requireContext(), android.R.color.transparent)
         }
 
-        val months = arrayOf("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez")
+        val months = evolutionData.periods.toTypedArray()
 
         binding.lineChart.apply {
             data = LineData(dataSet)
@@ -111,17 +177,18 @@ class TechnicalFailuresFragment : Fragment() {
         }
     }
 
-    private fun setupRankingList() {
-        val rankingItems = listOf(
-            RankingItem(1, "Erro na ventilação", 45),
-            RankingItem(2, "Manejo incorreto da ração", 38),
-            RankingItem(3, "Falha no ajuste de bebedouros", 30),
-            RankingItem(4, "Descumprimento de biosseguridade", 25),
-            RankingItem(5, "Manutenção preventiva incorreta", 12)
-        )
+    private fun setupRankingList(rankingData: List<TechnicalRankingData>) {
+        val rankingItems = rankingData.mapIndexed { index, data ->
+            RankingItem(
+                position = index + 1,
+                description = data.name,
+                count = data.total
+            )
+        }
 
         binding.rvRanking.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRanking.adapter = RankingAdapter(rankingItems)
+        binding.rvRanking.isNestedScrollingEnabled = false
     }
 
     override fun onDestroyView() {
