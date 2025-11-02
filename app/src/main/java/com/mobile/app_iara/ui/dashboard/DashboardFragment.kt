@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.mobile.app_iara.R
 import com.mobile.app_iara.ui.error.WifiErrorActivity
@@ -62,6 +63,7 @@ class DashboardFragment : Fragment() {
             Toast.makeText(requireContext(), "Erro: ID da fábrica não encontrado.", Toast.LENGTH_LONG).show()
         }
 
+        viewModel.loadUserProfileData(requireContext())
     }
 
     private fun setupClickListeners() {
@@ -111,6 +113,19 @@ class DashboardFragment : Fragment() {
 
         viewModel.comparisonTotal.observe(viewLifecycleOwner) { total ->
             binding.textView31.text = "Total de condenas: $total"
+        }
+
+        viewModel.userPhotoUrl.observe(viewLifecycleOwner) { photoUrl ->
+            if (!photoUrl.isNullOrEmpty()) {
+                Glide.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.ic_profile_circle)
+                    .error(R.drawable.ic_profile_circle)
+                    .circleCrop()
+                    .into(binding.included.imgPerfilToolbar)
+            } else {
+                binding.included.imgPerfilToolbar.setImageResource(R.drawable.ic_profile_circle)
+            }
         }
     }
 
