@@ -20,6 +20,7 @@ import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.AbacusMapper
 import com.mobile.app_iara.util.NetworkUtils
 import kotlinx.coroutines.launch
+import com.mobile.app_iara.ui.status.LoadingApiFragment // NOVO: Import
 
 class AbacusListFragment : Fragment() {
 
@@ -42,6 +43,12 @@ class AbacusListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
+
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
@@ -52,10 +59,6 @@ class AbacusListFragment : Fragment() {
 
         val factoryId = args.factoryId
         loadAbacusData(factoryId)
-
-        binding.included.imgBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
 
         binding.included.imgBack.setOnClickListener {
             findNavController().navigateUp()
@@ -110,15 +113,18 @@ class AbacusListFragment : Fragment() {
     private fun performAbacusDeletion(abacus: Abacus) {
         lifecycleScope.launch {
             Toast.makeText(requireContext(), "Deletando ${abacus.title}...", Toast.LENGTH_SHORT).show()
+            binding.loadingContainer.visibility = View.VISIBLE // NOVO: Mostrar loading
 
             val result = repository.deleteAbacus(abacus.id)
 
             result.onSuccess {
                 Toast.makeText(requireContext(), "${abacus.title} deletado com sucesso!", Toast.LENGTH_SHORT).show()
+                // O loadAbacusData() vai ser chamado e vai esconder o loading
                 loadAbacusData(args.factoryId)
             }
 
             result.onFailure { error ->
+                binding.loadingContainer.visibility = View.GONE
                 Toast.makeText(requireContext(), "Erro ao deletar ${abacus.title}: ${error.message}", Toast.LENGTH_LONG).show()
             }
         }
@@ -127,8 +133,12 @@ class AbacusListFragment : Fragment() {
     private fun loadAbacusData(factoryId: Int) {
         binding.rvAbacusList.visibility = View.GONE
         binding.textView36.visibility = View.GONE
+        binding.loadingContainer.visibility = View.VISIBLE
+
         lifecycleScope.launch {
             val result = repository.getAbacusesByFactory(factoryId)
+
+            binding.loadingContainer.visibility = View.GONE
 
             result.onSuccess { abacusDataList ->
                 val abacusUiList = AbacusMapper.mapApiListToUiList(abacusDataList)
@@ -146,6 +156,8 @@ class AbacusListFragment : Fragment() {
 
             result.onFailure { error ->
                 Toast.makeText(requireContext(), "Erro ao carregar ábacos: ${error.message}", Toast.LENGTH_LONG).show()
+                binding.textView36.text = "Falha ao carregar ábacos."
+                binding.textView36.visibility = View.VISIBLE
             }
         }
     }

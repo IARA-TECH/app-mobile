@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentConfigurationBinding
-import com.mobile.app_iara.ui.profile.faq.FaqFragment
 import com.mobile.app_iara.ui.start.ForgotPasswordActivity
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 
 class ConfigurationFragment : Fragment() {
 
@@ -32,18 +32,34 @@ class ConfigurationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
+
         setupObservers()
 
+        binding.loadingContainer.visibility = View.VISIBLE
         viewModel.fetchUserProfile()
 
         binding.tvPassword.setOnClickListener {
-            val intent = Intent(requireContext(), ForgotPasswordActivity                                                                                                                                        ::class.java)
+            val intent = Intent(requireContext(), ForgotPasswordActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.btnConfirm.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.included.imgBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
     private fun setupObservers() {
         viewModel.userProfile.observe(viewLifecycleOwner) { userProfile ->
+            binding.loadingContainer.visibility = View.GONE
             if (userProfile != null) {
                 binding.tvName.text = userProfile.name
                 binding.tvEmail.text = userProfile.email
@@ -53,6 +69,7 @@ class ConfigurationFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            binding.loadingContainer.visibility = View.GONE
             if (errorMessage != null) {
                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
             }
@@ -64,3 +81,4 @@ class ConfigurationFragment : Fragment() {
         _binding = null
     }
 }
+

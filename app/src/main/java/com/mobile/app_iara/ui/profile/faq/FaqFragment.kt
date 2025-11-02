@@ -13,10 +13,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
+import com.mobile.app_iara.databinding.FragmentFaqBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 import com.mobile.app_iara.util.NetworkUtils
 
 class FaqFragment : Fragment() {
+
+    private var _binding: FragmentFaqBinding? = null
+    private val binding get() = _binding!!
 
     private val newsViewModel: NewsViewModel by viewModels()
 
@@ -25,12 +30,19 @@ class FaqFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_faq, container, false)
+    ): View {
+        _binding = FragmentFaqBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
 
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
@@ -39,24 +51,21 @@ class FaqFragment : Fragment() {
             return
         }
 
-        val btnVoltar = view.findViewById<ImageButton>(R.id.btnVoltar4)
-        val recyclerViewDuvidas = view.findViewById<RecyclerView>(R.id.recycler_duvidas)
-        val recyclerViewPopulares = view.findViewById<RecyclerView>(R.id.recycler_populares)
-
-        btnVoltar.setOnClickListener {
+        binding.btnVoltar4.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        recyclerViewPopulares.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerPopulares.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         adapterPopulares = NewsAdapter(emptyList())
-        recyclerViewPopulares.adapter = adapterPopulares
+        binding.recyclerPopulares.adapter = adapterPopulares
 
         observeViewModel()
 
+        binding.loadingContainer.visibility = View.VISIBLE
         newsViewModel.fetchNews(listOf("indústria avícola", "inovação industrial", "automatização de linha de produção"))
 
-        recyclerViewDuvidas.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerDuvidas.layoutManager = LinearLayoutManager(requireContext())
 
         val listaDuvidas = listOf(
             FaqQuestion("Como posso realizar meu primeiro acesso ao aplicativo?", "Para efetuar o primeiro login, clique em \"Acessando pela primeira vez? Clique aqui\" na tela inicial. Em seguida, insira o e-mail cadastrado pelo administrador da sua indústria e defina uma nova senha de acesso."),
@@ -88,16 +97,23 @@ class FaqFragment : Fragment() {
         )
 
         val adapterDuvidas = FaqQuestionAdapter(listaDuvidas)
-        recyclerViewDuvidas.adapter = adapterDuvidas
+        binding.recyclerDuvidas.adapter = adapterDuvidas
     }
 
     private fun observeViewModel() {
         newsViewModel.news.observe(viewLifecycleOwner) { listaDeNoticias ->
+            binding.loadingContainer.visibility = View.GONE
             adapterPopulares.updateData(listaDeNoticias)
         }
 
         newsViewModel.error.observe(viewLifecycleOwner) { errorMsg ->
+            binding.loadingContainer.visibility = View.GONE
             Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

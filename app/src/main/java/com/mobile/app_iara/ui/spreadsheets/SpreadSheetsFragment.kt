@@ -17,6 +17,7 @@ import com.mobile.app_iara.databinding.FragmentSpreadSheetsBinding
 import java.text.Normalizer
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
+import com.mobile.app_iara.ui.status.LoadingApiFragment // NOVO: Import
 
 class SpreadSheetsFragment : Fragment() {
 
@@ -37,8 +38,13 @@ class SpreadSheetsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        
+
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
+
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
             startActivity(intent)
@@ -60,8 +66,10 @@ class SpreadSheetsFragment : Fragment() {
             when (state) {
                 is SpreadsheetUiState.Loading -> {
                     binding.spreadSheetsRecyclerView.visibility = View.GONE
+                    binding.loadingContainer.visibility = View.VISIBLE
                 }
                 is SpreadsheetUiState.Success -> {
+                    binding.loadingContainer.visibility = View.GONE
 
                     if (state.spreadsheets.isEmpty()) {
                         binding.spreadSheetsRecyclerView.visibility = View.GONE
@@ -72,6 +80,7 @@ class SpreadSheetsFragment : Fragment() {
                     }
                 }
                 is SpreadsheetUiState.Error -> {
+                    binding.loadingContainer.visibility = View.GONE
                     binding.spreadSheetsRecyclerView.visibility = View.GONE
                 }
             }

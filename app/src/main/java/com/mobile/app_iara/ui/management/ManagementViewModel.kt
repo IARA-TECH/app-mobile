@@ -36,7 +36,6 @@ class ManagementViewModel(private val application: Application) : AndroidViewMod
     fun loadCollaborators() {
         viewModelScope.launch {
             try {
-
                 val email = FirebaseAuth.getInstance().currentUser?.email
                 if (email.isNullOrEmpty()) {
                     _error.postValue("Usuário não autenticado.")
@@ -52,9 +51,8 @@ class ManagementViewModel(private val application: Application) : AndroidViewMod
                 val factoryId = userResponse.body()!!.factoryId
 
                 val collaboratorsResponse = userRepository.getUsersByFactory(factoryId)
-                if (collaboratorsResponse.isSuccessful) {
-                    val users = collaboratorsResponse.body()!!
 
+                collaboratorsResponse.onSuccess { users ->
                     val collaboratorList = users.map { user ->
                         CollaboratorModal(
                             id = user.id.toString(),
@@ -69,11 +67,12 @@ class ManagementViewModel(private val application: Application) : AndroidViewMod
                             genderId = user.genderId
                         )
                     }
-
                     _collaborators.postValue(collaboratorList)
-                } else {
-                    _error.postValue("Falha ao carregar colaboradores.")
+
+                }.onFailure { exception ->
+                    _error.postValue("Falha ao carregar colaboradores: ${exception.message}")
                 }
+
             } catch (e: Exception) {
                 _error.postValue("Erro ao carregar colaboradores: ${e.message}")
             }

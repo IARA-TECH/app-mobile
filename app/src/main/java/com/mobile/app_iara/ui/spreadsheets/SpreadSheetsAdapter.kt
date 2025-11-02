@@ -10,6 +10,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.app_iara.R
+import android.app.DownloadManager
+import android.content.Context
+import android.net.Uri
+import android.os.Environment
+import android.widget.Toast
 
 class SpreadSheetsAdapter :
     ListAdapter<SpreadSheets, SpreadSheetsAdapter.SpreadSheetsViewHolder>(DiffCallback) {
@@ -24,10 +29,34 @@ class SpreadSheetsAdapter :
             date.text = spreadsheet.date
 
             linkButton.setOnClickListener {
-                val context = itemView.context
-                val intent = Intent(context, SpreadSheetsWebActivity::class.java)
-                intent.putExtra(SpreadSheetsWebActivity.EXTRA_URL, spreadsheet.urlSpreadSheet)
-                context.startActivity(intent)
+                downloadFile(itemView.context, spreadsheet.urlSpreadSheet, spreadsheet.title)
+            }
+        }
+
+        private fun downloadFile(context: Context, url: String, fileTitle: String) {
+            if (url.isNullOrEmpty()) {
+                Toast.makeText(context, "URL da planilha é inválida.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            try {
+                val fileNameWithExtension = url.substringAfterLast('/')
+
+                val request = DownloadManager.Request(Uri.parse(url))
+                    .setTitle(fileTitle)
+                    .setDescription("Baixando planilha...")
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileNameWithExtension)
+                    .setAllowedOverMetered(true)
+
+                val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                downloadManager.enqueue(request)
+
+                Toast.makeText(context, "Iniciando download...", Toast.LENGTH_SHORT).show()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(context, "Erro ao tentar baixar: ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -42,7 +71,6 @@ class SpreadSheetsAdapter :
         val currentSheet = getItem(position)
         holder.bind(currentSheet)
     }
-
 
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<SpreadSheets>() {

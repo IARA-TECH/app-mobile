@@ -41,14 +41,16 @@
             android:layout_height="60dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:backgroundTint="#38337C"
+            android:backgroundTint="@color/transparent"
             android:capitalize="none"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="Negar"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            app:cornerRadius="12dp" />
+            android:textColor="@color/primaryBlue"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/primaryBlue"
+            app:strokeWidth="1dp" />
 
         <Button
             android:id="@+id/btnConfirmarDialog"
@@ -56,14 +58,12 @@
             android:layout_height="60dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/transparent"
+            android:backgroundTint="#38337C"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
             android:text="Confirmar"
             android:textAllCaps="false"
-            android:textColor="@color/primaryBlue"
-            app:cornerRadius="12dp"
-            app:strokeColor="@color/primaryBlue"
-            app:strokeWidth="1dp" />
+            android:textColor="#FFFF"
+            app:cornerRadius="12dp" />
     </LinearLayout>
 </LinearLayout>

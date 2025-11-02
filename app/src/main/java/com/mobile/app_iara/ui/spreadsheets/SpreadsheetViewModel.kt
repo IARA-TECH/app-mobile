@@ -6,8 +6,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+// IMPORTAÇÃO ADICIONADA
+import com.mobile.app_iara.data.repository.AbacusPhotoRepository
 import com.mobile.app_iara.data.repository.SpreadsheetRepository
 import com.mobile.app_iara.util.DataUtil
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 sealed class SpreadsheetUiState {
@@ -19,6 +22,8 @@ sealed class SpreadsheetUiState {
 class SpreadsheetViewModel (application: Application) : AndroidViewModel(application) {
 
     private val repository = SpreadsheetRepository()
+    private val abacusPhotoRepository = AbacusPhotoRepository()
+
     private val sharedPrefs = application.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
     private val _uiState = MutableLiveData<SpreadsheetUiState>()
@@ -29,13 +34,12 @@ class SpreadsheetViewModel (application: Application) : AndroidViewModel(applica
             return "Título indisponível"
         }
 
-        val cleanUrl = url.substringBefore('?')
-        val fullFileName = cleanUrl.substringAfterLast('/')
+        val fullFileName = url.substringAfterLast('/')
         val title = fullFileName.substringBeforeLast('.')
+
         if (title.isBlank()) {
             return "Título indisponível"
         }
-
         return title
     }
 
@@ -51,12 +55,27 @@ class SpreadsheetViewModel (application: Application) : AndroidViewModel(applica
 
         viewModelScope.launch {
             try {
-                val response = repository.getSheetsByFactoryId(factoryId)
+                val sheetsDeferred = async { repository.getSheetsByFactoryId(factoryId) }
+                val pendingPhotosDeferred = async { abacusPhotoRepository.getPendingPhotosByFactory(factoryId) }
 
-                if (response.isSuccessful && response.body() != null) {
-                    val sheetDataList = response.body()!!.data
+                val sheetsResponse = sheetsDeferred.await()
+                val pendingPhotosResult = pendingPhotosDeferred.await()
 
-                    val spreadSheetsList = sheetDataList.map { sheetData ->
+                val pendingPhotoIds = if (pendingPhotosResult.isSuccess) {
+                    pendingPhotosResult.getOrThrow().map { it.id }.toSet()
+                } else {
+                    emptySet<String>()
+                }
+
+                if (sheetsResponse.isSuccessful && sheetsResponse.body() != null) {
+                    val allSheetData = sheetsResponse.body()!!.data
+
+                    val validatedSheetData = allSheetData.filter { sheet ->
+                        sheet.abacusPhotoIds.isNotEmpty() &&
+                                sheet.abacusPhotoIds.none { it in pendingPhotoIds }
+                    }
+
+                    val spreadSheetsList = validatedSheetData.map { sheetData ->
                         SpreadSheets(
                             title = extractSpreadsheetName(sheetData.sheetUrlBlob),
                             date = DataUtil.formatIsoDateToAppDate(sheetData.date),
@@ -64,8 +83,9 @@ class SpreadsheetViewModel (application: Application) : AndroidViewModel(applica
                         )
                     }
                     _uiState.value = SpreadsheetUiState.Success(spreadSheetsList)
+
                 } else {
-                    _uiState.value = SpreadsheetUiState.Error("Erro ao buscar planilhas: ${response.message()}")
+                    _uiState.value = SpreadsheetUiState.Error("Erro ao buscar planilhas: ${sheetsResponse.message()}")
                 }
             } catch (e: Exception) {
                 _uiState.value = SpreadsheetUiState.Error("Falha na conexão: ${e.message}")
