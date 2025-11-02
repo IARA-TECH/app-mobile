@@ -158,8 +158,15 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
             return
         }
 
-        linkPlanilha.setOnClickListener{
+        linkPlanilha.setOnClickListener {
+            val spreadsheetUrl = (photo as? AbacusPhotoData)?.sheetUrlBlob
 
+            if (spreadsheetUrl.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "URL da planilha não encontrada.", Toast.LENGTH_SHORT).show()
+            } else {
+                val spreadsheetTitle = extractSpreadsheetName(spreadsheetUrl)
+                downloadFile(requireContext(), spreadsheetUrl, spreadsheetTitle)
+            }
         }
 
         btnNegar.setOnClickListener {
@@ -175,6 +182,20 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         }
 
         dialog.show()
+    }
+
+    private fun extractSpreadsheetName(url: String?): String {
+        if (url.isNullOrEmpty()) {
+            return "Título indisponível"
+        }
+
+        val fullFileName = url.substringAfterLast('/')
+        val title = fullFileName.substringBeforeLast('.')
+
+        if (title.isBlank()) {
+            return "Título indisponível"
+        }
+        return title
     }
 
     private fun downloadFile(context: Context, url: String, fileTitle: String) {
