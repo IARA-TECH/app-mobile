@@ -6,13 +6,10 @@ import com.mobile.app_iara.data.model.response.AbacusAnalysisResponse
 import com.mobile.app_iara.data.model.response.AbacusConfirmResponse
 import com.mobile.app_iara.data.model.response.AbacusPhotoResponse
 import okhttp3.MultipartBody
-import okhttp3.ResponseBody
 import retrofit2.Response
+import retrofit2.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
-import com.mobile.app_iara.data.model.request.ValidationRequest
-import okhttp3.ResponseBody
-import retrofit2.http.Body
 import retrofit2.http.PUT
 import retrofit2.http.GET
 import retrofit2.http.Multipart
