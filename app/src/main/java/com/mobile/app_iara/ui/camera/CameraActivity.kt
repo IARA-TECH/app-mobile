@@ -63,8 +63,44 @@ class CameraActivity: AppCompatActivity() {
 
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            redirectToNextScreen(it)
+        uri?.let { imageUri ->
+            showLoadingFragment()
+
+            lifecycleScope.launch {
+                val imageFile = uriToFile(imageUri)
+
+                if (imageFile == null) {
+                    hideLoadingFragment()
+                    Toast.makeText(this@CameraActivity, "Erro ao carregar imagem da galeria", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                val result = abacusPhotoRepository.analyzeAbacusAndGetCsv(
+                    imageFile = imageFile,
+                    colors = abacusColors,
+                    values = abacusValues
+                )
+
+                hideLoadingFragment()
+
+                result.onSuccess { csvData ->
+                    Log.d("CameraActivity", "CSV (Galeria) Recebido: $csvData")
+
+                    val intent = Intent(this@CameraActivity, AbacusConfirmationActivity::class.java)
+                    intent.putExtra("image_uri", imageUri.toString())
+                    intent.putExtra("csv_data", csvData)
+                    intent.putExtra("ABACUS_ID", abacusId)
+                    intent.putExtra("FACTORY_ID", factoryId)
+                    startActivity(intent)
+
+                    finish()
+                }
+
+                result.onFailure { error ->
+                    Log.e("CameraActivity", "Erro na análise (Galeria): ${error.message}", error)
+                    Toast.makeText(this@CameraActivity, "Erro na análise: ${error.message}", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
@@ -524,6 +560,24 @@ class CameraActivity: AppCompatActivity() {
             Log.e("CameraOverlay", "Erro no onDestroy: ${e.message}", e)
         } finally {
             super.onDestroy()
+        }
+    }
+
+    private fun uriToFile(uri: Uri): File? {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri)
+            val tempFile = File(cacheDir, "temp_gallery_image.jpg")
+            val outputStream = FileOutputStream(tempFile)
+
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
+            }
+            tempFile
+        } catch (e: Exception) {
+            Log.e("CameraActivity", "Erro ao converter Uri para File", e)
+            null
         }
     }
 

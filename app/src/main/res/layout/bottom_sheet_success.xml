@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Sua planilha foi gerada com sucesso! O que deseja fazer agora?"
+            android:text="Sua planilha foi gerada com sucesso! Agora ela precisa de aprovada por um superior"
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp" />
 
