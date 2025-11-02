@@ -38,6 +38,10 @@
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/navigation_profile" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_selectAbacus"
+            app:destination="@id/selectAbacusFragment" />
     </fragment>
 
     <fragment
@@ -318,5 +322,17 @@
             android:id="@+id/action_editAbacusFragment_to_notificationsFragment"
             app:destination="@id/navigation_notification" />
     </fragment>
+
+    <fragment
+        android:id="@+id/selectAbacusFragment"
+        android:name="com.mobile.app_iara.ui.abacus.SelectAbacusFragment"
+        android:label="Select Abacus"
+        tools:layout="@layout/fragment_select_abacus" >
+
+    <argument
+        android:name="factoryId"
+        app:argType="integer" />
+    </fragment>
+
 
 </navigation>
