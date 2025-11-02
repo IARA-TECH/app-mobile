@@ -19,8 +19,6 @@ import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.databinding.FragmentHistoryBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.ui.spreadsheets.SpreadSheetsWebActivity
-import com.mobile.app_iara.ui.start.LoginActivity
 import com.mobile.app_iara.util.NetworkUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -65,9 +63,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        historyAdapter = AbacusHistoryAdapter(emptyList()) { historyItem ->
-            openSheetUrl(historyItem.sheetUrl)
-        }
+        historyAdapter = AbacusHistoryAdapter(emptyList())
 
         binding.historyRecyclerView.apply {
             adapter = historyAdapter
@@ -139,16 +135,6 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun openSheetUrl(url: String) {
-        if (url.isBlank()) {
-            Toast.makeText(requireContext(), "Link da planilha não disponível", Toast.LENGTH_SHORT).show()
-            return
-        }
-        val intent = Intent(requireContext(), SpreadSheetsWebActivity::class.java)
-        intent.putExtra(SpreadSheetsWebActivity.EXTRA_URL, url)
-        startActivity(intent)
-    }
-
     private fun mapApiToUi(
         photo: AbacusPhotoData,
         userNameMap: Map<String, String>
@@ -167,8 +153,7 @@ class HistoryFragment : Fragment() {
             titulo = abacusName,
             name = takenByName,
             approve = validatedByName,
-            timestamp = formatTimestamp(photo.takenAt),
-            sheetUrl = photo.sheetUrlBlob
+            timestamp = formatTimestamp(photo.takenAt)
         )
     }
 
