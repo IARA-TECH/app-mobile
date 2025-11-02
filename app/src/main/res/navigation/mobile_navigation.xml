@@ -231,13 +231,13 @@
 
     <fragment
         android:id="@+id/registerCollaboratorFragment"
-        android:name="com.mobile.app_iara.ui.management.RegisterCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.register.RegisterCollaboratorFragment"
         android:label="fragment_register_collaborator"
         tools:layout="@layout/fragment_register_collaborator" />
 
     <fragment
         android:id="@+id/editCollaboratorFragment"
-        android:name="com.mobile.app_iara.ui.management.EditCollaboratorFragment"
+        android:name="com.mobile.app_iara.ui.management.edit.EditCollaboratorFragment"
         android:label="fragment_edit_collaborator"
         tools:layout="@layout/fragment_edit_collaborator" >
 
@@ -252,7 +252,7 @@
 
     <fragment
         android:id="@+id/editEmailCollaboratorFragment"
-        android:name="com.mobile.app_iara.ui.management.EditEmailFragment"
+        android:name="com.mobile.app_iara.ui.management.edit.EditEmailFragment"
         android:label="fragment_edit_email_collaborator"
         tools:layout="@layout/fragment_edit_email" />
 

@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.management
+package com.mobile.app_iara.ui.management.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -46,7 +46,8 @@ class RegisterCollaboratorViewModel : ViewModel() {
 
                 val userResponse = userRepository.getUserProfileByEmail(EmailRequest(email))
                 if (!userResponse.isSuccessful || userResponse.body() == null) {
-                    _registerState.value = RegisterState.Error("Falha ao carregar dados do usuário.")
+                    _registerState.value =
+                        RegisterState.Error("Falha ao carregar dados do usuário.")
                     return@launch
                 }
 
@@ -55,7 +56,8 @@ class RegisterCollaboratorViewModel : ViewModel() {
                 currentFactoryId = userData.factoryId
 
                 if (currentFactoryId == null) {
-                    _registerState.value = RegisterState.Error("Usuário não está associado a nenhuma fábrica.")
+                    _registerState.value =
+                        RegisterState.Error("Usuário não está associado a nenhuma fábrica.")
                     return@launch
                 }
 
@@ -133,14 +135,17 @@ class RegisterCollaboratorViewModel : ViewModel() {
                         if (accessResponse.isSuccessful) {
                             _registerState.value = RegisterState.Success(response.body())
                         } else {
-                            _registerState.value = RegisterState.Error("Usuário criado, mas falha ao definir cargo: ${accessResponse.message()}")
+                            _registerState.value =
+                                RegisterState.Error("Usuário criado, mas falha ao definir cargo: ${accessResponse.message()}")
                         }
                     } catch (e: Exception) {
-                        _registerState.value = RegisterState.Error("Usuário criado, mas erro ao definir cargo: ${e.message}")
+                        _registerState.value =
+                            RegisterState.Error("Usuário criado, mas erro ao definir cargo: ${e.message}")
                     }
 
                 } else {
-                    _registerState.value = RegisterState.Error("Erro ao registrar: ${response.message()}")
+                    _registerState.value =
+                        RegisterState.Error("Erro ao registrar: ${response.message()}")
                 }
             } catch (e: Exception) {
                 _registerState.value = RegisterState.Error("Erro ao registrar: ${e.message}")

@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.management
+package com.mobile.app_iara.ui.management.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -79,7 +79,8 @@ class EditCollaboratorViewModel : ViewModel() {
                 val profileResponse = userRepository.updateCollaborator(profileRequest, oldData.id)
 
                 if (!profileResponse.isSuccessful) {
-                    _updateState.value = UpdateState.Error("Falha ao atualizar perfil: ${profileResponse.message()}")
+                    _updateState.value =
+                        UpdateState.Error("Falha ao atualizar perfil: ${profileResponse.message()}")
                     return@launch
                 }
 
@@ -91,7 +92,8 @@ class EditCollaboratorViewModel : ViewModel() {
                 val accessResponse = userAccessTypeRepository.createUserAccessType(accessRequest)
 
                 if (!accessResponse.isSuccessful) {
-                    _updateState.value = UpdateState.Error("Perfil atualizado, mas falha ao definir novo cargo: ${accessResponse.message()}")
+                    _updateState.value =
+                        UpdateState.Error("Perfil atualizado, mas falha ao definir novo cargo: ${accessResponse.message()}")
                     return@launch
                 }
 
@@ -103,7 +105,8 @@ class EditCollaboratorViewModel : ViewModel() {
         }
     }
 
-    fun resetUpdateState() { _updateState.value = UpdateState.Idle }
+    fun resetUpdateState() { _updateState.value = UpdateState.Idle
+    }
 }
 
 sealed class UpdateState {
