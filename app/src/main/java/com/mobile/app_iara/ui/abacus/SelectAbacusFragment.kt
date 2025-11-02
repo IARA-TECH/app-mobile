@@ -17,6 +17,8 @@ import com.mobile.app_iara.databinding.FragmentAbacusListBinding
 import com.mobile.app_iara.ui.camera.CameraActivity
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
+import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 import kotlinx.coroutines.launch
 
 class SelectAbacusFragment : Fragment() {
@@ -38,6 +40,12 @@ class SelectAbacusFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.loading_container, LoadingApiFragment.newInstance())
+                .commit()
+        }
 
         if (!NetworkUtils.isInternetAvailable(requireContext())) {
             val intent = Intent(requireContext(), WifiErrorActivity::class.java)
@@ -79,7 +87,6 @@ class SelectAbacusFragment : Fragment() {
                     putExtra("ABACUS_COLORS", abacusColors)
                     putExtra("ABACUS_VALUES", abacusValues)
 
-                    // Os novos dados
                     putExtra("FACTORY_ID", factoryId)
                     putExtra("ABACUS_ID", abacusId)
                 }
@@ -94,9 +101,11 @@ class SelectAbacusFragment : Fragment() {
     private fun loadAbacusData(factoryId: Int) {
         binding.rvAbacusList.visibility = View.GONE
         binding.textView36.visibility = View.GONE
+        binding.loadingContainer.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             val result = repository.getAbacusesByFactory(factoryId)
+            binding.loadingContainer.visibility = View.GONE
 
             result.onSuccess { abacusDataList ->
                 selectAbacusAdapter.updateData(abacusDataList)
