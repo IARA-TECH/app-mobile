@@ -6,10 +6,11 @@ import com.mobile.app_iara.data.model.response.AbacusAnalysisResponse
 import com.mobile.app_iara.data.model.response.AbacusConfirmResponse
 import com.mobile.app_iara.data.model.response.AbacusPhotoResponse
 import okhttp3.MultipartBody
-import okhttp3.ResponseBody
 import retrofit2.Response
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.PUT
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
@@ -19,11 +20,18 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AbacusPhotoService {
+  
     @GET("/iara/api/abacus-photos")
     suspend fun getAbacusPhotos(
         @Query("factoryId") factoryId: Int
     ): Response<AbacusPhotoResponse>
 
+    @PUT("/iara/api/abacus-photos/validation/{id}")
+    suspend fun validateAbacusPhoto(
+        @Path("id") photoId: String,
+        @Body validationRequest: ValidationRequest
+    ): Response<AbacusPhotoData>
+    
     @Multipart
     @POST("/iara/api/abacus-photos/analyze")
     suspend fun analyzePhoto(
@@ -42,12 +50,6 @@ interface AbacusPhotoService {
         @Part file: MultipartBody.Part,
         @Part csv: MultipartBody.Part
     ): Response<AbacusConfirmResponse>
-
-    @PATCH("/iara/api/abacus-photos/validation/{id}")
-    suspend fun validateAbacusPhoto(
-        @Path("id") photoId: String,
-        @Body validationRequest: ValidationRequest
-    ): Response<AbacusPhotoData>
 
     @DELETE("/iara/api/abacus-photos/{id}")
     suspend fun denyAbacusPhoto(
