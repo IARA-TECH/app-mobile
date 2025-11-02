@@ -29,6 +29,7 @@ class AbacusConfirmationActivity : AppCompatActivity() {
     private val repository = AbacusPhotoRepository()
     private lateinit var prefs: SharedPreferences
     private lateinit var btnConfirmar: Button
+    private lateinit var btnCancelar: Button
 
     private var imageUriString: String? = null
     private var csvData: String? = null
@@ -63,6 +64,8 @@ class AbacusConfirmationActivity : AppCompatActivity() {
 
 
         btnConfirmar = findViewById(R.id.button4)
+        btnCancelar = findViewById(R.id.button5)
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerInformacoes)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -78,6 +81,10 @@ class AbacusConfirmationActivity : AppCompatActivity() {
 
         val adapter = AbacusConfirmationAdapter(dataList)
         recyclerView.adapter = adapter
+
+        btnCancelar.setOnClickListener{
+            finish()
+        }
 
         btnConfirmar.setOnClickListener {
             handleConfirmClick()

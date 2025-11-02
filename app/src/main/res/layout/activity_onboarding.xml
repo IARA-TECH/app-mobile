@@ -7,89 +7,113 @@
     android:layout_height="match_parent"
     tools:context=".ui.abacus.onboarding.OnboardingActivity">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="32dp"
+        android:adjustViewBounds="true"
+        android:maxWidth="300dp"
+        android:maxHeight="350dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintDimensionRatio="236:257"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_max="300dp"
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/il_woman_photo" />
+
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="297dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="52dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/rfdewibold"
         android:text="Automatize sua contagem com uma foto"
         android:textAlignment="center"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="236dp"
-        android:layout_height="257dp"
-        android:layout_marginTop="228dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/il_woman_photo" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintWidth_max="400dp" />
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="307dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="24dp"
         android:text="Com apenas uma imagem do ábaco, o app identifica os dados e cria uma planilha para você automaticamente."
         android:textAlignment="center"
-        android:textSize="12sp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/indicatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintWidth_max="500dp" />
 
     <LinearLayout
         android:id="@+id/indicatorLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/textView13"
+        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView13">
 
         <ImageView
             android:id="@+id/dot1"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_margin="4dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="6dp"
             android:src="@drawable/shape_dot_active" />
 
         <ImageView
             android:id="@+id/dot2"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_margin="4dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="6dp"
             android:src="@drawable/shape_dot_inactive" />
 
         <ImageView
             android:id="@+id/dot3"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_margin="4dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="6dp"
             android:src="@drawable/shape_dot_inactive" />
-
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/buttonsLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="56dp"
         android:orientation="horizontal"
+        android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indicatorLayout">
+        app:layout_constraintWidth_max="600dp">
 
         <Button
             android:id="@+id/btnCancelarOnboarding"
-            android:layout_width="145dp"
+            android:layout_width="0dp"
             android:layout_height="67dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
             android:backgroundTint="#F2F2F2"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
@@ -101,15 +125,12 @@
             app:strokeColor="#D5D5D5"
             app:strokeWidth="1dp" />
 
-        <Space
-            android:layout_width="13dp"
-            android:layout_height="54dp"
-            android:layout_weight="1" />
-
         <Button
             android:id="@+id/btnProximoOnboarding"
-            android:layout_width="145dp"
+            android:layout_width="0dp"
             android:layout_height="67dp"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
             android:backgroundTint="#2B3078"
             android:fontFamily="@font/rfdewibold"
             android:stateListAnimator="@null"
@@ -119,6 +140,5 @@
             android:textSize="17sp"
             app:cornerRadius="13dp" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
