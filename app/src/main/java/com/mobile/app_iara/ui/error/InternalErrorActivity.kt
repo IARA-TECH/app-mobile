@@ -1,13 +1,14 @@
 package com.mobile.app_iara.ui.error
 
+import android.app.Activity // Importe isso
 import android.os.Bundle
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback // Importe isso
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mobile.app_iara.R
-import com.mobile.app_iara.util.NetworkUtils
 
 class InternalErrorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +24,15 @@ class InternalErrorActivity : AppCompatActivity() {
         val tryAgainButton: Button = findViewById(R.id.btErroInterno)
 
         tryAgainButton.setOnClickListener {
-            if (NetworkUtils.isInternetAvailable(this)) {
+            setResult(Activity.RESULT_OK)
+            finish()
+        }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                setResult(Activity.RESULT_CANCELED)
                 finish()
             }
-        }
+        })
     }
 }

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,10 +15,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentSpreadSheetsBinding
+import com.mobile.app_iara.ui.error.InternalErrorActivity
 import java.text.Normalizer
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
-import com.mobile.app_iara.ui.status.LoadingApiFragment // NOVO: Import
+import com.mobile.app_iara.ui.status.LoadingApiFragment
 
 class SpreadSheetsFragment : Fragment() {
 
@@ -80,6 +82,8 @@ class SpreadSheetsFragment : Fragment() {
                     }
                 }
                 is SpreadsheetUiState.Error -> {
+                    val intent = Intent(requireContext(), InternalErrorActivity::class.java)
+                    errorActivityLauncher.launch(intent)
                     binding.loadingContainer.visibility = View.GONE
                     binding.spreadSheetsRecyclerView.visibility = View.GONE
                 }
@@ -127,6 +131,12 @@ class SpreadSheetsFragment : Fragment() {
                 spreadSheetsAdapter.submitList(filteredList)
             }
         })
+    }
+
+    private val errorActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        findNavController().navigateUp()
     }
 
     override fun onDestroyView() {

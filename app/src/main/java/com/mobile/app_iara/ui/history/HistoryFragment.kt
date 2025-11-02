@@ -1,5 +1,6 @@
 package com.mobile.app_iara.ui.history
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -15,9 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
 import com.mobile.app_iara.data.model.AbacusPhotoData
 import com.mobile.app_iara.data.repository.AbacusPhotoRepository
-import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.data.repository.UserRepository
 import com.mobile.app_iara.databinding.FragmentHistoryBinding
+import com.mobile.app_iara.ui.error.InternalErrorActivity
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.util.NetworkUtils
 import kotlinx.coroutines.async
@@ -35,7 +37,6 @@ class HistoryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val photoRepository = AbacusPhotoRepository()
-    private val abacusRepository = AbacusRepository()
     private val userRepository = UserRepository()
 
     private lateinit var historyAdapter: AbacusHistoryAdapter
@@ -132,6 +133,8 @@ class HistoryFragment : Fragment() {
                     ?: usersResult.exceptionOrNull()
 
                 val errorText = if (exception is SocketTimeoutException) {
+                    val intent = Intent(requireContext(), InternalErrorActivity::class.java)
+                    errorActivityLauncher.launch(intent)
                     "A API demorou muito para responder. Tente novamente."
                 } else {
                     exception?.message ?: "Erro desconhecido ao carregar dados."
@@ -184,6 +187,12 @@ class HistoryFragment : Fragment() {
                 apiDate
             }
         }
+    }
+
+    private val errorActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        findNavController().navigateUp()
     }
 
     override fun onDestroyView() {

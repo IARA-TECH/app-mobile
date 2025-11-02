@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.mobile.app_iara.R
 import com.mobile.app_iara.databinding.FragmentManagementBinding
+import com.mobile.app_iara.ui.error.InternalErrorActivity
 import com.mobile.app_iara.ui.error.WifiErrorActivity
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorAdapter
 import com.mobile.app_iara.ui.management.collaborator.CollaboratorModal
@@ -102,10 +104,15 @@ class ManagementFragment : Fragment() {
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
             binding.loadingContainer.visibility = View.GONE
-            if (!error.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
-            }
+            val intent = Intent(requireContext(), InternalErrorActivity::class.java)
+            errorActivityLauncher.launch(intent)
         }
+    }
+
+    private val errorActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        findNavController().navigateUp()
     }
 
     private fun setupSearchListener() {
