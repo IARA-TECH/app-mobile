@@ -104,4 +104,7 @@ class UserRepository {
 
     suspend fun updateCollaborator(request: UserProfileRequest, id: String): Response<UserProfileResponse> =
         userService.updateCollaborator(request, id)
+
+    suspend fun deactivateUser(userId: String): Response<UserProfileResponse> =
+        userService.deactivateUser(userId)
 }

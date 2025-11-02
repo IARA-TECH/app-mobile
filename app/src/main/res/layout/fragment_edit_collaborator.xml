@@ -114,13 +114,6 @@
                         android:textColor="@color/defaultText"
                         android:textSize="12sp" />
 
-                    <ImageButton
-                        android:id="@+id/imageButtonEnter5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        app:srcCompat="@drawable/ic_arrow_enter" />
-
                 </LinearLayout>
 
                 <View

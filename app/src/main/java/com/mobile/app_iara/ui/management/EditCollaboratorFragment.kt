@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -84,7 +87,7 @@ class EditCollaboratorFragment : Fragment() {
         }
 
         binding.imageButtonExcluir.setOnClickListener {
-            Toast.makeText(requireContext(), "Função de excluir não implementada.", Toast.LENGTH_SHORT).show()
+            showDeactivationConfirmationDialog()
         }
 
         binding.btnCancelar.setOnClickListener {
@@ -93,10 +96,6 @@ class EditCollaboratorFragment : Fragment() {
 
         binding.btnConfirmar.setOnClickListener {
             validateAndUpdate()
-        }
-
-        binding.sectionEmail.setOnClickListener {
-            findNavController().navigate(R.id.action_editCollaboratorFragment_to_emailCollaboratorFragment)
         }
 
         binding.sectionGender.setOnClickListener {
@@ -134,24 +133,95 @@ class EditCollaboratorFragment : Fragment() {
                         binding.loadingContainer.visibility = View.VISIBLE
                         binding.btnConfirmar.isEnabled = false
                     }
+
                     is UpdateState.Success -> {
                         binding.loadingContainer.visibility = View.GONE
                         showSuccessDialog()
                         viewModel.resetUpdateState()
                     }
+
                     is UpdateState.Error -> {
                         binding.loadingContainer.visibility = View.GONE
                         binding.btnConfirmar.isEnabled = true
                         showErrorDialog()
                         viewModel.resetUpdateState()
                     }
+
                     is UpdateState.Idle -> {
                         binding.btnConfirmar.isEnabled = true
                     }
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.deactivationState.collect { state ->
+                when (state) {
+                    is DeactivationState.Loading -> {
+                        binding.loadingContainer.visibility = View.VISIBLE
+                        binding.btnConfirmar.isEnabled = false
+                        binding.btnCancelar.isEnabled = false
+                        binding.imageButtonExcluir.isEnabled = false
+                    }
+
+                    is DeactivationState.Success -> {
+                        binding.loadingContainer.visibility = View.GONE
+                        findNavController().popBackStack()
+                        viewModel.resetDeactivationState()
+                    }
+
+                    is DeactivationState.Error -> {
+                        binding.loadingContainer.visibility = View.GONE
+                        binding.btnConfirmar.isEnabled = true
+                        binding.btnCancelar.isEnabled = true
+                        binding.imageButtonExcluir.isEnabled = true
+                        showErrorDialog()
+                        viewModel.resetDeactivationState()
+                    }
+
+                    is DeactivationState.Idle -> {
+                        binding.btnConfirmar.isEnabled = true
+                        binding.btnCancelar.isEnabled = true
+                        binding.imageButtonExcluir.isEnabled = true
+                    }
+                }
+            }
+        }
     }
+
+
+
+    private fun showDeactivationConfirmationDialog() {
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_delete_confirmation, null)
+
+        val builder = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+
+        val dialog = builder.create()
+
+        val title = dialogView.findViewById<TextView>(R.id.tituloDialogDelete)
+        val message = dialogView.findViewById<TextView>(R.id.avisoDialogDelete)
+        val deleteButton = dialogView.findViewById<Button>(R.id.btnDeletarDialogDelete)
+        val cancelButton = dialogView.findViewById<Button>(R.id.btnCancelarDialogDelete)
+        title.text = "Confirmar Desativação"
+        message.text = "Tem certeza que deseja desativar este colaborador? Esta ação não pode ser desfeita."
+        deleteButton.text = "Desativar"
+
+        deleteButton.setOnClickListener {
+            viewModel.deactivateCollaborator(args.collaborator.id)
+            dialog.dismiss()
+        }
+
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialog.show()
+    }
+
 
     private fun showSuccessDialog() {
         val successSheet = EditCollaboratorSuccess {

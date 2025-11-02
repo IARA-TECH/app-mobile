@@ -248,17 +248,7 @@
         <argument
             android:name="collaborator"
             app:argType="com.mobile.app_iara.ui.management.collaborator.CollaboratorModal" />
-
-        <action
-            android:id="@+id/action_editCollaboratorFragment_to_emailCollaboratorFragment"
-            app:destination="@id/editEmailCollaboratorFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/editEmailCollaboratorFragment"
-        android:name="com.mobile.app_iara.ui.management.EditEmailFragment"
-        android:label="fragment_edit_email_collaborator"
-        tools:layout="@layout/fragment_edit_email" />
 
     <fragment
         android:id="@+id/abacusListFragment"
