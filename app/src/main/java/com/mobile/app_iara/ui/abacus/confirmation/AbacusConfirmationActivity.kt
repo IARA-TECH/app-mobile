@@ -149,7 +149,7 @@ class AbacusConfirmationActivity : AppCompatActivity() {
                     }
                     is ConfirmationState.Error -> {
                         btnConfirmar.isEnabled = true
-                        Toast.makeText(this@AbacusConfirmationActivity, "Erro: ${state.message}", Toast.LENGTH_LONG).show()
+                        showErrorSheet()
                     }
                 }
             }
@@ -194,6 +194,12 @@ class AbacusConfirmationActivity : AppCompatActivity() {
         val successSheet = SpreadsheetSuccessSheet()
         successSheet.isCancelable = false
         successSheet.show(supportFragmentManager, "SuccessSheet")
+    }
+
+    private fun showErrorSheet() {
+        val errorSheet = SpreadsheetSuccessSheet()
+        errorSheet.isCancelable = true
+        errorSheet.show(supportFragmentManager, "error_sheet")
     }
 
 }
