@@ -99,23 +99,28 @@ class RegisterCollaboratorFragment : Fragment() {
                     is RegisterState.Idle -> {
                     }
                     is RegisterState.Success -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "Colaborador registrado com sucesso!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        findNavController().popBackStack()
+                        showSuccessDialog()
                     }
                     is RegisterState.Error -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "Erro: ${state.message}",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        showErrorDialog()
                     }
                 }
             }
         }
+    }
+
+    private fun showSuccessDialog() {
+        val successSheet = CollaboratorSuccess {
+            findNavController().popBackStack()
+        }
+        successSheet.isCancelable = false
+        successSheet.show(childFragmentManager, "CollaboratorSuccessSheet")
+    }
+
+    private fun showErrorDialog() {
+        val errorSheet = CollaboratorError()
+        errorSheet.isCancelable = true
+        errorSheet.show(childFragmentManager, "CollaboratorErrorSheet")
     }
 
     private fun setupClickListeners() {

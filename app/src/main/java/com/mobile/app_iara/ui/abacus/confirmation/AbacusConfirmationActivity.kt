@@ -191,13 +191,13 @@ class AbacusConfirmationActivity : AppCompatActivity() {
     }
 
     private fun showSuccessSheet() {
-        val successSheet = SpreadsheetSuccessSheet()
+        val successSheet = SpreadsheetSuccess()
         successSheet.isCancelable = false
         successSheet.show(supportFragmentManager, "SuccessSheet")
     }
 
     private fun showErrorSheet() {
-        val errorSheet = SpreadsheetSuccessSheet()
+        val errorSheet = SpreadsheetSuccess()
         errorSheet.isCancelable = true
         errorSheet.show(supportFragmentManager, "error_sheet")
     }

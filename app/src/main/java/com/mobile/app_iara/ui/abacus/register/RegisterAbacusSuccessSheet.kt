@@ -19,7 +19,7 @@ class RegisterAbacusSuccessSheet(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_register_success, container, false)
+        return inflater.inflate(R.layout.bottom_abacus_register_success, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
