@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:background="@drawable/bg_bottom_sheet_rounded"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_success"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/success" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Planilha gerada"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Sua planilha foi gerada com sucesso! O que deseja fazer agora?"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_go_to_sheets"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/primaryBlue"
+            android:elevation="0dp"
+            android:fontFamily="@font/rfdewibold"
+            android:stateListAnimator="@null"
+            android:text="Ir para Planilhas"
+            android:textAllCaps="false"
+            android:textColor="@color/backgroundWhite"
+            android:textSize="16sp"
+            app:cornerRadius="12dp" />
+
+        <Button
+            android:id="@+id/btn_go_to_home"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/transparent"
+            android:elevation="0dp"
+            android:fontFamily="@font/rfdewibold"
+            android:stateListAnimator="@null"
+            android:text="Voltar para Home"
+            android:textAllCaps="false"
+            android:textColor="@color/lightText"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:strokeColor="#D5D5D5"
+            app:strokeWidth="2dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

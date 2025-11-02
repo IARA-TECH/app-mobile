@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.abacus.confirmation.AbacusConfirmationActivity">
 
-    <!-- Header Section -->
     <ImageButton
         android:id="@+id/btnVoltar5"
         android:layout_width="73dp"
@@ -44,7 +43,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
-    <!-- Main Content Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
@@ -66,7 +64,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Header Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +89,6 @@
 
             </LinearLayout>
 
-            <!-- Column Titles -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,7 +130,6 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <!-- Divider -->
             <View
                 android:id="@+id/divider6"
                 android:layout_width="match_parent"
@@ -143,7 +138,6 @@
                 android:layout_marginRight="16dp"
                 android:background="?android:attr/listDivider" />
 
-            <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerInformacoes"
                 android:layout_width="match_parent"
@@ -155,7 +149,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Bottom Buttons - Mantendo altura original de 65dp -->
     <LinearLayout
         android:id="@+id/bottomButtonsLayout"
         android:layout_width="0dp"

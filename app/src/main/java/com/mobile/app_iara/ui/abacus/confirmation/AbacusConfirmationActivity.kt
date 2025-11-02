@@ -145,11 +145,11 @@ class AbacusConfirmationActivity : AppCompatActivity() {
                     is ConfirmationState.Success -> {
                         btnConfirmar.isEnabled = true
                         Log.d("Confirmation", "Foto: ${state.data.photoUrl}, Planilha: ${state.data.sheetUrl}")
-                        finish()
+                        showSuccessSheet()
                     }
                     is ConfirmationState.Error -> {
                         btnConfirmar.isEnabled = true
-                        Toast.makeText(this@AbacusConfirmationActivity, "Erro: ${state.message}", Toast.LENGTH_LONG).show()
+                        showErrorSheet()
                     }
                 }
             }
@@ -188,6 +188,18 @@ class AbacusConfirmationActivity : AppCompatActivity() {
         }
 
         return parsedLines
+    }
+
+    private fun showSuccessSheet() {
+        val successSheet = SpreadsheetSuccessSheet()
+        successSheet.isCancelable = false
+        successSheet.show(supportFragmentManager, "SuccessSheet")
+    }
+
+    private fun showErrorSheet() {
+        val errorSheet = SpreadsheetSuccessSheet()
+        errorSheet.isCancelable = true
+        errorSheet.show(supportFragmentManager, "error_sheet")
     }
 
 }

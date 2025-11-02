@@ -63,9 +63,9 @@ object RetrofitClient {
 
     private val mongoOkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
-        .connectTimeout(60, TimeUnit.SECONDS)
-        .readTimeout(60, TimeUnit.SECONDS)
-        .writeTimeout(60, TimeUnit.SECONDS)
+        .connectTimeout(80, TimeUnit.SECONDS)
+        .readTimeout(80, TimeUnit.SECONDS)
+        .writeTimeout(80, TimeUnit.SECONDS)
         .build()
 
     private val chabotOkHttpClient = OkHttpClient.Builder()
