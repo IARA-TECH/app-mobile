@@ -7,13 +7,13 @@
     tools:context=".ui.management.ManagementFragment">
 
     <include
-    android:id="@+id/included"
-    layout="@layout/primary_toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/included"
+        layout="@layout/primary_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtSaudacao"
@@ -110,10 +110,7 @@
                         android:textColor="@color/defaultText"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-
             </LinearLayout>
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewEmployees"
@@ -121,6 +118,20 @@
                 android:layout_height="match_parent"
                 android:layout_margin="20dp" />
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
+
+    <FrameLayout
+        android:id="@+id/loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
