@@ -59,6 +59,12 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
+
+        when (intent.getStringExtra("open_fragment")) {
+            "sheets" -> navController.navigate(R.id.spreadSheetsFragment)
+            "home" -> navController.navigate(R.id.navigation_home)
+        }
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,

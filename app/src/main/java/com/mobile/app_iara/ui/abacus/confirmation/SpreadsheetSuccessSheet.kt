@@ -11,6 +11,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.app_iara.R
+import com.mobile.app_iara.ui.MainActivity
 
 class SpreadsheetSuccessSheet : BottomSheetDialogFragment() {
 
@@ -32,11 +33,17 @@ class SpreadsheetSuccessSheet : BottomSheetDialogFragment() {
 
         btnGoToSheets.setOnClickListener {
             dismiss()
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.putExtra("open_fragment", "sheets")
+            startActivity(intent)
             activity?.finish()
         }
 
         btnGoToHome.setOnClickListener {
             dismiss()
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.putExtra("open_fragment", "home")
+            startActivity(intent)
             activity?.finish()
         }
 
