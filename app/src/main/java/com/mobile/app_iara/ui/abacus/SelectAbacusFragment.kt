@@ -72,14 +72,20 @@ class SelectAbacusFragment : Fragment() {
                 val abacusColors = columns.joinToString(separator = ",") { it.color }
                 val abacusValues = columns.joinToString(separator = ",") { it.value.toString() }
 
-                Log.d("SelectAbacusFragment", "Cores: $abacusColors")
-                Log.d("SelectAbacusFragment", "Valores: $abacusValues")
+                val factoryId = args.factoryId
+                val abacusId = abacusData.id
 
                 val intent = Intent(requireContext(), CameraActivity::class.java).apply {
                     putExtra("ABACUS_COLORS", abacusColors)
                     putExtra("ABACUS_VALUES", abacusValues)
+
+                    // Os novos dados
+                    putExtra("FACTORY_ID", factoryId)
+                    putExtra("ABACUS_ID", abacusId)
                 }
+
                 startActivity(intent)
+
             }
         )
         binding.rvAbacusList.adapter = selectAbacusAdapter

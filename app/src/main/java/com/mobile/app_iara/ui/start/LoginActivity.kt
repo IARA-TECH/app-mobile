@@ -149,6 +149,7 @@ class LoginActivity : AppCompatActivity() {
 
                                 if (userResponse.isSuccessful && userResponse.body() != null) {
                                     val factoryId = userResponse.body()!!.factoryId
+                                    val userId = userResponse.body()!!.id
 
                                     if (checkLogado.isChecked) {
                                         val editor = sharedPrefs.edit()
@@ -156,6 +157,7 @@ class LoginActivity : AppCompatActivity() {
                                         editor.putString("email", email)
                                         editor.putString("password", senha)
                                         editor.putInt("key_factory_id", factoryId)
+                                        editor.putString("user_id", userId)
                                         editor.apply()
                                     }
 
@@ -219,6 +221,7 @@ class LoginActivity : AppCompatActivity() {
                                         .remove("email")
                                         .remove("password")
                                         .putInt("key_factory_id", factoryId)
+                                        .putString("user_id", userResponse.body()!!.id)
                                         .apply()
 
                                     UserCredentialsHolder.clear()

@@ -78,6 +78,8 @@ class CameraActivity: AppCompatActivity() {
     private val abacusPhotoRepository = AbacusPhotoRepository()
     private var abacusColors: String? = null
     private var abacusValues: String? = null
+    private var abacusId: String? = null
+    private var factoryId: Int = -1
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -96,6 +98,8 @@ class CameraActivity: AppCompatActivity() {
         tvDetectionLabel = findViewById(R.id.tvDetectionLabel)
         abacusColors = intent.getStringExtra("ABACUS_COLORS")
         abacusValues = intent.getStringExtra("ABACUS_VALUES")
+        abacusId = intent.getStringExtra("ABACUS_ID")
+        factoryId = intent.getIntExtra("FACTORY_ID", -1)
 
 
         initializeTFLite()
@@ -437,6 +441,8 @@ class CameraActivity: AppCompatActivity() {
                             val intent = Intent(this@CameraActivity, AbacusConfirmationActivity::class.java)
                             intent.putExtra("image_uri", savedUri.toString())
                             intent.putExtra("csv_data", csvData)
+                            intent.putExtra("ABACUS_ID", abacusId)
+                            intent.putExtra("FACTORY_ID", factoryId)
                             startActivity(intent)
 
                             finish()
