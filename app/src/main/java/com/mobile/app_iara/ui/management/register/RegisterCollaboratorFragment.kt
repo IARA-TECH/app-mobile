@@ -1,4 +1,4 @@
-package com.mobile.app_iara.ui.management
+package com.mobile.app_iara.ui.management.register
 
 import android.content.Intent
 import android.graphics.Color

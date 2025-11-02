@@ -13,11 +13,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.app_iara.R
+import com.mobile.app_iara.data.model.AbacusData
 import com.mobile.app_iara.data.repository.AbacusRepository
 import com.mobile.app_iara.databinding.DialogDeleteConfirmationBinding
 import com.mobile.app_iara.databinding.FragmentAbacusListBinding
 import com.mobile.app_iara.ui.error.WifiErrorActivity
-import com.mobile.app_iara.util.AbacusMapper
 import com.mobile.app_iara.util.NetworkUtils
 import kotlinx.coroutines.launch
 
@@ -131,7 +131,7 @@ class AbacusListFragment : Fragment() {
             val result = repository.getAbacusesByFactory(factoryId)
 
             result.onSuccess { abacusDataList ->
-                val abacusUiList = AbacusMapper.mapApiListToUiList(abacusDataList)
+                val abacusUiList = mapApiListToUiList(abacusDataList)
                 abacusAdapter.updateData(abacusUiList)
 
                 if (abacusUiList.isEmpty()) {
@@ -148,6 +148,21 @@ class AbacusListFragment : Fragment() {
                 Toast.makeText(requireContext(), "Erro ao carregar ábacos: ${error.message}", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    fun mapApiToUi(apiData: AbacusData): Abacus {
+        return Abacus(
+            id = apiData.id,
+            title = apiData.name,
+            description = apiData.description,
+            lines = apiData.lines.size,
+            columns = apiData.columns.size,
+            factoryId = apiData.factoryId
+        )
+    }
+
+    fun mapApiListToUiList(apiList: List<AbacusData>): List<Abacus> {
+        return apiList.map { mapApiToUi(it) }
     }
 
 

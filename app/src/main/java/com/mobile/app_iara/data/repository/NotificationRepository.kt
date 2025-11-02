@@ -1,6 +1,8 @@
-package com.mobile.app_iara.ui.notifications
+package com.mobile.app_iara.data.repository
 
 import androidx.lifecycle.LiveData
+import com.mobile.app_iara.ui.notifications.NotificationDAO
+import com.mobile.app_iara.ui.notifications.NotificationEntity
 import java.time.LocalDate
 import java.time.ZoneId
 

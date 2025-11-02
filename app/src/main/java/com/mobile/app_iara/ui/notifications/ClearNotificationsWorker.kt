@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.mobile.app_iara.data.local.AppDatabase
-import com.mobile.app_iara.ui.notifications.NotificationRepository
+import com.mobile.app_iara.data.repository.NotificationRepository
 
 class ClearNotificationsWorker(
     appContext: Context,
